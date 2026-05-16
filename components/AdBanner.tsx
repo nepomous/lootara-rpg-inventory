@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import {
   BannerAd,
   BannerAdSize,
@@ -6,6 +7,7 @@ import {
 } from "react-native-google-mobile-ads";
 import Constants from "expo-constants";
 import { usePremiumStore } from "@/store/premiumStore";
+import { Colors } from "@/constants/theme";
 
 // Em desenvolvimento usa ID de teste; em produção usa o ID do .env
 const adUnitId = __DEV__
@@ -20,11 +22,23 @@ export function AdBanner() {
   if (isPremium || failed || !adUnitId) return null;
 
   return (
-    <BannerAd
-      unitId={adUnitId}
-      size={BannerAdSize.ADAPTIVE_BANNER}
-      requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-      onAdFailedToLoad={() => setFailed(true)}
-    />
+    <View style={styles.container}>
+      <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.ADAPTIVE_BANNER}
+        requestOptions={{ requestNonPersonalizedAdsOnly: true }}
+        onAdFailedToLoad={() => setFailed(true)}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 52,
+    backgroundColor: Colors.surface,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+});

@@ -3,9 +3,21 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
+import { useFonts } from "expo-font";
+import { Cinzel_400Regular, Cinzel_700Bold } from "@expo-google-fonts/cinzel";
+import {
+  Nunito_300Light,
+  Nunito_400Regular,
+  Nunito_600SemiBold,
+  Nunito_700Bold,
+} from "@expo-google-fonts/nunito";
+import * as SplashScreen from "expo-splash-screen";
 import { runMigrations } from "@/db/index";
 import { initPremium } from "@/hooks/usePremium";
 import "../global.css";
+
+// Mantém a splash screen visível até as fontes carregarem
+SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,6 +76,26 @@ function AppInitializer({ children }: { children: React.ReactNode }) {
 }
 
 export default function RootLayout() {
+  const [fontsLoaded, fontError] = useFonts({
+    Cinzel_400Regular,
+    Cinzel_700Bold,
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_600SemiBold,
+    Nunito_700Bold,
+  });
+
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  // Mantém a splash screen enquanto as fontes carregam
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <AppInitializer>

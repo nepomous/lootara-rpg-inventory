@@ -1,51 +1,90 @@
-import { Tabs } from "expo-router";
-import { Text } from "react-native";
-
-function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
-  return (
-    <Text style={{ fontSize: 22, opacity: focused ? 1 : 0.5 }}>{emoji}</Text>
-  );
-}
+import { Tabs, useRouter, useSegments } from "expo-router";
+import { StyleSheet, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Backpack, BookOpen, Settings } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BlurView } from "expo-blur";
+import { Colors, Gradients, Shadows, Typography } from "@/constants/theme";
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
-    <Tabs
-      screenOptions={{
-        headerStyle: { backgroundColor: "#1a1a2e" },
-        headerTintColor: "#e8c547",
-        headerTitleStyle: { fontWeight: "bold" },
-        tabBarStyle: {
-          backgroundColor: "#16213e",
-          borderTopColor: "#0f3460",
-          height: 60,
-          paddingBottom: 8,
-        },
-        tabBarActiveTintColor: "#e8c547",
-        tabBarInactiveTintColor: "#9ca3af",
-        tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
-      }}
+    // LinearGradient como background global da área de tabs
+    <LinearGradient
+      colors={Gradients.tome.colors as [string, string]}
+      start={Gradients.tome.start}
+      end={Gradients.tome.end}
+      style={StyleSheet.absoluteFill}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Personagens",
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🧙" focused={focused} />,
+      <Tabs
+        screenOptions={{
+          headerStyle: { backgroundColor: Colors.surface },
+          headerTintColor: Colors.gold,
+          headerTitleStyle: {
+            ...Typography.displayMd,
+            fontSize: 16,
+            color: Colors.parchment,
+          },
+          // Background transparente para o gradiente aparecer
+          sceneStyle: { backgroundColor: "transparent" },
+          tabBarStyle: {
+            position: "absolute",
+            left: 16,
+            right: 16,
+            bottom: insets.bottom > 0 ? insets.bottom : 8,
+            height: 64,
+            backgroundColor: "rgba(26,26,46,0.92)",
+            borderRadius: 16,
+            borderWidth: 1,
+            borderColor: Colors.borderDefault,
+            borderTopWidth: 1,
+            borderTopColor: Colors.borderDefault,
+            elevation: Shadows.card.elevation,
+            shadowColor: Shadows.card.shadowColor,
+            shadowOffset: Shadows.card.shadowOffset,
+            shadowOpacity: Shadows.card.shadowOpacity,
+            shadowRadius: Shadows.card.shadowRadius,
+          },
+          tabBarActiveTintColor: Colors.gold,
+          tabBarInactiveTintColor: Colors.mutedForeground,
+          tabBarLabelStyle: {
+            ...Typography.bodySemiBold,
+            fontSize: 10,
+          },
+          tabBarItemStyle: {
+            paddingVertical: 6,
+          },
         }}
-      />
-      <Tabs.Screen
-        name="library"
-        options={{
-          title: "Biblioteca",
-          tabBarIcon: ({ focused }) => <TabIcon emoji="📚" focused={focused} />,
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: "Configurações",
-          tabBarIcon: ({ focused }) => <TabIcon emoji="⚙️" focused={focused} />,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Heróis",
+            tabBarIcon: ({ color, size }) => (
+              <Backpack size={size} color={color} strokeWidth={1.8} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="library"
+          options={{
+            title: "Biblioteca",
+            tabBarIcon: ({ color, size }) => (
+              <BookOpen size={size} color={color} strokeWidth={1.8} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: "Configurações",
+            tabBarIcon: ({ color, size }) => (
+              <Settings size={size} color={color} strokeWidth={1.8} />
+            ),
+          }}
+        />
+      </Tabs>
+    </LinearGradient>
   );
 }
