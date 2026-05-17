@@ -34,7 +34,7 @@ function AnimatedItem({
         .springify()
         .damping(14)}
     >
-      <CharacterCard character={character} index={index} />
+      <CharacterCard character={character} />
     </Animated.View>
   );
 }

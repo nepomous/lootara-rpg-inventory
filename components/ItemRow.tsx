@@ -6,6 +6,12 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
+import { runOnJS } from "react-native-reanimated";
+import {
   Sword,
   Shield,
   Package,
@@ -17,7 +23,12 @@ import {
 } from "lucide-react-native";
 import type { LucideIcon } from "lucide-react-native";
 import type { Item, ItemRarity } from "@/constants/items";
-import type { BagItemLocation } from "@/constants/rpg";
+import { getItemById } from "@/constants/items";
+import {
+  ITEM_CATEGORIES,
+  BAG_LOCATIONS,
+  type BagItemLocation,
+} from "@/constants/rpg";
 import { Colors, Shadows, Spacing, Typography } from "@/constants/theme";
 import type { BagItem } from "@/db/schema";
 import { formatWeight } from "@/utils/weight";
@@ -43,7 +54,7 @@ const RARITY_COLOR_KEY: Record<ItemRarity, keyof typeof Colors.rarity> = {
   legendary: "legendary",
 };
 
-type Props = {
+type LibraryItemRowProps = {
   item: Item;
   bagItem: BagItem;
   onRemove: (id: string) => void;
@@ -51,13 +62,13 @@ type Props = {
   onChangeQuantity: (id: string, quantity: number) => void;
 };
 
-export function ItemRow({
+export function LibraryItemRow({
   item,
   bagItem,
   onRemove,
   onChangeLocation,
   onChangeQuantity,
-}: Props) {
+}: LibraryItemRowProps) {
   const CategoryIcon = CATEGORY_ICONS[item.category] ?? Package;
   const rarityColor = Colors.rarity[RARITY_COLOR_KEY[item.rarity]];
   const weightText = formatWeight(item.weight * bagItem.quantity);

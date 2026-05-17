@@ -1,5 +1,7 @@
 import type { ItemCategory, ItemRarity, RPGSystem } from "./rpg";
 
+export type { ItemCategory, ItemRarity } from "./rpg";
+
 export type Item = {
   id: string;
   name: string; // em inglês (padrão RPG)

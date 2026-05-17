@@ -7,7 +7,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { Plus } from "lucide-react-native";
-import { Colors, Gradients, Shadows } from "@/constants/theme";
+import { Gradients, Shadows } from "@/constants/theme";
 
 type FABProps = {
   onPress: () => void;

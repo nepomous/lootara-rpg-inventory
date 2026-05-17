@@ -1,9 +1,8 @@
-import { Tabs, useRouter, useSegments } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { Tabs } from "expo-router";
+import { StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Backpack, BookOpen, Settings } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { BlurView } from "expo-blur";
 import { Colors, Gradients, Shadows, Typography } from "@/constants/theme";
 
 export default function TabsLayout() {

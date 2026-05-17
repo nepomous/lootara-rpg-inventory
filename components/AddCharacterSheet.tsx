@@ -7,22 +7,17 @@ import {
   TextInput,
   View,
 } from "react-native";
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import {
-  CHARACTER_CLASSES,
   CHARACTER_RACES,
   CharacterClass,
   CharacterRace,
   MAX_LEVEL,
   MIN_LEVEL,
-  RPG_SYSTEMS,
 } from "@/constants/rpg";
 import type { RPGSystem } from "@/db/schema";
 import {

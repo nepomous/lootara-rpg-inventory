@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import type { BagItemLocation } from "@/constants/rpg";
@@ -46,8 +45,6 @@ type TabPillProps = {
 };
 
 function TabPill({ tab, isActive, onPress }: TabPillProps) {
-  const opacity = useSharedValue(isActive ? 1 : 0);
-
   const activeBgStyle = useAnimatedStyle(() => ({
     opacity: withTiming(isActive ? 1 : 0, { duration: 200 }),
   }));
