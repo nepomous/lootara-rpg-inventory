@@ -7,12 +7,14 @@ import {
   Text,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   FadeInDown,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { Dices } from "lucide-react-native";
 import { AdBanner } from "@/components/AdBanner";
 import { CharacterCard } from "@/components/CharacterCard";
 import { useCharacters } from "@/hooks/useCharacters";
@@ -41,20 +43,28 @@ function AnimatedItem({
 
 function EmptyState() {
   return (
-    <View className="flex-1 items-center justify-center px-8 gap-4">
-      <Text className="text-5xl">🎲</Text>
-      <Text className="text-text text-xl font-bold text-center">
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 32,
+        gap: 16,
+      }}
+    >
+      <Dices size={72} color="#c9a84c" strokeWidth={1.5} />
+      <Text className="text-parchment text-xl font-bold text-center">
         Nenhum aventureiro ainda...
       </Text>
-      <Text className="text-text-muted text-sm text-center leading-5">
-        Toque no botão <Text className="text-secondary font-bold">+</Text> para
-        criar seu primeiro personagem e começar sua jornada!
+      <Text className="text-muted text-sm text-center leading-5">
+        Toque no botão <Text className="text-gold font-bold">+</Text> para criar
+        seu primeiro personagem e começar sua jornada!
       </Text>
     </View>
   );
 }
 
-function FAB({ onPress }: { onPress: () => void }) {
+function FAB({ onPress, bottom }: { onPress: () => void; bottom: number }) {
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -63,8 +73,8 @@ function FAB({ onPress }: { onPress: () => void }) {
 
   return (
     <Animated.View
-      style={animatedStyle}
-      className="absolute bottom-20 right-6 shadow-lg"
+      style={[animatedStyle, { position: "absolute", bottom, right: 24 }]}
+      className="shadow-lg"
     >
       <Pressable
         onPress={onPress}
@@ -74,11 +84,13 @@ function FAB({ onPress }: { onPress: () => void }) {
         onPressOut={() => {
           scale.value = withSpring(1, { damping: 12 });
         }}
-        className="w-14 h-14 rounded-full bg-secondary items-center justify-center"
+        className="w-14 h-14 rounded-full bg-gold items-center justify-center"
         accessibilityLabel="Criar novo personagem"
         accessibilityRole="button"
       >
-        <Text className="text-white text-3xl font-light leading-none">+</Text>
+        <Text className="text-background text-3xl font-light leading-none">
+          +
+        </Text>
       </Pressable>
     </Animated.View>
   );
@@ -87,6 +99,12 @@ function FAB({ onPress }: { onPress: () => void }) {
 export default function HomeScreen() {
   const router = useRouter();
   const { data: characters, isLoading, isError, refetch } = useCharacters();
+  const insets = useSafeAreaInsets();
+
+  // Altura total da tab bar + safe area (mesma lógica do _layout.tsx)
+  const TAB_BAR_HEIGHT = 64;
+  const tabBarBottom = insets.bottom > 0 ? insets.bottom : 8;
+  const tabBarTotalHeight = TAB_BAR_HEIGHT + tabBarBottom;
 
   // Recarrega ao voltar para a tela (foco)
   useEffect(() => {
@@ -122,6 +140,7 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-background">
       <FlatList
+        style={{ flex: 1 }}
         data={characters ?? []}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
@@ -131,15 +150,26 @@ export default function HomeScreen() {
         contentContainerStyle={
           (characters ?? []).length === 0
             ? { flexGrow: 1 }
-            : { paddingTop: 12, paddingBottom: 96 }
+            : { paddingTop: 12, paddingBottom: tabBarTotalHeight + 16 }
         }
         showsVerticalScrollIndicator={false}
       />
 
-      <FAB onPress={() => router.push("/character/new")} />
+      {/* FAB acima da tab bar */}
+      <FAB
+        onPress={() => router.push("/character/new")}
+        bottom={tabBarTotalHeight + 16}
+      />
 
-      {/* Banner de anúncio fixo no rodapé */}
-      <View className="absolute bottom-0 left-0 right-0">
+      {/* Banner de anúncio fixo acima da tab bar */}
+      <View
+        style={{
+          position: "absolute",
+          bottom: tabBarTotalHeight,
+          left: 0,
+          right: 0,
+        }}
+      >
         <AdBanner />
       </View>
     </View>

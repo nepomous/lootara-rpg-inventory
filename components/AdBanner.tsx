@@ -11,7 +11,7 @@ import { Colors } from "@/constants/theme";
 
 // Em desenvolvimento usa ID de teste; em produção usa o ID do .env
 const adUnitId = __DEV__
-  ? TestIds.ADAPTIVE_BANNER
+  ? TestIds.BANNER
   : ((Constants.expoConfig?.extra?.admobBannerAdUnitId as string | undefined) ??
     "");
 
@@ -25,7 +25,7 @@ export function AdBanner() {
     <View style={styles.container}>
       <BannerAd
         unitId={adUnitId}
-        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        size={BannerAdSize.BANNER}
         requestOptions={{ requestNonPersonalizedAdsOnly: true }}
         onAdFailedToLoad={() => setFailed(true)}
       />
@@ -35,7 +35,7 @@ export function AdBanner() {
 
 const styles = StyleSheet.create({
   container: {
-    height: 52,
+    height: 50,
     backgroundColor: Colors.surface,
     alignItems: "center",
     justifyContent: "center",

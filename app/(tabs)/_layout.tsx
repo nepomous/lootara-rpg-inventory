@@ -33,7 +33,7 @@ export default function TabsLayout() {
             right: 16,
             bottom: insets.bottom > 0 ? insets.bottom : 8,
             height: 64,
-            backgroundColor: "rgba(26,26,46,0.92)",
+            backgroundColor: "rgba(26,26,46,0.97)",
             borderRadius: 16,
             borderWidth: 1,
             borderColor: Colors.borderDefault,
@@ -46,7 +46,7 @@ export default function TabsLayout() {
             shadowRadius: Shadows.card.shadowRadius,
           },
           tabBarActiveTintColor: Colors.gold,
-          tabBarInactiveTintColor: Colors.mutedForeground,
+          tabBarInactiveTintColor: "#c0bfd4",
           tabBarLabelStyle: {
             ...Typography.bodySemiBold,
             fontSize: 10,

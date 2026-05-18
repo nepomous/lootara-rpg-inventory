@@ -8,6 +8,14 @@ import {
   Text,
   View,
 } from "react-native";
+import {
+  AlertCircle,
+  Coffee,
+  Crown,
+  Download,
+  RefreshCw,
+  Upload,
+} from "lucide-react-native";
 import Constants from "expo-constants";
 import { usePremium } from "@/hooks/usePremium";
 import { exportData, importData } from "@/utils/backup";
@@ -41,7 +49,7 @@ function CardRow({
   onPress,
   destructive,
 }: {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   subtitle?: string;
   right?: React.ReactNode;
@@ -50,7 +58,7 @@ function CardRow({
 }) {
   const content = (
     <View className="flex-row items-center gap-3 px-4 py-4">
-      <Text className="text-2xl w-8 text-center">{icon}</Text>
+      <View style={{ width: 32, alignItems: "center" }}>{icon}</View>
       <View className="flex-1">
         <Text
           className={`text-sm font-semibold ${destructive ? "text-red-400" : "text-text"}`}
@@ -93,7 +101,7 @@ function PremiumCard() {
     return (
       <Card>
         <CardRow
-          icon="👑"
+          icon={<Crown size={22} color="#c9a84c" />}
           title="Premium ativo"
           subtitle="Anúncios removidos. Obrigado pelo apoio!"
           right={
@@ -109,7 +117,7 @@ function PremiumCard() {
   return (
     <Card>
       <CardRow
-        icon="👑"
+        icon={<Crown size={22} color="#c9a84c" />}
         title="Remover Anúncios"
         subtitle={
           offerPrice ? `Por apenas ${offerPrice}` : "Compra única, para sempre"
@@ -130,7 +138,7 @@ function PremiumCard() {
       />
       <Divider />
       <CardRow
-        icon="🔄"
+        icon={<RefreshCw size={22} color="#8a8a9a" />}
         title="Restaurar compra"
         subtitle="Já comprou em outro dispositivo?"
         onPress={isLoading ? undefined : restorePurchases}
@@ -151,7 +159,7 @@ function SupportCard() {
   return (
     <Card>
       <CardRow
-        icon="☕"
+        icon={<Coffee size={22} color="#c9a84c" />}
         title="Apoiar o Dev"
         subtitle="Me pague um café no Ko-fi"
         onPress={() => Linking.openURL(KOFI_URL).catch(() => {})}
@@ -202,7 +210,7 @@ function BackupCard() {
   return (
     <Card>
       <CardRow
-        icon="📤"
+        icon={<Upload size={22} color="#8a8a9a" />}
         title="Exportar dados"
         subtitle="Salvar personagens e sacolas em JSON"
         onPress={exporting ? undefined : handleExport}
@@ -216,7 +224,7 @@ function BackupCard() {
       />
       <Divider />
       <CardRow
-        icon="📥"
+        icon={<Download size={22} color="#8a8a9a" />}
         title="Importar dados"
         subtitle="Restaurar a partir de um arquivo de backup"
         onPress={importing ? undefined : handleImport}
@@ -257,9 +265,10 @@ export default function SettingsScreen() {
       <BackupCard />
 
       {/* Aviso sobre dados locais */}
-      <View className="mx-4 mt-3 p-3 rounded-xl bg-background-surface">
-        <Text className="text-text-muted text-xs text-center">
-          ⚠️ Todos os dados ficam apenas neste dispositivo. Exporte regularmente
+      <View className="mx-4 mt-3 p-3 rounded-xl bg-background-surface flex-row items-start gap-2">
+        <AlertCircle size={16} color="#8a8a9a" style={{ marginTop: 1 }} />
+        <Text className="text-text-muted text-xs flex-1">
+          Todos os dados ficam apenas neste dispositivo. Exporte regularmente
           para não perder seu progresso.
         </Text>
       </View>
