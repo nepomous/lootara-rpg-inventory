@@ -3,10 +3,12 @@ import { StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Backpack, BookOpen, Settings } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 import { Colors, Gradients, Shadows, Typography } from "@/constants/theme";
 
 export default function TabsLayout() {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
 
   return (
     // LinearGradient como background global da área de tabs
@@ -32,7 +34,7 @@ export default function TabsLayout() {
             left: 16,
             right: 16,
             bottom: insets.bottom > 0 ? insets.bottom : 8,
-            height: 64,
+            height: 72,
             backgroundColor: "rgba(26,26,46,0.97)",
             borderRadius: 16,
             borderWidth: 1,
@@ -52,14 +54,14 @@ export default function TabsLayout() {
             fontSize: 10,
           },
           tabBarItemStyle: {
-            paddingVertical: 6,
+            paddingVertical: 8,
           },
         }}
       >
         <Tabs.Screen
           name="index"
           options={{
-            title: "Heróis",
+            title: t("nav.heroes"),
             tabBarIcon: ({ color, size }) => (
               <Backpack size={size} color={color} strokeWidth={1.8} />
             ),
@@ -68,7 +70,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="library"
           options={{
-            title: "Biblioteca",
+            title: t("nav.library"),
             tabBarIcon: ({ color, size }) => (
               <BookOpen size={size} color={color} strokeWidth={1.8} />
             ),
@@ -77,7 +79,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="settings"
           options={{
-            title: "Configurações",
+            title: t("nav.settings"),
             tabBarIcon: ({ color, size }) => (
               <Settings size={size} color={color} strokeWidth={1.8} />
             ),

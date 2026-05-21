@@ -82,7 +82,10 @@
     "items_count": "Objetos",
     "empty_equipped": "Ningún objeto equipado",
     "empty_stored": "Ningún objeto almacenado",
-    "add_tap_hint": "Toca el botón + para añadir objetos"
+    "add_tap_hint": "Toca el botón + para añadir ítems",
+    "edit_custom_item_prompt": "¿Qué deseas hacer?",
+    "edit_in_bag": "Editar en la bolsa",
+    "edit_item_definition": "Editar ítem personalizado"
   },
   "library": {
     "title": "Biblioteca de Objetos",
@@ -136,7 +139,7 @@
     "backup_export_subtitle": "Guardar personajes y bolsas en JSON",
     "backup_import_subtitle": "Restaurar desde un archivo de copia de seguridad",
     "backup_success_title": "¡Importado con éxito! ✅",
-    "backup_success_message": "{{characters}} personaje(s) y {{bagItems}} objeto(s) restaurados."
+    "backup_success_message": "{{characters}} personaje(s), {{bagItems}} objeto(s) y {{customItems}} objeto(s) personalizado(s) restaurados."
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -153,6 +156,28 @@
     "generic": "Algo salió mal. Inténtalo de nuevo.",
     "name_too_long": "Máximo {{max}} caracteres",
     "load_characters": "Error al cargar personajes"
+  },
+  "custom_items": {
+    "section_title": "Mis Objetos",
+    "badge": "✦ Personalizado",
+    "filter_chip": "Mis Objetos",
+    "create_button": "Crear Objeto",
+    "empty_title": "Sin objetos personalizados",
+    "empty_subtitle": "Crea objetos únicos para tu aventura",
+    "form_title_create": "Forjar Objeto",
+    "form_title_edit": "Editar Objeto",
+    "submit_create": "Forjar Objeto",
+    "submit_edit": "Guardar Cambios",
+    "delete_button": "Eliminar Objeto",
+    "delete_confirm_title": "¿Eliminar objeto?",
+    "delete_confirm_message": "Esta acción no se puede deshacer.",
+    "field_name": "Nombre",
+    "field_category": "Categoría",
+    "field_weight": "Peso",
+    "field_cost": "Coste",
+    "field_rarity": "Rareza",
+    "field_description": "Descripción",
+    "description_placeholder": "Descripción del objeto, habilidades especiales..."
   },
   "ads": {
     "watch_to_unlock": "Ver para desbloquear",

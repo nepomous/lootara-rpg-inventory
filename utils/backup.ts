@@ -5,11 +5,13 @@ import { z } from "zod";
 import {
   getCharacters,
   getAllBagItems,
+  getCustomItems,
   upsertCharacter,
   upsertBagItem,
+  upsertCustomItem,
 } from "@/db/index";
 
-const BACKUP_VERSION = 1;
+const BACKUP_VERSION = 2;
 
 // ── Schemas de validação do arquivo de backup ─────────────────────────────────
 const CharacterSchema = z.object({
@@ -29,9 +31,31 @@ const BagItemSchema = z.object({
   characterId: z.string().min(1),
   itemId: z.string().nullable(),
   customName: z.string().nullable(),
+  isCustom: z.number().int().min(0).max(1).default(0),
   quantity: z.number().int().min(1),
   location: z.enum(["equipped", "backpack", "stored"]),
   notes: z.string().nullable(),
+  createdAt: z.number(),
+  updatedAt: z.number(),
+});
+
+const CustomItemSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  category: z.enum([
+    "weapon",
+    "armor",
+    "gear",
+    "potion",
+    "tool",
+    "magic",
+    "ammunition",
+    "container",
+  ]),
+  weight: z.number().min(0),
+  cost: z.number().min(0),
+  rarity: z.enum(["common", "uncommon", "rare", "very_rare", "legendary"]),
+  description: z.string().nullable(),
   createdAt: z.number(),
   updatedAt: z.number(),
 });
@@ -41,21 +65,22 @@ const BackupSchema = z.object({
   exportedAt: z.number(),
   characters: z.array(CharacterSchema),
   bagItems: z.array(BagItemSchema),
+  customItems: z.array(CustomItemSchema).optional(),
 });
-
-type BackupData = z.infer<typeof BackupSchema>;
 
 // ── Export ────────────────────────────────────────────────────────────────────
 // Serializa characters + bag_items em JSON e abre o diálogo de compartilhamento.
 export async function exportData(): Promise<void> {
   const characters = getCharacters();
   const bagItems = getAllBagItems();
+  const customItems = getCustomItems();
 
-  const backup: BackupData = {
+  const backup = {
     version: BACKUP_VERSION,
     exportedAt: Date.now(),
     characters,
     bagItems,
+    customItems,
   };
 
   const json = JSON.stringify(backup, null, 2);
@@ -85,6 +110,7 @@ export async function exportData(): Promise<void> {
 export async function importData(): Promise<{
   characters: number;
   bagItems: number;
+  customItems: number;
 }> {
   const result = await DocumentPicker.getDocumentAsync({
     type: ["application/json", "text/plain", "*/*"],
@@ -132,6 +158,13 @@ export async function importData(): Promise<{
   for (const item of data.bagItems) {
     upsertBagItem(item);
   }
+  for (const ci of data.customItems ?? []) {
+    upsertCustomItem(ci);
+  }
 
-  return { characters: data.characters.length, bagItems: data.bagItems.length };
+  return {
+    characters: data.characters.length,
+    bagItems: data.bagItems.length,
+    customItems: (data.customItems ?? []).length,
+  };
 }

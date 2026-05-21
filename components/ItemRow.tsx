@@ -24,7 +24,6 @@ import {
 } from "lucide-react-native";
 import type { LucideIcon } from "lucide-react-native";
 import type { Item, ItemRarity } from "@/constants/items";
-import { getItemById } from "@/constants/items";
 import {
   ITEM_CATEGORIES,
   BAG_LOCATIONS,
@@ -33,6 +32,7 @@ import {
 import { Colors, Shadows, Spacing, Typography } from "@/constants/theme";
 import type { BagItem } from "@/db/schema";
 import { formatWeight } from "@/utils/weight";
+import type { BagItemWithDetails } from "@/hooks/useBag";
 
 // Mapeamento de categoria → ícone lucide
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -247,8 +247,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  item: BagItem;
-  onEdit: (item: BagItem) => void;
+  item: BagItemWithDetails;
+  onEdit: (item: BagItemWithDetails) => void;
   onRemove: (id: string) => void;
 };
 
@@ -262,17 +262,16 @@ const SWIPE_THRESHOLD = -80;
 const ROW_HEIGHT = 72;
 
 export function ItemRow({ item, onEdit, onRemove }: Props) {
-  const staticItem = item.itemId ? getItemById(item.itemId) : null;
-  const displayName =
-    staticItem?.name ?? item.customName ?? "Item personalizado";
-  const categoryInfo = staticItem
-    ? ITEM_CATEGORIES[staticItem.category]
-    : { emoji: "🎁", label: "Custom" };
+  const { t } = useTranslation();
+  const displayName = item.itemName;
+  const categoryInfo = ITEM_CATEGORIES[item.itemCategory] ?? {
+    emoji: "🎁",
+    label: "Custom",
+  };
   const locationInfo = BAG_LOCATIONS[item.location];
   const locationColor = LOCATION_COLORS[item.location];
-  const weightText = staticItem
-    ? formatWeight(staticItem.weight * item.quantity)
-    : null;
+  const weightText = formatWeight(item.itemWeight * item.quantity);
+  const isCustom = item.isCustom === 1;
 
   const translateX = useSharedValue(0);
   const deleteVisible = useSharedValue(false);
@@ -372,9 +371,7 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
                 {displayName}
               </Text>
               <View className="flex-row items-center gap-2">
-                {weightText ? (
-                  <Text className="text-text-muted text-xs">{weightText}</Text>
-                ) : null}
+                <Text className="text-text-muted text-xs">{weightText}</Text>
                 <View
                   className="px-2 py-0.5 rounded-chip"
                   style={{ backgroundColor: locationColor + "22" }}
@@ -386,6 +383,13 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
                     {locationInfo.emoji} {locationInfo.label}
                   </Text>
                 </View>
+                {isCustom && (
+                  <View className="px-2 py-0.5 rounded-chip bg-primary/10 border border-primary/30">
+                    <Text className="text-primary text-[10px] font-bold">
+                      {t("custom_items.badge")}
+                    </Text>
+                  </View>
+                )}
               </View>
             </Pressable>
 

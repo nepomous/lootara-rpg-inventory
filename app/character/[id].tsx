@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -17,13 +17,17 @@ import {
   useRemoveBagItem,
   useUpdateBagItem,
 } from "@/hooks/useBag";
+import type { BagItemWithDetails } from "@/hooks/useBag";
 import { ItemRow } from "@/components/ItemRow";
 import { EditItemModal } from "@/components/EditItemModal";
 import { AddItemModal } from "@/components/AddItemModal";
+import { CustomItemForm } from "@/components/CustomItemForm";
+import type { CustomItemFormRef } from "@/components/CustomItemForm";
 import { AdBanner } from "@/components/AdBanner";
 import { CHARACTER_CLASSES, RPG_SYSTEMS } from "@/constants/rpg";
 import { calcCarryCapacity, formatWeight } from "@/utils/weight";
-import type { BagItem, BagItemLocation } from "@/db/schema";
+import { getCustomItemById } from "@/db/index";
+import type { BagItem, BagItemLocation, CustomItem } from "@/db/schema";
 import type { AddBagItemInput } from "@/hooks/useBag";
 
 type TabId = "backpack" | "equipped" | "stored";
@@ -70,7 +74,12 @@ export default function CharacterBagScreen() {
 
   const [activeTab, setActiveTab] = useState<TabId>("backpack");
   const [addVisible, setAddVisible] = useState(false);
-  const [editingItem, setEditingItem] = useState<BagItem | null>(null);
+  const [editingItem, setEditingItem] = useState<BagItemWithDetails | null>(
+    null,
+  );
+  const [selectedCustomItem, setSelectedCustomItem] =
+    useState<CustomItem | null>(null);
+  const customFormRef = useRef<CustomItemFormRef>(null);
 
   const {
     data: character,
@@ -124,6 +133,52 @@ export default function CharacterBagScreen() {
     addItem(input, { onSuccess: () => setAddVisible(false) });
   }
 
+  function handleEdit(item: BagItemWithDetails) {
+    if (item.isCustom === 1 && item.itemId) {
+      const customItem = getCustomItemById(item.itemId);
+      if (customItem) {
+        Alert.alert(item.itemName, t("bag.edit_custom_item_prompt"), [
+          {
+            text: t("bag.edit_in_bag"),
+            onPress: () => setEditingItem(item),
+          },
+          {
+            text: t("bag.edit_item_definition"),
+            onPress: () => {
+              setSelectedCustomItem(customItem);
+              customFormRef.current?.present();
+            },
+          },
+          { text: t("common.cancel"), style: "cancel" },
+        ]);
+        return;
+      }
+    }
+    setEditingItem(item);
+  }
+
+  function handleCustomItemSave(savedItem: CustomItem) {
+    // If we were editing an existing custom item from the bag, no add needed
+    if (selectedCustomItem) {
+      setSelectedCustomItem(null);
+      return;
+    }
+    // New custom item created from "Criar item personalizado" — auto-add to bag
+    addItem({
+      characterId: id,
+      itemId: savedItem.id,
+      customName: null,
+      quantity: 1,
+      location: "backpack",
+      isCustom: true,
+    });
+    setSelectedCustomItem(null);
+  }
+
+  function handleCustomItemDelete(_deletedId: string) {
+    setSelectedCustomItem(null);
+  }
+
   function handleRemove(itemId: string) {
     removeItem(itemId);
   }
@@ -138,8 +193,8 @@ export default function CharacterBagScreen() {
     setEditingItem(null);
   }
 
-  function handleDeleteFromEdit(item: BagItem) {
-    const displayName = item.customName ?? (item.itemId ? item.itemId : "item");
+  function handleDeleteFromEdit(item: BagItemWithDetails) {
+    const displayName = item.itemName;
     Alert.alert(
       t("bag.remove_item"),
       t("bag.remove_confirm_message", { name: displayName }),
@@ -239,7 +294,7 @@ export default function CharacterBagScreen() {
           <Animated.View entering={FadeInDown.delay(index * 40).springify()}>
             <ItemRow
               item={item}
-              onEdit={(i) => setEditingItem(i)}
+              onEdit={(i) => handleEdit(i)}
               onRemove={handleRemove}
             />
           </Animated.View>
@@ -290,6 +345,10 @@ export default function CharacterBagScreen() {
         onClose={() => setAddVisible(false)}
         onAdd={handleAdd}
         isAdding={isAdding}
+        onCustomItemCreate={() => {
+          setSelectedCustomItem(null);
+          customFormRef.current?.present();
+        }}
       />
 
       {/* Modal de editar item */}
@@ -302,6 +361,14 @@ export default function CharacterBagScreen() {
           onDelete={() => handleDeleteFromEdit(editingItem)}
         />
       )}
+
+      {/* Bottom sheet para criar/editar item personalizado */}
+      <CustomItemForm
+        ref={customFormRef}
+        item={selectedCustomItem ?? undefined}
+        onSave={handleCustomItemSave}
+        onDelete={handleCustomItemDelete}
+      />
     </View>
   );
 }

@@ -82,7 +82,10 @@
     "items_count": "Gegenstände",
     "empty_equipped": "Keine Gegenstände ausgerüstet",
     "empty_stored": "Keine Gegenstände gelagert",
-    "add_tap_hint": "Tippe auf +, um Gegenstände hinzuzufügen"
+    "add_tap_hint": "Tippe auf +, um Gegenstände hinzuzufügen",
+    "edit_custom_item_prompt": "Was möchtest du tun?",
+    "edit_in_bag": "Im Beutel bearbeiten",
+    "edit_item_definition": "Benutzerdefiniertes Item bearbeiten"
   },
   "library": {
     "title": "Gegenstands-Bibliothek",
@@ -136,7 +139,7 @@
     "backup_export_subtitle": "Charaktere und Beutel als JSON speichern",
     "backup_import_subtitle": "Aus einer Sicherungsdatei wiederherstellen",
     "backup_success_title": "Erfolgreich importiert! ✅",
-    "backup_success_message": "{{characters}} Charakter(e) und {{bagItems}} Gegenstand/Gegenstände wiederhergestellt."
+    "backup_success_message": "{{characters}} Charakter(e), {{bagItems}} Gegenstand/Gegenstände und {{customItems}} benutzerdefinierte(r) Gegenstand/Gegenstände wiederhergestellt."
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -153,6 +156,28 @@
     "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
     "name_too_long": "Maximal {{max}} Zeichen",
     "load_characters": "Fehler beim Laden der Charaktere"
+  },
+  "custom_items": {
+    "section_title": "Meine Gegenstände",
+    "badge": "✦ Angepasst",
+    "filter_chip": "Meine Gegenstände",
+    "create_button": "Gegenstand erstellen",
+    "empty_title": "Keine eigenen Gegenstände",
+    "empty_subtitle": "Schmiede einzigartige Gegenstände für dein Abenteuer",
+    "form_title_create": "Gegenstand schmieden",
+    "form_title_edit": "Gegenstand bearbeiten",
+    "submit_create": "Gegenstand schmieden",
+    "submit_edit": "Änderungen speichern",
+    "delete_button": "Gegenstand löschen",
+    "delete_confirm_title": "Gegenstand löschen?",
+    "delete_confirm_message": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "field_name": "Name",
+    "field_category": "Kategorie",
+    "field_weight": "Gewicht",
+    "field_cost": "Kosten",
+    "field_rarity": "Seltenheit",
+    "field_description": "Beschreibung",
+    "description_placeholder": "Gegenstandsbeschreibung, besondere Fähigkeiten..."
   },
   "ads": {
     "watch_to_unlock": "Ansehen zum Freischalten",

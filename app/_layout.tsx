@@ -1,5 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
@@ -103,25 +105,32 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AppInitializer>
-        <StatusBar style="light" />
-        <Stack
-          screenOptions={{
-            headerStyle: { backgroundColor: "#1a1a2e" },
-            headerTintColor: "#e8c547",
-            headerTitleStyle: { fontWeight: "bold" },
-            contentStyle: { backgroundColor: "#1a1a2e" },
-          }}
-        >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="character/new"
-            options={{ title: "Novo Personagem", presentation: "modal" }}
-          />
-          <Stack.Screen name="character/[id]" options={{ title: "Sacola" }} />
-        </Stack>
-      </AppInitializer>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <QueryClientProvider client={queryClient}>
+          <AppInitializer>
+            <StatusBar style="light" />
+            <Stack
+              screenOptions={{
+                headerStyle: { backgroundColor: "#1a1a2e" },
+                headerTintColor: "#e8c547",
+                headerTitleStyle: { fontWeight: "bold" },
+                contentStyle: { backgroundColor: "#1a1a2e" },
+              }}
+            >
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="character/new"
+                options={{ title: "Novo Personagem", presentation: "modal" }}
+              />
+              <Stack.Screen
+                name="character/[id]"
+                options={{ title: "Sacola" }}
+              />
+            </Stack>
+          </AppInitializer>
+        </QueryClientProvider>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 }

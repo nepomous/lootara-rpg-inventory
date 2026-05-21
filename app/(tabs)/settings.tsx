@@ -208,6 +208,7 @@ function BackupCard() {
         t("settings.backup_success_message", {
           characters: result.characters,
           bagItems: result.bagItems,
+          customItems: result.customItems,
         }),
       );
     } catch (e) {
@@ -275,7 +276,7 @@ export default function SettingsScreen() {
       <SectionTitle title={t("settings.section_premium")} />
       <PremiumCard />
 
-      <SectionTitle title={t("nav.language")} />
+      <SectionTitle title={t("settings.language_title")} />
       <View className="mx-4">
         <LanguageSelector />
       </View>

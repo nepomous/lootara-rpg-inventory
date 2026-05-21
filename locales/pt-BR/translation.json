@@ -82,7 +82,10 @@
     "items_count": "Itens",
     "empty_equipped": "Nenhum item equipado",
     "empty_stored": "Nenhum item guardado",
-    "add_tap_hint": "Toque no botão + para adicionar itens"
+    "add_tap_hint": "Toque no botão + para adicionar itens",
+    "edit_custom_item_prompt": "O que deseja fazer?",
+    "edit_in_bag": "Editar na sacola",
+    "edit_item_definition": "Editar item personalizado"
   },
   "library": {
     "title": "Biblioteca de Itens",
@@ -136,7 +139,7 @@
     "backup_export_subtitle": "Salvar personagens e sacolas em JSON",
     "backup_import_subtitle": "Restaurar a partir de um arquivo de backup",
     "backup_success_title": "Importado com sucesso! ✅",
-    "backup_success_message": "{{characters}} personagem(ns) e {{bagItems}} item(ns) restaurados."
+    "backup_success_message": "{{characters}} personagem(ns), {{bagItems}} item(ns) e {{customItems}} item(ns) personalizado(s) restaurados."
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -160,5 +163,27 @@
     "rewarded_success": "Conteúdo desbloqueado!",
     "rewarded_incomplete": "Assista até o fim para desbloquear",
     "remove_ads_nudge": "Gostando do app? Remova os anúncios com uma compra única ✨"
+  },
+  "custom_items": {
+    "section_title": "Meus Itens",
+    "badge": "✦ Personalizado",
+    "filter_chip": "Meus Itens",
+    "create_button": "Criar Item",
+    "empty_title": "Nenhum item personalizado",
+    "empty_subtitle": "Crie itens únicos para sua aventura",
+    "form_title_create": "Forjar Item",
+    "form_title_edit": "Editar Item",
+    "submit_create": "Forjar Item",
+    "submit_edit": "Salvar Alterações",
+    "delete_button": "Excluir Item",
+    "delete_confirm_title": "Excluir item?",
+    "delete_confirm_message": "Esta ação não pode ser desfeita.",
+    "field_name": "Nome",
+    "field_category": "Categoria",
+    "field_weight": "Peso",
+    "field_cost": "Custo",
+    "field_rarity": "Raridade",
+    "field_description": "Descrição",
+    "description_placeholder": "Descrição do item, habilidades especiais..."
   }
 }

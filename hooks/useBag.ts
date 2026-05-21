@@ -5,18 +5,32 @@ import {
   addBagItem,
   updateBagItem,
   removeBagItem,
+  getCustomItemById,
 } from "@/db/index";
 import type { BagItem, NewBagItem, BagItemLocation } from "@/db/schema";
+import type { ItemCategory, ItemRarity } from "@/constants/rpg";
+import { getItemById } from "@/constants/items";
 import { calcCarriedWeight } from "@/utils/weight";
 
 export const bagQueryKey = (characterId: string) =>
   ["bag", characterId] as const;
+
+// ── Tipo unificado: BagItem + dados do item (estático ou custom) ──────────────
+export type BagItemWithDetails = BagItem & {
+  itemName: string;
+  itemCategory: ItemCategory;
+  itemWeight: number;
+  itemCost: number;
+  itemDescription: string;
+  itemRarity: ItemRarity;
+};
 
 // ── Tipos de entrada para mutations ──────────────────────────────────────────
 export type AddBagItemInput = {
   characterId: string;
   itemId: string | null;
   customName: string | null;
+  isCustom?: boolean;
   quantity: number;
   location: BagItemLocation;
   notes?: string;
@@ -28,12 +42,39 @@ export type UpdateBagItemInput = {
   notes?: string;
 };
 
+// ── Helpers internos ──────────────────────────────────────────────────────────
+function enrichBagItem(bi: BagItem): BagItemWithDetails {
+  if (bi.isCustom) {
+    const custom = bi.itemId ? getCustomItemById(bi.itemId) : null;
+    return {
+      ...bi,
+      itemName: custom?.name ?? bi.customName ?? "Item personalizado",
+      itemCategory: (custom?.category ?? "gear") as ItemCategory,
+      itemWeight: custom?.weight ?? 0,
+      itemCost: custom?.cost ?? 0,
+      itemDescription: custom?.description ?? "",
+      itemRarity: (custom?.rarity ?? "common") as ItemRarity,
+    };
+  }
+  const staticItem = bi.itemId ? getItemById(bi.itemId) : null;
+  return {
+    ...bi,
+    itemName: staticItem?.name ?? bi.customName ?? "Item personalizado",
+    itemCategory: (staticItem?.category ?? "gear") as ItemCategory,
+    itemWeight: staticItem?.weight ?? 0,
+    itemCost: staticItem?.cost ?? 0,
+    itemDescription: staticItem?.description ?? "",
+    itemRarity: (staticItem?.rarity ?? "common") as ItemRarity,
+  };
+}
+
 // ── Queries ───────────────────────────────────────────────────────────────────
 
 export function useBag(characterId: string) {
   const query = useQuery({
     queryKey: bagQueryKey(characterId),
-    queryFn: () => getBagItems(characterId),
+    queryFn: (): BagItemWithDetails[] =>
+      getBagItems(characterId).map(enrichBagItem),
     enabled: !!characterId,
   });
 
@@ -54,6 +95,7 @@ export function useAddBagItem(characterId: string) {
         characterId: input.characterId,
         itemId: input.itemId,
         customName: input.customName,
+        isCustom: input.isCustom ? 1 : 0,
         quantity: input.quantity,
         location: input.location,
         notes: input.notes ?? null,

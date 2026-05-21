@@ -1,8 +1,41 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Check } from "lucide-react-native";
 import { Colors, Radius, Spacing, Typography } from "@/constants/theme";
 import { useLanguage, type SupportedLocale } from "@/hooks/useLanguage";
+
+function LocaleRow({
+  label,
+  isActive,
+  onPress,
+}: {
+  label: string;
+  isActive: boolean;
+  onPress: () => void;
+}) {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={[styles.row, isActive ? styles.rowActive : null]}
+      onPress={onPress}
+      accessibilityRole="radio"
+      accessibilityState={{ checked: isActive }}
+      accessibilityLabel={label}
+    >
+      <Text
+        style={[styles.localeName, isActive ? styles.localeNameActive : null]}
+        numberOfLines={1}
+      >
+        {label}
+      </Text>
+      <View style={styles.iconSlot}>
+        {isActive ? (
+          <Check size={18} color={Colors.gold} strokeWidth={2.5} />
+        ) : null}
+      </View>
+    </TouchableOpacity>
+  );
+}
 
 export function LanguageSelector() {
   const { t } = useTranslation();
@@ -10,37 +43,15 @@ export function LanguageSelector() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>{t("settings.language_title")}</Text>
-      <Text style={styles.sectionSubtitle}>
-        {t("settings.language_subtitle")}
-      </Text>
       <View style={styles.list}>
-        {supportedLocales.map((locale) => {
-          const isActive = locale === currentLocale;
-          return (
-            <Pressable
-              key={locale}
-              style={({ pressed }) => [
-                styles.row,
-                isActive && styles.rowActive,
-                pressed && styles.rowPressed,
-              ]}
-              onPress={() => void changeLanguage(locale as SupportedLocale)}
-              accessibilityRole="radio"
-              accessibilityState={{ checked: isActive }}
-              accessibilityLabel={t(`language.${locale}`)}
-            >
-              <Text
-                style={[styles.localeName, isActive && styles.localeNameActive]}
-              >
-                {t(`language.${locale}`)}
-              </Text>
-              {isActive && (
-                <Check size={18} color={Colors.gold} strokeWidth={2.5} />
-              )}
-            </Pressable>
-          );
-        })}
+        {supportedLocales.map((locale) => (
+          <LocaleRow
+            key={locale}
+            label={t(`language.${locale}`)}
+            isActive={locale === currentLocale}
+            onPress={() => void changeLanguage(locale as SupportedLocale)}
+          />
+        ))}
       </View>
     </View>
   );
@@ -49,17 +60,6 @@ export function LanguageSelector() {
 const styles = StyleSheet.create({
   container: {
     gap: Spacing.sm,
-  },
-  sectionTitle: {
-    ...Typography.displayMd,
-    color: Colors.gold,
-    fontSize: 13,
-  },
-  sectionSubtitle: {
-    ...Typography.body,
-    color: Colors.mutedForeground,
-    fontSize: 13,
-    marginBottom: Spacing.xs,
   },
   list: {
     borderRadius: Radius.md,
@@ -80,13 +80,15 @@ const styles = StyleSheet.create({
   rowActive: {
     backgroundColor: "rgba(201,168,76,0.08)",
   },
-  rowPressed: {
-    opacity: 0.7,
-  },
   localeName: {
     ...Typography.bodySemiBold,
     color: Colors.parchment,
     fontSize: 15,
+    flex: 1,
+  },
+  iconSlot: {
+    width: 24,
+    alignItems: "center" as const,
   },
   localeNameActive: {
     color: Colors.goldSoft,

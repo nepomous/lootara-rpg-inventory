@@ -82,7 +82,10 @@
     "items_count": "Objets",
     "empty_equipped": "Aucun objet équipé",
     "empty_stored": "Aucun objet stocké",
-    "add_tap_hint": "Appuyez sur + pour ajouter des objets"
+    "add_tap_hint": "Appuyez sur + pour ajouter des objets",
+    "edit_custom_item_prompt": "Que souhaitez-vous faire ?",
+    "edit_in_bag": "Modifier dans le sac",
+    "edit_item_definition": "Modifier l'objet personnalisé"
   },
   "library": {
     "title": "Bibliothèque d'Objets",
@@ -136,7 +139,7 @@
     "backup_export_subtitle": "Enregistrer les personnages et les sacs en JSON",
     "backup_import_subtitle": "Restaurer depuis un fichier de sauvegarde",
     "backup_success_title": "Importé avec succès ! ✅",
-    "backup_success_message": "{{characters}} personnage(s) et {{bagItems}} objet(s) restaurés."
+    "backup_success_message": "{{characters}} personnage(s), {{bagItems}} objet(s) et {{customItems}} objet(s) personnalisé(s) restaurés."
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -153,6 +156,28 @@
     "generic": "Une erreur s'est produite. Veuillez réessayer.",
     "name_too_long": "Maximum {{max}} caractères",
     "load_characters": "Erreur lors du chargement des personnages"
+  },
+  "custom_items": {
+    "section_title": "Mes Objets",
+    "badge": "✦ Personnalisé",
+    "filter_chip": "Mes Objets",
+    "create_button": "Créer un Objet",
+    "empty_title": "Aucun objet personnalisé",
+    "empty_subtitle": "Forgez des objets uniques pour votre aventure",
+    "form_title_create": "Forger l'Objet",
+    "form_title_edit": "Modifier l'Objet",
+    "submit_create": "Forger l'Objet",
+    "submit_edit": "Enregistrer",
+    "delete_button": "Supprimer l'Objet",
+    "delete_confirm_title": "Supprimer l'objet ?",
+    "delete_confirm_message": "Cette action est irréversible.",
+    "field_name": "Nom",
+    "field_category": "Catégorie",
+    "field_weight": "Poids",
+    "field_cost": "Coût",
+    "field_rarity": "Rareté",
+    "field_description": "Description",
+    "description_placeholder": "Description de l'objet, capacités spéciales..."
   },
   "ads": {
     "watch_to_unlock": "Regarder pour débloquer",

@@ -22,6 +22,7 @@ type Props = {
   onClose: () => void;
   onAdd: (input: AddBagItemInput) => void;
   isAdding: boolean;
+  onCustomItemCreate?: () => void;
 };
 
 const LOCATION_OPTIONS: {
@@ -363,6 +364,7 @@ export function AddItemModal({
   onClose,
   onAdd,
   isAdding,
+  onCustomItemCreate,
 }: Props) {
   const [step, setStep] = useState<Step>("library");
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
@@ -386,8 +388,13 @@ export function AddItemModal({
   }
 
   function handleCustom() {
-    setSelectedItem(null);
-    setStep("custom_name");
+    if (onCustomItemCreate) {
+      handleClose();
+      onCustomItemCreate();
+    } else {
+      setSelectedItem(null);
+      setStep("custom_name");
+    }
   }
 
   function handleCustomName(name: string) {

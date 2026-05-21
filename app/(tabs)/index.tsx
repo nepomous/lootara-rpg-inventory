@@ -67,6 +67,7 @@ function EmptyState() {
 }
 
 function FAB({ onPress, bottom }: { onPress: () => void; bottom: number }) {
+  const { t } = useTranslation();
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({

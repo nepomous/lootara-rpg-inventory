@@ -1,13 +1,21 @@
 import { getItemById } from "@/constants/items";
+import { getCustomItemById } from "@/db/index";
 import type { BagItem } from "@/db/schema";
 
 // Peso carregado = soma de weight × quantity dos itens com location !== 'stored'
+// Suporta itens da biblioteca estática (isCustom = 0) e itens customizados (isCustom = 1)
 export function calcCarriedWeight(bagItems: BagItem[]): number {
   return bagItems
     .filter((bi) => bi.location !== "stored")
     .reduce((sum, bi) => {
-      const staticItem = bi.itemId ? getItemById(bi.itemId) : null;
-      const weight = staticItem?.weight ?? 0; // itens custom têm peso 0
+      let weight = 0;
+      if (bi.isCustom) {
+        const custom = bi.itemId ? getCustomItemById(bi.itemId) : null;
+        weight = custom?.weight ?? 0;
+      } else {
+        const staticItem = bi.itemId ? getItemById(bi.itemId) : null;
+        weight = staticItem?.weight ?? 0;
+      }
       return sum + weight * bi.quantity;
     }, 0);
 }

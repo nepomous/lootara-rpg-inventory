@@ -82,7 +82,10 @@
     "items_count": "Items",
     "empty_equipped": "No items equipped",
     "empty_stored": "No items stored",
-    "add_tap_hint": "Tap the + button to add items"
+    "add_tap_hint": "Tap the + button to add items",
+    "edit_custom_item_prompt": "What would you like to do?",
+    "edit_in_bag": "Edit in bag",
+    "edit_item_definition": "Edit custom item"
   },
   "library": {
     "title": "Item Library",
@@ -136,7 +139,7 @@
     "backup_export_subtitle": "Save characters and bags to JSON",
     "backup_import_subtitle": "Restore from a backup file",
     "backup_success_title": "Imported successfully! ✅",
-    "backup_success_message": "{{characters}} character(s) and {{bagItems}} item(s) restored."
+    "backup_success_message": "{{characters}} character(s), {{bagItems}} item(s) and {{customItems}} custom item(s) restored."
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -153,6 +156,28 @@
     "generic": "Something went wrong. Please try again.",
     "name_too_long": "Maximum {{max}} characters",
     "load_characters": "Error loading characters"
+  },
+  "custom_items": {
+    "section_title": "My Items",
+    "badge": "✦ Custom",
+    "filter_chip": "My Items",
+    "create_button": "Create Item",
+    "empty_title": "No custom items yet",
+    "empty_subtitle": "Forge unique items for your adventure",
+    "form_title_create": "Forge Item",
+    "form_title_edit": "Edit Item",
+    "submit_create": "Forge Item",
+    "submit_edit": "Save Changes",
+    "delete_button": "Delete Item",
+    "delete_confirm_title": "Delete item?",
+    "delete_confirm_message": "This action cannot be undone.",
+    "field_name": "Name",
+    "field_category": "Category",
+    "field_weight": "Weight",
+    "field_cost": "Cost",
+    "field_rarity": "Rarity",
+    "field_description": "Description",
+    "description_placeholder": "Item description, special abilities..."
   },
   "ads": {
     "watch_to_unlock": "Watch to unlock",

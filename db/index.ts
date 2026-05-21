@@ -1,8 +1,17 @@
 import { drizzle } from "drizzle-orm/expo-sqlite";
+import { migrate } from "drizzle-orm/expo-sqlite/migrator";
 import { openDatabaseSync } from "expo-sqlite";
 import { eq } from "drizzle-orm";
 import * as schema from "./schema";
-import type { NewCharacter, NewBagItem, Character, BagItem } from "./schema";
+import type {
+  NewCharacter,
+  NewBagItem,
+  Character,
+  BagItem,
+  CustomItem,
+  NewCustomItem,
+} from "./schema";
+import migrations from "./migrations/migrations";
 
 // Instância singleton do banco SQLite
 const sqlite = openDatabaseSync("lootara.db", { enableChangeListener: true });
@@ -11,40 +20,17 @@ const sqlite = openDatabaseSync("lootara.db", { enableChangeListener: true });
 export const db = drizzle(sqlite, { schema });
 
 // ── Migration runner ─────────────────────────────────────────────────────────
-// Cria as tabelas se não existirem (abordagem pragmática para o MVP).
-// Quando houver migrations geradas pelo Drizzle Kit, substituir por:
-//   import { migrate } from "drizzle-orm/expo-sqlite/migrator";
-//   import migrations from "./migrations/migrations";
-//   await migrate(db, migrations);
 export async function runMigrations(): Promise<void> {
-  await sqlite.execAsync(`
-    CREATE TABLE IF NOT EXISTS characters (
-      id TEXT PRIMARY KEY NOT NULL,
-      name TEXT NOT NULL,
-      class TEXT NOT NULL,
-      race TEXT NOT NULL,
-      level INTEGER NOT NULL DEFAULT 1,
-      system TEXT NOT NULL,
-      avatar_emoji TEXT,
-      created_at INTEGER NOT NULL,
-      updated_at INTEGER NOT NULL
+  // Safe upgrade for existing DBs that were created before Drizzle migrations:
+  // add is_custom column to bag_items if not present yet.
+  try {
+    sqlite.execSync(
+      "ALTER TABLE bag_items ADD COLUMN is_custom INTEGER NOT NULL DEFAULT 0",
     );
-
-    CREATE TABLE IF NOT EXISTS bag_items (
-      id TEXT PRIMARY KEY NOT NULL,
-      character_id TEXT NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
-      item_id TEXT,
-      custom_name TEXT,
-      quantity INTEGER NOT NULL DEFAULT 1,
-      location TEXT NOT NULL DEFAULT 'backpack',
-      notes TEXT,
-      created_at INTEGER NOT NULL,
-      updated_at INTEGER NOT NULL
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_bag_items_character_id
-      ON bag_items (character_id);
-  `);
+  } catch {
+    // Column already exists or table doesn't exist yet — both are fine.
+  }
+  await migrate(db, migrations);
 }
 
 // ── Helpers internos ─────────────────────────────────────────────────────────
@@ -191,9 +177,80 @@ export function upsertBagItem(data: BagItem): void {
         characterId: data.characterId,
         itemId: data.itemId,
         customName: data.customName,
+        isCustom: data.isCustom,
         quantity: data.quantity,
         location: data.location,
         notes: data.notes,
+        updatedAt: data.updatedAt,
+      },
+    })
+    .run();
+}
+
+// ── Custom Items ──────────────────────────────────────────────────────────────
+
+export function getCustomItems(): CustomItem[] {
+  return db
+    .select()
+    .from(schema.customItems)
+    .orderBy(schema.customItems.createdAt)
+    .all();
+}
+
+export function getCustomItemById(id: string): CustomItem | undefined {
+  return db
+    .select()
+    .from(schema.customItems)
+    .where(eq(schema.customItems.id, id))
+    .get();
+}
+
+export function createCustomItem(
+  data: Omit<NewCustomItem, "createdAt" | "updatedAt">,
+): CustomItem {
+  const timestamp = now();
+  const row: NewCustomItem = {
+    ...data,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  };
+  db.insert(schema.customItems).values(row).run();
+  const created = getCustomItemById(data.id ?? "");
+  if (!created) throw new Error("Falha ao criar item customizado");
+  return created;
+}
+
+export function updateCustomItem(
+  id: string,
+  data: Partial<Omit<NewCustomItem, "id" | "createdAt" | "updatedAt">>,
+): CustomItem {
+  db.update(schema.customItems)
+    .set({ ...data, updatedAt: now() })
+    .where(eq(schema.customItems.id, id))
+    .run();
+  const updated = getCustomItemById(id);
+  if (!updated) throw new Error("Item customizado não encontrado");
+  return updated;
+}
+
+export function deleteCustomItem(id: string): void {
+  // Remove bag_items referenciando este custom_item
+  db.delete(schema.bagItems).where(eq(schema.bagItems.itemId, id)).run();
+  db.delete(schema.customItems).where(eq(schema.customItems.id, id)).run();
+}
+
+export function upsertCustomItem(data: CustomItem): void {
+  db.insert(schema.customItems)
+    .values(data)
+    .onConflictDoUpdate({
+      target: schema.customItems.id,
+      set: {
+        name: data.name,
+        category: data.category,
+        weight: data.weight,
+        cost: data.cost,
+        description: data.description,
+        rarity: data.rarity,
         updatedAt: data.updatedAt,
       },
     })

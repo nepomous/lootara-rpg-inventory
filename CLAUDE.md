@@ -156,6 +156,36 @@ rpg-bag/
 
 ---
 
+## Validação de Traduções (obrigatório)
+
+**Toda implementação** que adicione ou altere texto visível ao usuário **deve atualizar os 5 arquivos de tradução**:
+
+```
+locales/pt-BR/translation.json   ← idioma principal (BR-first)
+locales/en/translation.json
+locales/es/translation.json
+locales/fr/translation.json
+locales/de/translation.json
+```
+
+### Regras
+
+- Nunca usar string literal em componentes — sempre usar `t("chave.subchave")`.
+- Ao criar uma nova chave, adicioná-la nos **5 arquivos** na mesma operação.
+- `pt-BR` é a fonte de verdade para nomenclatura das chaves.
+- Traduções devem ser naturais no idioma alvo — não usar Google Translate literal.
+- Chaves ausentes em qualquer idioma causam `undefined` silencioso na UI — tratar como bug.
+
+### Checklist pré-entrega
+
+Antes de considerar qualquer fix/feature/prompt concluído, verificar:
+
+- [ ] Todos os textos novos têm chave em `pt-BR`?
+- [ ] A mesma chave existe nos outros 4 idiomas?
+- [ ] Nenhum componente novo usa string literal visível ao usuário?
+
+---
+
 ## Comandos Úteis
 
 ```bash
