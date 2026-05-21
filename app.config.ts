@@ -12,17 +12,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   splash: {
     image: "./assets/splash-icon.png",
     resizeMode: "contain",
-    backgroundColor: "#1a1a2e",
+    backgroundColor: "#1A1C2C",
   },
   ios: {
     supportsTablet: true,
-    bundleIdentifier: "com.lootara.rpginventory",
+    bundleIdentifier: "com.lootara.app",
   },
   android: {
-    package: "com.lootara.rpginventory",
+    package: "com.lootara.app",
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#1a1a2e",
+      backgroundColor: "#1A1C2C",
     },
     edgeToEdgeEnabled: true,
     predictiveBackGestureEnabled: false,
