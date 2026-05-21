@@ -164,6 +164,12 @@
     "rewarded_incomplete": "Assista até o fim para desbloquear",
     "remove_ads_nudge": "Gostando do app? Remova os anúncios com uma compra única ✨"
   },
+  "lore": {
+    "unlock_title": "Lore Ancestral",
+    "unlock_subtitle": "Apoie o Lootara e revele a história oculta deste item.",
+    "unlocked_label": "Lore Revelado",
+    "locked_hint": "Grátis para usuários não-premium"
+  },
   "custom_items": {
     "section_title": "Meus Itens",
     "badge": "✦ Personalizado",

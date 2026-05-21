@@ -9,6 +9,7 @@ export type Item = {
   weight: number; // em libras
   cost: number; // em peças de ouro (GP)
   description: string; // em português
+  lore?: string; // flavor text / lore exclusivo — desbloqueável via rewarded ad
   system: RPGSystem[]; // sistemas onde o item aparece
   rarity: ItemRarity;
 };
@@ -475,6 +476,7 @@ export const ITEMS: Item[] = [
     cost: 450,
     description:
       "Elixir de cura superior que recupera 8d4+8 pontos de vida. Reservado para aventureiros experientes.",
+    lore: "Diz a lenda que a receita desta poção foi transcrita pelo alquimista Aldric Voss após uma visão divina nas ruínas de Aethermoor. Cada frasco requer o sangue de uma fênix recém-renascida e pétalas de lotus lunar colhidas sob eclipse total. Quem bebe sente, por um breve instante, o toque quente de uma mão invisível afastando a morte.",
     system: ["dnd5e"],
     rarity: "rare",
   },
@@ -624,6 +626,7 @@ export const ITEMS: Item[] = [
     cost: 3500,
     description:
       "Anel mágico que concede +1 à CA e a todos os testes de resistência. Requer sintonia.",
+    lore: 'Forjado pelo anão Torvin Ashmantle nas profundezas de Kharak Dûm, este anel foi presenteado à rainha Seraphel como dote de aliança entre dois reinos em guerra. Ao longo de três gerações, sobreviveu a batalhas, trairções e um incêndio que reduziu o palácio a cinzas. A inscrição interna, desgastada pelo tempo, lê: "Que o escudo da montanha permaneça sobre ti."',
     system: ["dnd5e", "pf1"],
     rarity: "rare",
   },
@@ -646,6 +649,7 @@ export const ITEMS: Item[] = [
     cost: 8000,
     description:
       "Amuleto que eleva sua Constituição para 19. Sem efeito se sua Constituição já for 19 ou maior. Requer sintonia.",
+    lore: "Criado pelos sacerdotes do Templo da Chama Perpétua em homenagem ao guerreiro Daenos, o Imortal, que segundo os escritos sagrados sobreviveu a dezessete lanças durante a Batalha do Passo Vermelho. A pedra central pulsa com um calor suave, como um segundo coração. Dizem que quem o usa por mais de um ano passa a sonhar com batalhas que nunca travou — memórias do próprio Daenos gravadas na gema.",
     system: ["dnd5e"],
     rarity: "rare",
   },

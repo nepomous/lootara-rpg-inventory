@@ -185,5 +185,11 @@
     "rewarded_success": "Content unlocked!",
     "rewarded_incomplete": "Watch until the end to unlock",
     "remove_ads_nudge": "Enjoying the app? Remove ads with a one-time purchase ✨"
+  },
+  "lore": {
+    "unlock_title": "Ancient Lore",
+    "unlock_subtitle": "Support Lootara and reveal the hidden story behind this item.",
+    "unlocked_label": "Lore Revealed",
+    "locked_hint": "Free for non-premium users"
   }
 }

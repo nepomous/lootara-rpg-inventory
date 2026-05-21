@@ -185,5 +185,11 @@
     "rewarded_success": "Inhalt freigeschaltet!",
     "rewarded_incomplete": "Schau bis zum Ende, um freizuschalten",
     "remove_ads_nudge": "Gefällt dir die App? Entferne Werbung mit einem einmaligen Kauf ✨"
+  },
+  "lore": {
+    "unlock_title": "Altes Lore",
+    "unlock_subtitle": "Unterstütze Lootara und enthülle die verborgene Geschichte dieses Gegenstands.",
+    "unlocked_label": "Lore Enthüllt",
+    "locked_hint": "Kostenlos für Nicht-Premium-Nutzer"
   }
 }

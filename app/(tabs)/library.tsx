@@ -19,6 +19,7 @@ import type { CustomItem } from "@/hooks/useCustomItems";
 import { CustomItemForm } from "@/components/CustomItemForm";
 import type { CustomItemFormRef } from "@/components/CustomItemForm";
 import type { Item } from "@/constants/items";
+import { LoreUnlockCard } from "@/components/LoreUnlockCard";
 
 type FilterValue = ItemCategory | "custom" | null;
 type RowData =
@@ -62,29 +63,71 @@ function CustomItemRow({
 
 function StaticItemRow({ item }: { item: Item }) {
   const rarityColor = ITEM_RARITIES[item.rarity].color;
+  const rarityLabel = ITEM_RARITIES[item.rarity].label;
   const catInfo = ITEM_CATEGORIES[item.category];
+  const [expanded, setExpanded] = useState(false);
+
   return (
-    <Pressable className="flex-row items-center gap-3 py-3 px-3 rounded-card bg-background-card border border-border mb-1.5">
-      <View className="w-9 h-9 rounded-lg bg-background-surface items-center justify-center">
-        <Text className="text-lg">{catInfo.emoji}</Text>
-      </View>
-      <View className="flex-1">
-        <Text className="text-text text-sm font-semibold" numberOfLines={1}>
-          {item.name}
-        </Text>
-        <Text className="text-text-muted text-xs mt-0.5">
-          {item.weight} lbs · {item.cost} PO
-        </Text>
-      </View>
-      <View
-        style={{
-          width: 8,
-          height: 8,
-          borderRadius: 4,
-          backgroundColor: rarityColor,
-        }}
-      />
-    </Pressable>
+    <View className="rounded-card bg-background-card border border-border mb-1.5 overflow-hidden">
+      {/* Linha principal */}
+      <Pressable
+        className="flex-row items-center gap-3 py-3 px-3"
+        onPress={() => setExpanded((v) => !v)}
+      >
+        <View className="w-9 h-9 rounded-lg bg-background-surface items-center justify-center">
+          <Text className="text-lg">{catInfo.emoji}</Text>
+        </View>
+        <View className="flex-1">
+          <Text className="text-text text-sm font-semibold" numberOfLines={1}>
+            {item.name}
+          </Text>
+          <Text className="text-text-muted text-xs mt-0.5">
+            {item.weight} lbs · {item.cost} PO
+          </Text>
+        </View>
+        <View
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+            backgroundColor: rarityColor,
+          }}
+        />
+      </Pressable>
+
+      {/* Detalhes expansíveis */}
+      {expanded && (
+        <View className="px-3 pb-3 border-t border-border pt-2.5">
+          {/* Raridade */}
+          <View className="flex-row items-center gap-1.5 mb-2">
+            <View
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: 3,
+                backgroundColor: rarityColor,
+              }}
+            />
+            <Text
+              className="text-[10px] font-bold uppercase tracking-widest"
+              style={{ color: rarityColor }}
+            >
+              {rarityLabel}
+            </Text>
+          </View>
+
+          {/* Descrição mecânica — sempre visível */}
+          <Text className="text-text-muted text-sm leading-5">
+            {item.description}
+          </Text>
+
+          {/* Lore desbloqueável — só para itens raros com lore */}
+          {item.lore != null && (
+            <LoreUnlockCard itemId={item.id} lore={item.lore} />
+          )}
+        </View>
+      )}
+    </View>
   );
 }
 

@@ -185,5 +185,11 @@
     "rewarded_success": "¡Contenido desbloqueado!",
     "rewarded_incomplete": "Mira hasta el final para desbloquear",
     "remove_ads_nudge": "¿Te gusta la app? Elimina los anuncios con una compra única ✨"
+  },
+  "lore": {
+    "unlock_title": "Lore Ancestral",
+    "unlock_subtitle": "Apoya a Lootara y descubre la historia oculta de este objeto.",
+    "unlocked_label": "Lore Revelado",
+    "locked_hint": "Gratis para usuarios no premium"
   }
 }
