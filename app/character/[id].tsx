@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { useCharacter } from "@/hooks/useCharacters";
 import {
   useBag,
@@ -28,9 +29,9 @@ import type { AddBagItemInput } from "@/hooks/useBag";
 type TabId = "backpack" | "equipped" | "stored";
 
 const TABS: { id: TabId; label: string; emoji: string }[] = [
-  { id: "backpack", label: "Sacola", emoji: "🎒" },
-  { id: "equipped", label: "Equipado", emoji: "🧍" },
-  { id: "stored", label: "Guardado", emoji: "📦" },
+  { id: "backpack", label: "bag.tab_backpack", emoji: "🎒" },
+  { id: "equipped", label: "bag.tab_equipped", emoji: "🧔" },
+  { id: "stored", label: "bag.tab_stored", emoji: "📦" },
 ];
 
 function WeightBar({
@@ -40,13 +41,14 @@ function WeightBar({
   carried: number;
   capacity: number;
 }) {
+  const { t } = useTranslation();
   const pct = Math.min(1, carried / capacity);
   const barColor = pct >= 1 ? "#ef4444" : pct >= 0.75 ? "#f59e0b" : "#e8c547";
 
   return (
     <View className="px-4 py-3 bg-background-card border-t border-border">
       <View className="flex-row justify-between mb-2">
-        <Text className="text-text-muted text-xs">Carregando</Text>
+        <Text className="text-text-muted text-xs">{t("bag.carrying")}</Text>
         <Text className="text-text text-xs font-semibold">
           {formatWeight(carried)} / {formatWeight(capacity)}
         </Text>
@@ -64,6 +66,7 @@ function WeightBar({
 export default function CharacterBagScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [activeTab, setActiveTab] = useState<TabId>("backpack");
   const [addVisible, setAddVisible] = useState(false);
@@ -98,13 +101,13 @@ export default function CharacterBagScreen() {
       <View className="flex-1 bg-background items-center justify-center px-8">
         <Text className="text-6xl mb-4">⚠️</Text>
         <Text className="text-text text-lg font-bold text-center mb-2">
-          Personagem não encontrado
+          {t("characters.not_found")}
         </Text>
         <Pressable
           onPress={() => router.back()}
           className="px-6 py-3 rounded-xl bg-secondary"
         >
-          <Text className="text-white font-bold">Voltar</Text>
+          <Text className="text-white font-bold">{t("common.back")}</Text>
         </Pressable>
       </View>
     );
@@ -137,17 +140,21 @@ export default function CharacterBagScreen() {
 
   function handleDeleteFromEdit(item: BagItem) {
     const displayName = item.customName ?? (item.itemId ? item.itemId : "item");
-    Alert.alert("Remover item", `Remover "${displayName}" da sacola?`, [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Remover",
-        style: "destructive",
-        onPress: () => {
-          setEditingItem(null);
-          removeItem(item.id);
+    Alert.alert(
+      t("bag.remove_item"),
+      t("bag.remove_confirm_message", { name: displayName }),
+      [
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("bag.remove_item"),
+          style: "destructive",
+          onPress: () => {
+            setEditingItem(null);
+            removeItem(item.id);
+          },
         },
-      },
-    ]);
+      ],
+    );
   }
 
   return (
@@ -164,13 +171,16 @@ export default function CharacterBagScreen() {
             <Text className="text-text text-lg font-bold" numberOfLines={1}>
               {character.name}
             </Text>
-            <Text className="text-text-muted text-xs">
-              {classInfo?.label ?? character.class} · Nível {character.level} ·{" "}
+            <Text className="text-text text-xs">
+              {classInfo?.label ?? character.class} ·{" "}
+              {t("characters.level", { level: character.level })} ·{" "}
               {systemLabel}
             </Text>
           </View>
           <View className="items-end">
-            <Text className="text-text-muted text-xs">Itens</Text>
+            <Text className="text-text-muted text-xs">
+              {t("bag.items_count")}
+            </Text>
             <Text className="text-primary font-bold text-base">{bagCount}</Text>
           </View>
         </View>
@@ -197,7 +207,7 @@ export default function CharacterBagScreen() {
                   selected ? "text-text-inverse" : "text-text-muted"
                 }`}
               >
-                {tab.label}
+                {t(tab.label as Parameters<typeof t>[0])}
               </Text>
               {count > 0 && (
                 <View
@@ -245,13 +255,13 @@ export default function CharacterBagScreen() {
             </Text>
             <Text className="text-text font-bold text-base mb-1">
               {activeTab === "equipped"
-                ? "Nenhum item equipado"
+                ? t("bag.empty_equipped")
                 : activeTab === "stored"
-                  ? "Nenhum item guardado"
-                  : "Sacola vazia"}
+                  ? t("bag.empty_stored")
+                  : t("bag.empty_title")}
             </Text>
             <Text className="text-text-muted text-sm text-center px-8">
-              Toque no botão + para adicionar itens
+              {t("bag.add_tap_hint")}
             </Text>
           </View>
         }

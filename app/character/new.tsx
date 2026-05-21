@@ -9,6 +9,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import {
   CHARACTER_CLASSES,
@@ -152,6 +153,7 @@ function LevelStepper({
   value: number;
   onChange: (v: number) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <View className="flex-row items-center gap-4">
       <Pressable
@@ -169,7 +171,9 @@ function LevelStepper({
       </Pressable>
       <View className="items-center min-w-12">
         <Text className="text-primary text-2xl font-bold">{value}</Text>
-        <Text className="text-text-muted text-xs">de {MAX_LEVEL}</Text>
+        <Text className="text-text-muted text-xs">
+          {t("new_character.level_of", { max: MAX_LEVEL })}
+        </Text>
       </View>
       <Pressable
         onPress={() => onChange(Math.min(MAX_LEVEL, value + 1))}
@@ -225,6 +229,7 @@ function SystemSegmented({
 
 export default function NewCharacterScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { mutate: createCharacter, isPending } = useCreateCharacter();
 
   const {
@@ -274,7 +279,10 @@ export default function NewCharacterScreen() {
     >
       {/* Nome */}
       <View>
-        <FieldLabel label="Nome do personagem" error={errors.name?.message} />
+        <FieldLabel
+          label={t("new_character.name_label")}
+          error={errors.name?.message}
+        />
         <Controller
           control={control}
           name="name"
@@ -283,7 +291,7 @@ export default function NewCharacterScreen() {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              placeholder="Ex: Aldric Stoneforge"
+              placeholder={t("new_character.name_placeholder")}
               placeholderTextColor="#9ca3af"
               maxLength={50}
               className={`bg-background-surface text-text px-4 py-3 rounded-xl border text-base ${
@@ -296,7 +304,10 @@ export default function NewCharacterScreen() {
 
       {/* Classe */}
       <View>
-        <FieldLabel label="Classe" error={errors.class?.message} />
+        <FieldLabel
+          label={t("new_character.class_label")}
+          error={errors.class?.message}
+        />
         <Controller
           control={control}
           name="class"
@@ -308,7 +319,10 @@ export default function NewCharacterScreen() {
 
       {/* Raça */}
       <View>
-        <FieldLabel label="Raça" error={errors.race?.message} />
+        <FieldLabel
+          label={t("new_character.race_label")}
+          error={errors.race?.message}
+        />
         <Controller
           control={control}
           name="race"
@@ -320,7 +334,7 @@ export default function NewCharacterScreen() {
 
       {/* Nível */}
       <View>
-        <FieldLabel label="Nível" />
+        <FieldLabel label={t("new_character.level_label")} />
         <Controller
           control={control}
           name="level"
@@ -332,7 +346,7 @@ export default function NewCharacterScreen() {
 
       {/* Sistema */}
       <View>
-        <FieldLabel label="Sistema de RPG" />
+        <FieldLabel label={t("new_character.system_label")} />
         <Controller
           control={control}
           name="system"
@@ -345,15 +359,18 @@ export default function NewCharacterScreen() {
       {/* Preview do personagem */}
       {selectedClass ? (
         <View className="bg-background-card border border-border rounded-card p-4 flex-row items-center gap-3">
-          <Text className="text-4xl">
-            {CHARACTER_CLASSES[selectedClass as CharacterClass]?.emoji ?? "🎭"}
-          </Text>
+          <View className="w-12 h-12 rounded-full bg-background-surface items-center justify-center">
+            <Text className="text-4xl">
+              {CHARACTER_CLASSES[selectedClass as CharacterClass]?.emoji ??
+                "🎭"}
+            </Text>
+          </View>
           <View>
             <Text className="text-text-muted text-xs uppercase tracking-widest">
-              Prévia
+              {t("new_character.preview")}
             </Text>
             <Text className="text-text font-bold text-base">
-              {watch("name") || "Sem nome"}
+              {watch("name") || t("new_character.no_name")}
             </Text>
             <Text className="text-text-muted text-sm">
               {CHARACTER_CLASSES[selectedClass as CharacterClass]?.label} ·{" "}
@@ -373,7 +390,7 @@ export default function NewCharacterScreen() {
           <ActivityIndicator color="#ffffff" />
         ) : (
           <Text className="text-white font-bold text-base">
-            Criar Personagem
+            {t("new_character.submit_button")}
           </Text>
         )}
       </Pressable>

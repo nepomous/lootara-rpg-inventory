@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -24,6 +25,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export function CharacterCard({ character, onPress, onLongPress }: Props) {
   const router = useRouter();
+  const { t } = useTranslation();
   const { mutate: deleteCharacter, isPending: isDeleting } =
     useDeleteCharacter();
   const scale = useSharedValue(1);
@@ -66,30 +68,30 @@ export function CharacterCard({ character, onPress, onLongPress }: Props) {
     }
     Alert.alert(
       character.name,
-      "O que deseja fazer?",
+      t("common.what_to_do"),
       [
         {
-          text: "Editar",
+          text: t("common.edit"),
           onPress: () => router.push(`/character/${character.id}?edit=true`),
         },
         {
-          text: "Excluir",
+          text: t("common.delete"),
           style: "destructive",
           onPress: () =>
             Alert.alert(
-              "Excluir personagem",
-              `Tem certeza que deseja excluir "${character.name}"? Todos os itens da sacola serão removidos.`,
+              t("characters.delete_confirm_title"),
+              t("characters.delete_confirm_message", { name: character.name }),
               [
-                { text: "Cancelar", style: "cancel" },
+                { text: t("common.cancel"), style: "cancel" },
                 {
-                  text: "Excluir",
+                  text: t("common.delete"),
                   style: "destructive",
                   onPress: () => deleteCharacter(character.id),
                 },
               ],
             ),
         },
-        { text: "Cancelar", style: "cancel" },
+        { text: t("common.cancel"), style: "cancel" },
       ],
       { cancelable: true },
     );
@@ -122,7 +124,8 @@ export function CharacterCard({ character, onPress, onLongPress }: Props) {
             {character.name}
           </Text>
           <Text style={styles.subtitle} numberOfLines={1}>
-            Nível {character.level} · {classInfo.label} · {raceInfo.label}
+            {t("characters.level", { level: character.level })} ·{" "}
+            {classInfo.label} · {raceInfo.label}
           </Text>
 
           {/* Badge de sistema (pill com borda gold) */}

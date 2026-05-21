@@ -5,6 +5,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { useTranslation } from "react-i18next";
 import {
   Gesture,
   GestureDetector,
@@ -69,6 +70,7 @@ export function LibraryItemRow({
   onChangeLocation,
   onChangeQuantity,
 }: LibraryItemRowProps) {
+  const { t } = useTranslation();
   const CategoryIcon = CATEGORY_ICONS[item.category] ?? Package;
   const rarityColor = Colors.rarity[RARITY_COLOR_KEY[item.rarity]];
   const weightText = formatWeight(item.weight * bagItem.quantity);
@@ -91,18 +93,18 @@ export function LibraryItemRow({
   function showActionMenu() {
     const LOCATIONS: BagItemLocation[] = ["equipped", "backpack", "stored"];
     const LOCATION_LABELS: Record<BagItemLocation, string> = {
-      equipped: "Equipar",
-      backpack: "Mover para Sacola",
-      stored: "Guardar",
+      equipped: t("bag.move_to_equipped"),
+      backpack: t("bag.move_to_backpack"),
+      stored: t("bag.move_to_stored"),
     };
 
-    Alert.alert(item.name, "O que deseja fazer?", [
+    Alert.alert(item.name, t("common.what_to_do"), [
       ...LOCATIONS.filter((l) => l !== bagItem.location).map((l) => ({
         text: LOCATION_LABELS[l],
         onPress: () => onChangeLocation(bagItem.id, l),
       })),
       {
-        text: `Consumir (qtd: ${bagItem.quantity})`,
+        text: t("bag.consume_qty", { qty: bagItem.quantity }),
         onPress: () => {
           if (bagItem.quantity <= 1) {
             onRemove(bagItem.id);
@@ -112,19 +114,23 @@ export function LibraryItemRow({
         },
       },
       {
-        text: "Remover",
+        text: t("bag.remove_item"),
         style: "destructive",
         onPress: () =>
-          Alert.alert("Remover item", `Remover "${item.name}" da sacola?`, [
-            { text: "Cancelar", style: "cancel" },
-            {
-              text: "Remover",
-              style: "destructive",
-              onPress: () => onRemove(bagItem.id),
-            },
-          ]),
+          Alert.alert(
+            t("bag.remove_item"),
+            t("bag.remove_confirm_message", { name: item.name }),
+            [
+              { text: t("common.cancel"), style: "cancel" },
+              {
+                text: t("bag.remove_item"),
+                style: "destructive",
+                onPress: () => onRemove(bagItem.id),
+              },
+            ],
+          ),
       },
-      { text: "Cancelar", style: "cancel" },
+      { text: t("common.cancel"), style: "cancel" },
     ]);
   }
 

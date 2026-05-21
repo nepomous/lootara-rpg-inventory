@@ -16,7 +16,9 @@ import {
   RefreshCw,
   Upload,
 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import Constants from "expo-constants";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { usePremium } from "@/hooks/usePremium";
 import { exportData, importData } from "@/utils/backup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -89,6 +91,7 @@ function Divider() {
 
 // ── Card Premium ──────────────────────────────────────────────────────────────
 function PremiumCard() {
+  const { t } = useTranslation();
   const {
     isPremium,
     purchasePremium,
@@ -102,11 +105,13 @@ function PremiumCard() {
       <Card>
         <CardRow
           icon={<Crown size={22} color="#c9a84c" />}
-          title="Premium ativo"
-          subtitle="Anúncios removidos. Obrigado pelo apoio!"
+          title={t("settings.premium_active")}
+          subtitle={t("settings.premium_active_subtitle")}
           right={
             <View className="px-2 py-1 rounded-full bg-primary/20">
-              <Text className="text-primary text-xs font-bold">ATIVO</Text>
+              <Text className="text-primary text-xs font-bold">
+                {t("settings.premium_badge")}
+              </Text>
             </View>
           }
         />
@@ -118,9 +123,11 @@ function PremiumCard() {
     <Card>
       <CardRow
         icon={<Crown size={22} color="#c9a84c" />}
-        title="Remover Anúncios"
+        title={t("settings.remove_ads_title")}
         subtitle={
-          offerPrice ? `Por apenas ${offerPrice}` : "Compra única, para sempre"
+          offerPrice
+            ? t("settings.premium_offer_price", { price: offerPrice })
+            : t("settings.premium_default_price")
         }
         right={
           <Pressable
@@ -131,7 +138,9 @@ function PremiumCard() {
             {isLoading ? (
               <ActivityIndicator size="small" color="#1a1a2e" />
             ) : (
-              <Text className="text-background text-xs font-bold">Comprar</Text>
+              <Text className="text-background text-xs font-bold">
+                {t("settings.premium_buy_button")}
+              </Text>
             )}
           </Pressable>
         }
@@ -139,8 +148,8 @@ function PremiumCard() {
       <Divider />
       <CardRow
         icon={<RefreshCw size={22} color="#8a8a9a" />}
-        title="Restaurar compra"
-        subtitle="Já comprou em outro dispositivo?"
+        title={t("settings.restore_purchase")}
+        subtitle={t("settings.restore_subtitle")}
         onPress={isLoading ? undefined : restorePurchases}
         right={
           isLoading ? (
@@ -156,12 +165,13 @@ function PremiumCard() {
 
 // ── Card Apoio ────────────────────────────────────────────────────────────────
 function SupportCard() {
+  const { t } = useTranslation();
   return (
     <Card>
       <CardRow
         icon={<Coffee size={22} color="#c9a84c" />}
-        title="Apoiar o Dev"
-        subtitle="Me pague um café no Ko-fi"
+        title={t("settings.support_title")}
+        subtitle={t("settings.support_subtitle")}
         onPress={() => Linking.openURL(KOFI_URL).catch(() => {})}
         right={<Text className="text-text-muted text-lg">›</Text>}
       />
@@ -171,6 +181,7 @@ function SupportCard() {
 
 // ── Card Backup ───────────────────────────────────────────────────────────────
 function BackupCard() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [exporting, setExporting] = useState(false);
   const [importing, setImporting] = useState(false);
@@ -180,8 +191,8 @@ function BackupCard() {
     try {
       await exportData();
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Erro ao exportar";
-      Alert.alert("Erro", msg);
+      const msg = e instanceof Error ? e.message : t("errors.generic");
+      Alert.alert(t("common.error"), msg);
     } finally {
       setExporting(false);
     }
@@ -193,15 +204,18 @@ function BackupCard() {
       const result = await importData();
       await queryClient.invalidateQueries();
       Alert.alert(
-        "Importado com sucesso! ✅",
-        `${result.characters} personagem(ns) e ${result.bagItems} item(ns) restaurados.`,
+        t("settings.backup_success_title"),
+        t("settings.backup_success_message", {
+          characters: result.characters,
+          bagItems: result.bagItems,
+        }),
       );
     } catch (e) {
       if (e instanceof Error && e.message === "CANCELLED") {
         return;
       }
-      const msg = e instanceof Error ? e.message : "Erro ao importar";
-      Alert.alert("Erro", msg);
+      const msg = e instanceof Error ? e.message : t("errors.generic");
+      Alert.alert(t("common.error"), msg);
     } finally {
       setImporting(false);
     }
@@ -211,8 +225,8 @@ function BackupCard() {
     <Card>
       <CardRow
         icon={<Upload size={22} color="#8a8a9a" />}
-        title="Exportar dados"
-        subtitle="Salvar personagens e sacolas em JSON"
+        title={t("settings.backup_export")}
+        subtitle={t("settings.backup_export_subtitle")}
         onPress={exporting ? undefined : handleExport}
         right={
           exporting ? (
@@ -225,8 +239,8 @@ function BackupCard() {
       <Divider />
       <CardRow
         icon={<Download size={22} color="#8a8a9a" />}
-        title="Importar dados"
-        subtitle="Restaurar a partir de um arquivo de backup"
+        title={t("settings.backup_import")}
+        subtitle={t("settings.backup_import_subtitle")}
         onPress={importing ? undefined : handleImport}
         right={
           importing ? (
@@ -242,6 +256,7 @@ function BackupCard() {
 
 // ── Tela principal ────────────────────────────────────────────────────────────
 export default function SettingsScreen() {
+  const { t } = useTranslation();
   return (
     <ScrollView
       className="flex-1 bg-background"
@@ -249,34 +264,42 @@ export default function SettingsScreen() {
     >
       {/* Header */}
       <View className="px-4 pt-6 pb-4">
-        <Text className="text-text text-2xl font-bold">Configurações</Text>
+        <Text className="text-text text-2xl font-bold">
+          {t("settings.title")}
+        </Text>
         <Text className="text-text-muted text-sm mt-1">
-          Personalize sua experiência
+          {t("settings.header_subtitle")}
         </Text>
       </View>
 
-      <SectionTitle title="Premium" />
+      <SectionTitle title={t("settings.section_premium")} />
       <PremiumCard />
 
-      <SectionTitle title="Apoio" />
+      <SectionTitle title={t("nav.language")} />
+      <View className="mx-4">
+        <LanguageSelector />
+      </View>
+
+      <SectionTitle title={t("settings.section_support")} />
       <SupportCard />
 
-      <SectionTitle title="Backup & Restauração" />
+      <SectionTitle title={t("settings.backup_title")} />
       <BackupCard />
 
       {/* Aviso sobre dados locais */}
       <View className="mx-4 mt-3 p-3 rounded-xl bg-background-surface flex-row items-start gap-2">
         <AlertCircle size={16} color="#8a8a9a" style={{ marginTop: 1 }} />
         <Text className="text-text-muted text-xs flex-1">
-          Todos os dados ficam apenas neste dispositivo. Exporte regularmente
-          para não perder seu progresso.
+          {t("settings.backup_warning")}
         </Text>
       </View>
 
       {/* Versão do app */}
       <View className="items-center mt-8">
         <Text className="text-text-muted text-xs">Lootara - RPG Inventory</Text>
-        <Text className="text-border text-xs">v{APP_VERSION}</Text>
+        <Text className="text-border text-xs">
+          {t("settings.version", { version: APP_VERSION })}
+        </Text>
       </View>
     </ScrollView>
   );

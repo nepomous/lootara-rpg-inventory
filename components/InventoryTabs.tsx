@@ -4,16 +4,11 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { useTranslation } from "react-i18next";
 import type { BagItemLocation } from "@/constants/rpg";
 import { Colors, Typography, Spacing } from "@/constants/theme";
 
 type Tab = { key: BagItemLocation; label: string };
-
-const TABS: Tab[] = [
-  { key: "equipped", label: "Equipado" },
-  { key: "backpack", label: "Sacola" },
-  { key: "stored", label: "Guardado" },
-];
 
 type InventoryTabsProps = {
   activeTab: BagItemLocation;
@@ -24,6 +19,13 @@ export default function InventoryTabs({
   activeTab,
   onChange,
 }: InventoryTabsProps) {
+  const { t } = useTranslation();
+  const TABS: Tab[] = [
+    { key: "equipped", label: t("bag.tab_equipped") },
+    { key: "backpack", label: t("bag.tab_backpack") },
+    { key: "stored", label: t("bag.tab_stored") },
+  ];
+
   return (
     <View className="flex-row gap-2 px-4 py-2">
       {TABS.map((tab) => (

@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   FadeInDown,
@@ -42,6 +43,7 @@ function AnimatedItem({
 }
 
 function EmptyState() {
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -54,11 +56,10 @@ function EmptyState() {
     >
       <Dices size={72} color="#c9a84c" strokeWidth={1.5} />
       <Text className="text-parchment text-xl font-bold text-center">
-        Nenhum aventureiro ainda...
+        {t("characters.empty_title")}
       </Text>
       <Text className="text-muted text-sm text-center leading-5">
-        Toque no botão <Text className="text-gold font-bold">+</Text> para criar
-        seu primeiro personagem e começar sua jornada!
+        {t("characters.empty_subtitle")}
       </Text>
     </View>
   );
@@ -85,7 +86,7 @@ function FAB({ onPress, bottom }: { onPress: () => void; bottom: number }) {
           scale.value = withSpring(1, { damping: 12 });
         }}
         className="w-14 h-14 rounded-full bg-gold items-center justify-center"
-        accessibilityLabel="Criar novo personagem"
+        accessibilityLabel={t("characters.add_cta")}
         accessibilityRole="button"
       >
         <Text className="text-background text-3xl font-light leading-none">
@@ -98,6 +99,7 @@ function FAB({ onPress, bottom }: { onPress: () => void; bottom: number }) {
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { data: characters, isLoading, isError, refetch } = useCharacters();
   const insets = useSafeAreaInsets();
 
@@ -123,14 +125,14 @@ export default function HomeScreen() {
     return (
       <View className="flex-1 bg-background items-center justify-center px-8 gap-3">
         <Text className="text-error text-base font-bold">
-          Erro ao carregar personagens
+          {t("characters.load_error")}
         </Text>
         <Pressable
           onPress={() => void refetch()}
           className="bg-primary px-4 py-2 rounded-lg"
         >
           <Text className="text-text-inverse font-semibold">
-            Tentar novamente
+            {t("common.try_again")}
           </Text>
         </Pressable>
       </View>

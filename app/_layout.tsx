@@ -14,6 +14,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import { runMigrations } from "@/db/index";
 import { initPremium } from "@/hooks/usePremium";
+import { initI18n } from "@/lib/i18n";
 import "../global.css";
 
 // Mantém a splash screen visível até as fontes carregarem
@@ -37,9 +38,11 @@ function AppInitializer({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function init() {
       try {
-        // 1. Criar / migrar tabelas SQLite
+        // 1. Inicializar i18n (detectar idioma do dispositivo / preferência salva)
+        await initI18n();
+        // 2. Criar / migrar tabelas SQLite
         await runMigrations();
-        // 2. Verificar status premium (RevenueCat → SecureStore → Zustand)
+        // 3. Verificar status premium (RevenueCat → SecureStore → Zustand)
         await initPremium();
       } catch (e) {
         const message =
