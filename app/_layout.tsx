@@ -15,6 +15,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { runMigrations } from "@/db/index";
 import { initPremium } from "@/hooks/usePremium";
 import { initI18n } from "@/lib/i18n";
+import { initializeAds } from "@/services/admob";
 import "../global.css";
 
 // Mantém a splash screen visível até as fontes carregarem
@@ -44,6 +45,8 @@ function AppInitializer({ children }: { children: React.ReactNode }) {
         await runMigrations();
         // 3. Verificar status premium (RevenueCat → SecureStore → Zustand)
         await initPremium();
+        // 4. Inicializar AdMob (não bloqueia a UI se falhar)
+        await initializeAds();
       } catch (e) {
         const message =
           e instanceof Error ? e.message : "Erro ao inicializar o app";

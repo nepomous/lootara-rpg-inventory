@@ -153,5 +153,12 @@
     "generic": "Algo salió mal. Inténtalo de nuevo.",
     "name_too_long": "Máximo {{max}} caracteres",
     "load_characters": "Error al cargar personajes"
+  },
+  "ads": {
+    "watch_to_unlock": "Ver para desbloquear",
+    "watch_rewarded": "Ver anuncio",
+    "rewarded_success": "¡Contenido desbloqueado!",
+    "rewarded_incomplete": "Mira hasta el final para desbloquear",
+    "remove_ads_nudge": "¿Te gusta la app? Elimina los anuncios con una compra única ✨"
   }
 }

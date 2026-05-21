@@ -270,8 +270,8 @@ export default function CharacterBagScreen() {
       {/* Footer de peso */}
       <WeightBar carried={carriedWeight} capacity={capacity} />
 
-      {/* Banner de anúncio */}
-      <AdBanner />
+      {/* Banner de anúncio — estático após o footer de peso, nunca sobreposto */}
+      <AdBanner variant="character" />
 
       {/* FAB */}
       <Pressable

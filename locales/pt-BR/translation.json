@@ -153,5 +153,12 @@
     "generic": "Algo deu errado. Tente novamente.",
     "name_too_long": "Máximo {{max}} caracteres",
     "load_characters": "Erro ao carregar personagens"
+  },
+  "ads": {
+    "watch_to_unlock": "Assistir para desbloquear",
+    "watch_rewarded": "Assistir anúncio",
+    "rewarded_success": "Conteúdo desbloqueado!",
+    "rewarded_incomplete": "Assista até o fim para desbloquear",
+    "remove_ads_nudge": "Gostando do app? Remova os anúncios com uma compra única ✨"
   }
 }

@@ -153,5 +153,12 @@
     "generic": "Something went wrong. Please try again.",
     "name_too_long": "Maximum {{max}} characters",
     "load_characters": "Error loading characters"
+  },
+  "ads": {
+    "watch_to_unlock": "Watch to unlock",
+    "watch_rewarded": "Watch ad",
+    "rewarded_success": "Content unlocked!",
+    "rewarded_incomplete": "Watch until the end to unlock",
+    "remove_ads_nudge": "Enjoying the app? Remove ads with a one-time purchase ✨"
   }
 }

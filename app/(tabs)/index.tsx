@@ -19,6 +19,7 @@ import { Dices } from "lucide-react-native";
 import { AdBanner } from "@/components/AdBanner";
 import { CharacterCard } from "@/components/CharacterCard";
 import { useCharacters } from "@/hooks/useCharacters";
+import { usePremiumStore } from "@/store/premiumStore";
 import type { Character } from "@/db/schema";
 
 const STAGGER_DELAY_MS = 60;
@@ -108,6 +109,11 @@ export default function HomeScreen() {
   const tabBarBottom = insets.bottom > 0 ? insets.bottom : 8;
   const tabBarTotalHeight = TAB_BAR_HEIGHT + tabBarBottom;
 
+  const isPremium = usePremiumStore((s) => s.isPremium);
+
+  // Altura total do rodapé de anúncios: nudge (~24px) + banner (~52px)
+  const AD_FOOTER_HEIGHT = isPremium ? 0 : 76;
+
   // Recarrega ao voltar para a tela (foco)
   useEffect(() => {
     void refetch();
@@ -152,28 +158,44 @@ export default function HomeScreen() {
         contentContainerStyle={
           (characters ?? []).length === 0
             ? { flexGrow: 1 }
-            : { paddingTop: 12, paddingBottom: tabBarTotalHeight + 16 }
+            : {
+                paddingTop: 12,
+                paddingBottom: tabBarTotalHeight + AD_FOOTER_HEIGHT + 72,
+              }
         }
         showsVerticalScrollIndicator={false}
       />
 
-      {/* FAB acima da tab bar */}
+      {/* FAB acima do rodapé de anúncios + tab bar */}
       <FAB
         onPress={() => router.push("/character/new")}
-        bottom={tabBarTotalHeight + 16}
+        bottom={tabBarTotalHeight + AD_FOOTER_HEIGHT + 16}
       />
 
-      {/* Banner de anúncio fixo acima da tab bar */}
-      <View
-        style={{
-          position: "absolute",
-          bottom: tabBarTotalHeight,
-          left: 0,
-          right: 0,
-        }}
-      >
-        <AdBanner />
-      </View>
+      {/* Rodapé de anúncios: nudge + banner — fixo acima da tab bar */}
+      {!isPremium && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: tabBarTotalHeight,
+            left: 0,
+            right: 0,
+          }}
+        >
+          <Text
+            style={{
+              color: "#c9a84c",
+              fontSize: 11,
+              textAlign: "center",
+              paddingVertical: 5,
+              opacity: 0.8,
+            }}
+          >
+            {t("ads.remove_ads_nudge")}
+          </Text>
+          <AdBanner variant="home" />
+        </View>
+      )}
     </View>
   );
 }

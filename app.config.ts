@@ -27,7 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     edgeToEdgeEnabled: true,
     predictiveBackGestureEnabled: false,
     config: {
-      googleMobileAdsAppId: process.env.EXPO_PUBLIC_ADMOB_APP_ID ?? "",
+      googleMobileAdsAppId: process.env.EXPO_PUBLIC_ADMOB_APP_ID_ANDROID ?? "",
     },
   },
   web: {
@@ -41,7 +41,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "react-native-google-mobile-ads",
       {
         androidAppId:
-          process.env.EXPO_PUBLIC_ADMOB_APP_ID ??
+          process.env.EXPO_PUBLIC_ADMOB_APP_ID_ANDROID ??
           "ca-app-pub-3940256099942544~3347511713",
         iosAppId:
           process.env.EXPO_PUBLIC_ADMOB_APP_ID_IOS ??
@@ -53,7 +53,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   extra: {
     revenueCatApiKeyAndroid: process.env.EXPO_PUBLIC_REVENUECAT_KEY_ANDROID,
     revenueCatApiKeyIos: process.env.EXPO_PUBLIC_REVENUECAT_KEY_IOS,
-    admobBannerAdUnitId: process.env.EXPO_PUBLIC_ADMOB_BANNER_ID,
+    admobBannerHome: process.env.EXPO_PUBLIC_ADMOB_BANNER_HOME,
+    admobBannerCharacter: process.env.EXPO_PUBLIC_ADMOB_BANNER_CHARACTER,
+    admobRewarded: process.env.EXPO_PUBLIC_ADMOB_REWARDED,
     eas: {
       projectId: process.env.EAS_PROJECT_ID,
     },

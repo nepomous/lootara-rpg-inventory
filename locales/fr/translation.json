@@ -153,5 +153,12 @@
     "generic": "Une erreur s'est produite. Veuillez réessayer.",
     "name_too_long": "Maximum {{max}} caractères",
     "load_characters": "Erreur lors du chargement des personnages"
+  },
+  "ads": {
+    "watch_to_unlock": "Regarder pour débloquer",
+    "watch_rewarded": "Regarder la pub",
+    "rewarded_success": "Contenu débloqué !",
+    "rewarded_incomplete": "Regardez jusqu'à la fin pour débloquer",
+    "remove_ads_nudge": "Vous aimez l’appli ? Supprimez les pubs avec un achat unique ✨"
   }
 }

@@ -153,5 +153,12 @@
     "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
     "name_too_long": "Maximal {{max}} Zeichen",
     "load_characters": "Fehler beim Laden der Charaktere"
+  },
+  "ads": {
+    "watch_to_unlock": "Ansehen zum Freischalten",
+    "watch_rewarded": "Werbung ansehen",
+    "rewarded_success": "Inhalt freigeschaltet!",
+    "rewarded_incomplete": "Schau bis zum Ende, um freizuschalten",
+    "remove_ads_nudge": "Gefällt dir die App? Entferne Werbung mit einem einmaligen Kauf ✨"
   }
 }
