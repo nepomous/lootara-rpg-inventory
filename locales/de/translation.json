@@ -242,5 +242,69 @@
     "magic": "Magische Gegenstände",
     "ammunition": "Munition",
     "container": "Behälter"
+  },
+  "item_meta": {
+    "magic_bonus": "Magischer Bonus",
+    "magic_bonus_none": "Keiner",
+    "attunement": "Bindung",
+    "attunement_prereq": "Bindungsvoraussetzung",
+    "charges": "Ladungen",
+    "recharge": "Wiederaufladen",
+    "cursed": "Verflucht",
+    "caster_level": "Zauberergrad",
+    "aura_strength": "Auastärke",
+    "aura_school": "Auraschule",
+    "slot": "Slot",
+    "activation_type": "Aktivierungstyp",
+    "item_level": "Gegenstandsgrad",
+    "bulk": "Belastung",
+    "potency_rune": "Wirkungssymbol",
+    "striking_rune": "Schlagesymbol",
+    "resilient_rune": "Widerstandssymbol",
+    "property_runes": "Eigenschaftssymbole",
+    "invested": "Investiert",
+    "traits": "Eigenschaften",
+    "system_fields_note": "Systemspezifische Felder für \"Sonstige\" nicht verfügbar.",
+    "rarity": "Seltenheit"
+  },
+  "aura_strength": {
+    "faint": "Schwach",
+    "moderate": "Mäßig",
+    "strong": "Stark",
+    "overwhelming": "Überwältigend"
+  },
+  "aura_school": {
+    "abjuration": "Bannmagie",
+    "conjuration": "Beschwörung",
+    "divination": "Wahrsagerei",
+    "enchantment": "Verzauberung",
+    "evocation": "Evokation",
+    "illusion": "Illusion",
+    "necromancy": "Nekromantie",
+    "transmutation": "Transmutation",
+    "universal": "Universal"
+  },
+  "slot": {
+    "head": "Kopf",
+    "headband": "Stirnband",
+    "eyes": "Augen",
+    "shoulders": "Schultern",
+    "neck": "Hals",
+    "chest": "Brust",
+    "body": "Körper",
+    "armor": "Rüstung",
+    "belt": "Gürtel",
+    "wrists": "Handgelenke",
+    "hands": "Hände",
+    "ring": "Ring",
+    "feet": "Füße",
+    "slotless": "Ohne Slot"
+  },
+  "activation": {
+    "continuous": "Kontinuierlich",
+    "use_activated": "Verwendungsaktiviert",
+    "command_word": "Befehlswort",
+    "spell_trigger": "Zauberstichwort",
+    "spell_completion": "Zauberabschluss"
   }
 }

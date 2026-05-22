@@ -242,5 +242,69 @@
     "magic": "Itens Mágicos",
     "ammunition": "Munição",
     "container": "Recipientes"
+  },
+  "item_meta": {
+    "magic_bonus": "Bônus Mágico",
+    "magic_bonus_none": "Nenhum",
+    "attunement": "Vínculo",
+    "attunement_prereq": "Pré-requisito de Vínculo",
+    "charges": "Cargas",
+    "recharge": "Recarga",
+    "cursed": "Amaldiçoado",
+    "caster_level": "Nível do Lançador",
+    "aura_strength": "Força da Aura",
+    "aura_school": "Escola da Aura",
+    "slot": "Slot",
+    "activation_type": "Tipo de Ativação",
+    "item_level": "Nível do Item",
+    "bulk": "Bulk",
+    "potency_rune": "Runa de Potência",
+    "striking_rune": "Runa de Golpe",
+    "resilient_rune": "Runa de Resiliência",
+    "property_runes": "Runas de Propriedade",
+    "invested": "Investido",
+    "traits": "Traços",
+    "system_fields_note": "Campos específicos de sistema não disponíveis para \"Outro\".",
+    "rarity": "Raridade"
+  },
+  "aura_strength": {
+    "faint": "Fraca",
+    "moderate": "Moderada",
+    "strong": "Forte",
+    "overwhelming": "Avassaladora"
+  },
+  "aura_school": {
+    "abjuration": "Abjuração",
+    "conjuration": "Conjuração",
+    "divination": "Adivinhação",
+    "enchantment": "Encantamento",
+    "evocation": "Evocação",
+    "illusion": "Ilusão",
+    "necromancy": "Necromancia",
+    "transmutation": "Transmutação",
+    "universal": "Universal"
+  },
+  "slot": {
+    "head": "Cabeça",
+    "headband": "Tiara",
+    "eyes": "Olhos",
+    "shoulders": "Ombros",
+    "neck": "Pescoço",
+    "chest": "Peito",
+    "body": "Corpo",
+    "armor": "Armadura",
+    "belt": "Cinto",
+    "wrists": "Pulsos",
+    "hands": "Mãos",
+    "ring": "Anel",
+    "feet": "Pés",
+    "slotless": "Sem slot"
+  },
+  "activation": {
+    "continuous": "Contínuo",
+    "use_activated": "Ativação por Uso",
+    "command_word": "Palavra de Comando",
+    "spell_trigger": "Gatilho Mágico",
+    "spell_completion": "Conclusão Mágica"
   }
 }

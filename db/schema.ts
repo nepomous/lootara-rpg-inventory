@@ -27,6 +27,8 @@ export const customItems = sqliteTable("custom_items", {
   cost: real("cost").notNull().default(0), // em peças de ouro
   description: text("description").default(""),
   rarity: text("rarity").$type<ItemRarity>().notNull().default("common"),
+  magicBonus: integer("magic_bonus").notNull().default(0), // +0 a +5
+  systemMeta: text("system_meta"), // JSON string; nullable — parse via parseSystemMeta()
   createdAt: integer("created_at").notNull(),
   updatedAt: integer("updated_at").notNull(),
 });

@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useMemo } from "react";
+import React, { forwardRef, useCallback, useEffect, useMemo } from "react";
 import {
   Pressable,
   ScrollView,
@@ -13,13 +13,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import {
-  CHARACTER_RACES,
-  CharacterClass,
-  CharacterRace,
   MAX_LEVEL,
   MIN_LEVEL,
+  getClassesBySystem,
+  getRaceLabel,
+  getRacesBySystem,
+  type RPGSystem,
 } from "@/constants/rpg";
-import type { RPGSystem } from "@/db/schema";
 import {
   Colors,
   Gradients,
@@ -54,21 +54,12 @@ const RPG_SYSTEM_OPTIONS: { value: RPGSystem; label: string }[] = [
   { value: "other", label: "Outro" },
 ];
 
-const CLASS_GRID: { key: CharacterClass; label: string; emoji: string }[] = [
-  { key: "fighter", label: "Guerreiro", emoji: "⚔️" },
-  { key: "wizard", label: "Mago", emoji: "🔮" },
-  { key: "rogue", label: "Ladino", emoji: "🗡️" },
-  { key: "paladin", label: "Paladino", emoji: "🛡️" },
-  { key: "ranger", label: "Patrulheiro", emoji: "🏹" },
-  { key: "druid", label: "Druida", emoji: "🌿" },
-  { key: "bard", label: "Bardo", emoji: "🎵" },
-  { key: "warlock", label: "Bruxo", emoji: "💀" },
-];
-
-const RACE_ENTRIES = Object.entries(CHARACTER_RACES) as [
-  CharacterRace,
-  { label: string; emoji: string },
-][];
+type ClassEntry = {
+  readonly id: string;
+  readonly label: string;
+  readonly emoji: string;
+  readonly group?: string;
+};
 
 // ── Subcomponentes ────────────────────────────────────────────────────────────
 
@@ -84,33 +75,62 @@ function FieldLabel({ label, error }: { label: string; error?: string }) {
 function ClassGrid({
   value,
   onChange,
+  entries,
 }: {
   value: string;
   onChange: (v: string) => void;
+  entries: readonly ClassEntry[];
 }) {
+  const hasGroups = entries.some((e) => e.group != null);
+
+  const renderItem = (item: ClassEntry) => {
+    const selected = value === item.id;
+    return (
+      <Pressable
+        key={item.id}
+        onPress={() => onChange(item.id)}
+        style={[styles.classItem, selected && styles.classItemActive]}
+      >
+        <Text className="text-2xl">{item.emoji}</Text>
+        <Text
+          style={[
+            styles.classItemLabel,
+            selected && styles.classItemLabelActive,
+          ]}
+          numberOfLines={2}
+        >
+          {item.label}
+        </Text>
+      </Pressable>
+    );
+  };
+
+  if (!hasGroups) {
+    return (
+      <View className="flex-row flex-wrap gap-2">
+        {entries.map(renderItem)}
+      </View>
+    );
+  }
+
+  const groupOrder: string[] = [];
+  const grouped: Record<string, ClassEntry[]> = {};
+  for (const e of entries) {
+    const g = e.group ?? "Outro";
+    if (!groupOrder.includes(g)) groupOrder.push(g);
+    if (!grouped[g]) grouped[g] = [];
+    grouped[g].push(e);
+  }
   return (
-    <View className="flex-row flex-wrap gap-2">
-      {CLASS_GRID.map((item) => {
-        const selected = value === item.key;
-        return (
-          <Pressable
-            key={item.key}
-            onPress={() => onChange(item.key)}
-            style={[styles.classItem, selected && styles.classItemActive]}
-          >
-            <Text className="text-2xl">{item.emoji}</Text>
-            <Text
-              style={[
-                styles.classItemLabel,
-                selected && styles.classItemLabelActive,
-              ]}
-              numberOfLines={2}
-            >
-              {item.label}
-            </Text>
-          </Pressable>
-        );
-      })}
+    <View style={{ gap: Spacing.md }}>
+      {groupOrder.map((group) => (
+        <View key={group}>
+          <Text style={styles.groupHeader}>{group}</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            {grouped[group].map(renderItem)}
+          </View>
+        </View>
+      ))}
     </View>
   );
 }
@@ -118,9 +138,11 @@ function ClassGrid({
 function RaceDropdown({
   value,
   onChange,
+  races,
 }: {
   value: string;
   onChange: (v: string) => void;
+  races: readonly string[];
 }) {
   return (
     <ScrollView
@@ -128,22 +150,21 @@ function RaceDropdown({
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ gap: 8, paddingVertical: 2 }}
     >
-      {RACE_ENTRIES.map(([key, info]) => {
-        const selected = value === key;
+      {races.map((race) => {
+        const selected = value === race;
         return (
           <Pressable
-            key={key}
-            onPress={() => onChange(key)}
+            key={race}
+            onPress={() => onChange(race)}
             style={[styles.raceItem, selected && styles.raceItemActive]}
           >
-            <Text>{info.emoji}</Text>
             <Text
               style={[
                 styles.raceItemLabel,
                 selected && styles.raceItemLabelActive,
               ]}
             >
-              {info.label}
+              {race}
             </Text>
           </Pressable>
         );
@@ -225,6 +246,8 @@ const AddCharacterSheet = forwardRef<BottomSheet, AddCharacterSheetProps>(
       control,
       handleSubmit,
       reset,
+      setValue,
+      watch,
       formState: { errors, isSubmitting },
     } = useForm<CreateCharacterDTO>({
       resolver: zodResolver(createCharacterSchema),
@@ -236,6 +259,17 @@ const AddCharacterSheet = forwardRef<BottomSheet, AddCharacterSheetProps>(
         system: "dnd5e",
       },
     });
+
+    const selectedSystem = watch("system");
+    const systemClasses = getClassesBySystem(
+      selectedSystem,
+    ) as readonly ClassEntry[];
+    const systemRaces = getRacesBySystem(selectedSystem);
+
+    useEffect(() => {
+      setValue("class", "");
+      setValue("race", "");
+    }, [selectedSystem]);
 
     const handleClose = useCallback(() => {
       reset();
@@ -304,19 +338,30 @@ const AddCharacterSheet = forwardRef<BottomSheet, AddCharacterSheetProps>(
               control={control}
               name="class"
               render={({ field: { onChange, value } }) => (
-                <ClassGrid value={value} onChange={onChange} />
+                <ClassGrid
+                  value={value}
+                  onChange={onChange}
+                  entries={systemClasses}
+                />
               )}
             />
           </View>
 
-          {/* Raça */}
+          {/* Raça / Ancestral */}
           <View style={styles.section}>
-            <FieldLabel label="Raça" error={errors.race?.message} />
+            <FieldLabel
+              label={getRaceLabel(selectedSystem)}
+              error={errors.race?.message}
+            />
             <Controller
               control={control}
               name="race"
               render={({ field: { onChange, value } }) => (
-                <RaceDropdown value={value} onChange={onChange} />
+                <RaceDropdown
+                  value={value}
+                  onChange={onChange}
+                  races={systemRaces}
+                />
               )}
             />
           </View>
@@ -437,6 +482,14 @@ const styles = StyleSheet.create({
     borderColor: Colors.crimson,
   },
   // Classe
+  groupHeader: {
+    ...Typography.bodySemiBold,
+    fontSize: 10,
+    color: Colors.gold,
+    textTransform: "uppercase" as const,
+    letterSpacing: 1.2,
+    marginBottom: Spacing.xs,
+  },
   classItem: {
     width: 72,
     alignItems: "center",

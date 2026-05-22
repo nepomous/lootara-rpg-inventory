@@ -242,5 +242,69 @@
     "magic": "Objets Magiques",
     "ammunition": "Munitions",
     "container": "Récipients"
+  },
+  "item_meta": {
+    "magic_bonus": "Bonus Magique",
+    "magic_bonus_none": "Aucun",
+    "attunement": "Harmonisation",
+    "attunement_prereq": "Prérequis d'Harmonisation",
+    "charges": "Charges",
+    "recharge": "Recharge",
+    "cursed": "Maudit",
+    "caster_level": "Niveau de Lanceur",
+    "aura_strength": "Force de l'Aura",
+    "aura_school": "École de l'Aura",
+    "slot": "Emplacement",
+    "activation_type": "Type d'Activation",
+    "item_level": "Niveau de l'Objet",
+    "bulk": "Encombrement",
+    "potency_rune": "Rune de Puissance",
+    "striking_rune": "Rune de Frappe",
+    "resilient_rune": "Rune de Résilience",
+    "property_runes": "Runes de Propriété",
+    "invested": "Investi",
+    "traits": "Traits",
+    "system_fields_note": "Champs spécifiques au système non disponibles pour \"Autre\".",
+    "rarity": "Rarité"
+  },
+  "aura_strength": {
+    "faint": "Faible",
+    "moderate": "Modérée",
+    "strong": "Forte",
+    "overwhelming": "Écrasante"
+  },
+  "aura_school": {
+    "abjuration": "Abjuration",
+    "conjuration": "Invocation",
+    "divination": "Divination",
+    "enchantment": "Enchantement",
+    "evocation": "Évocation",
+    "illusion": "Illusion",
+    "necromancy": "Nécromancie",
+    "transmutation": "Transmutation",
+    "universal": "Universel"
+  },
+  "slot": {
+    "head": "Tête",
+    "headband": "Bandeau",
+    "eyes": "Yeux",
+    "shoulders": "Épaules",
+    "neck": "Cou",
+    "chest": "Poitrine",
+    "body": "Corps",
+    "armor": "Armure",
+    "belt": "Ceinture",
+    "wrists": "Poignets",
+    "hands": "Mains",
+    "ring": "Anneau",
+    "feet": "Pieds",
+    "slotless": "Sans emplacement"
+  },
+  "activation": {
+    "continuous": "Continu",
+    "use_activated": "Activé à l'usage",
+    "command_word": "Mot de commande",
+    "spell_trigger": "Déclencheur magique",
+    "spell_completion": "Achèvement magique"
   }
 }

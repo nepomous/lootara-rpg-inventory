@@ -8,6 +8,13 @@
       "when": 1779393129321,
       "tag": "0000_nervous_emma_frost",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1779479943378,
+      "tag": "0001_jittery_garia",
+      "breakpoints": true
     }
   ]
 }

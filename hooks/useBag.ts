@@ -23,6 +23,8 @@ export type BagItemWithDetails = BagItem & {
   itemCost: number;
   itemDescription: string;
   itemRarity: ItemRarity;
+  itemMagicBonus: number;
+  itemSystemMeta: string | null;
 };
 
 // ── Tipos de entrada para mutations ──────────────────────────────────────────
@@ -54,6 +56,8 @@ function enrichBagItem(bi: BagItem): BagItemWithDetails {
       itemCost: custom?.cost ?? 0,
       itemDescription: custom?.description ?? "",
       itemRarity: (custom?.rarity ?? "common") as ItemRarity,
+      itemMagicBonus: custom?.magicBonus ?? 0,
+      itemSystemMeta: custom?.systemMeta ?? null,
     };
   }
   const staticItem = bi.itemId ? getItemById(bi.itemId) : null;
@@ -65,6 +69,8 @@ function enrichBagItem(bi: BagItem): BagItemWithDetails {
     itemCost: staticItem?.cost ?? 0,
     itemDescription: staticItem?.description ?? "",
     itemRarity: (staticItem?.rarity ?? "common") as ItemRarity,
+    itemMagicBonus: 0,
+    itemSystemMeta: null,
   };
 }
 

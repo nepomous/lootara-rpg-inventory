@@ -251,6 +251,8 @@ export function upsertCustomItem(data: CustomItem): void {
         cost: data.cost,
         description: data.description,
         rarity: data.rarity,
+        magicBonus: data.magicBonus,
+        systemMeta: data.systemMeta,
         updatedAt: data.updatedAt,
       },
     })

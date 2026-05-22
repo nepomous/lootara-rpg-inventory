@@ -244,6 +244,27 @@ const styles = StyleSheet.create({
     color: Colors.mutedForeground,
     lineHeight: 18,
   },
+  magicBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+    backgroundColor: "rgba(201,168,76,0.20)",
+    borderWidth: 1,
+    borderColor: Colors.gold,
+  },
+  magicBadgeText: {
+    ...Typography.bodyBold,
+    fontSize: 10,
+    color: Colors.gold,
+  },
+  attunementIcon: {
+    fontSize: 12,
+  },
+  itemLevelText: {
+    ...Typography.body,
+    fontSize: 10,
+    color: Colors.mutedForeground,
+  },
 });
 
 type Props = {
@@ -272,6 +293,20 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
   const locationColor = LOCATION_COLORS[item.location];
   const weightText = formatWeight(item.itemWeight * item.quantity);
   const isCustom = item.isCustom === 1;
+
+  const parsedMeta = (() => {
+    if (!item.itemSystemMeta) return null;
+    try {
+      return JSON.parse(item.itemSystemMeta) as Record<string, unknown>;
+    } catch {
+      return null;
+    }
+  })();
+  const attunement = parsedMeta?.attunement === true;
+  const itemLevel =
+    typeof parsedMeta?.itemLevel === "number"
+      ? (parsedMeta.itemLevel as number)
+      : null;
 
   const translateX = useSharedValue(0);
   const deleteVisible = useSharedValue(false);
@@ -368,12 +403,24 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
 
             {/* Info */}
             <Pressable className="flex-1 gap-0.5" onPress={() => onEdit(item)}>
-              <Text
-                className="text-text text-sm font-semibold"
-                numberOfLines={1}
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
               >
-                {displayName}
-              </Text>
+                <Text
+                  className="text-text text-sm font-semibold"
+                  numberOfLines={1}
+                  style={{ flex: 1 }}
+                >
+                  {displayName}
+                </Text>
+                {item.itemMagicBonus > 0 && (
+                  <View style={styles.magicBadge}>
+                    <Text style={styles.magicBadgeText}>
+                      +{item.itemMagicBonus}
+                    </Text>
+                  </View>
+                )}
+              </View>
               <View className="flex-row items-center gap-2">
                 <Text className="text-text-muted text-xs">{weightText}</Text>
                 <View
@@ -387,6 +434,10 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
                     {locationInfo.emoji} {t(`bag.tab_${item.location}`)}
                   </Text>
                 </View>
+                {attunement && <Text style={styles.attunementIcon}>🔗</Text>}
+                {itemLevel !== null && (
+                  <Text style={styles.itemLevelText}>Nv. {itemLevel}</Text>
+                )}
                 {isCustom && (
                   <View className="px-2 py-0.5 rounded-chip bg-primary/10 border border-primary/30">
                     <Text className="text-primary text-[10px] font-bold">

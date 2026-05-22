@@ -242,5 +242,69 @@
     "magic": "Objetos Mágicos",
     "ammunition": "Munición",
     "container": "Recipientes"
+  },
+  "item_meta": {
+    "magic_bonus": "Bonificación Mágica",
+    "magic_bonus_none": "Ninguno",
+    "attunement": "Sintonización",
+    "attunement_prereq": "Prerrequisito de Sintonización",
+    "charges": "Cargas",
+    "recharge": "Recarga",
+    "cursed": "Maldito",
+    "caster_level": "Nivel de Lanzador",
+    "aura_strength": "Fuerza del Aura",
+    "aura_school": "Escuela del Aura",
+    "slot": "Ranura",
+    "activation_type": "Tipo de Activación",
+    "item_level": "Nivel del Objeto",
+    "bulk": "Volumen",
+    "potency_rune": "Runa de Potencia",
+    "striking_rune": "Runa de Golpe",
+    "resilient_rune": "Runa de Resiliencia",
+    "property_runes": "Runas de Propiedad",
+    "invested": "Investido",
+    "traits": "Rasgos",
+    "system_fields_note": "Campos específicos del sistema no disponibles para \"Otro\".",
+    "rarity": "Rareza"
+  },
+  "aura_strength": {
+    "faint": "Débil",
+    "moderate": "Moderada",
+    "strong": "Fuerte",
+    "overwhelming": "Abrumadora"
+  },
+  "aura_school": {
+    "abjuration": "Abjuración",
+    "conjuration": "Conjuración",
+    "divination": "Adivinación",
+    "enchantment": "Encantamiento",
+    "evocation": "Evocación",
+    "illusion": "Ilusión",
+    "necromancy": "Nigromancia",
+    "transmutation": "Transmutación",
+    "universal": "Universal"
+  },
+  "slot": {
+    "head": "Cabeza",
+    "headband": "Diadema",
+    "eyes": "Ojos",
+    "shoulders": "Hombros",
+    "neck": "Cuello",
+    "chest": "Pecho",
+    "body": "Cuerpo",
+    "armor": "Armadura",
+    "belt": "Cinturón",
+    "wrists": "Muñecas",
+    "hands": "Manos",
+    "ring": "Anillo",
+    "feet": "Pies",
+    "slotless": "Sin ranura"
+  },
+  "activation": {
+    "continuous": "Continuo",
+    "use_activated": "Activado por Uso",
+    "command_word": "Palabra de Mando",
+    "spell_trigger": "Gatillo Mágico",
+    "spell_completion": "Conclusión Mágica"
   }
 }
