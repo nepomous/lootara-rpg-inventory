@@ -227,7 +227,7 @@ export const CustomItemForm = forwardRef<CustomItemFormRef, Props>(
                     ItemCategory,
                     { label: string; emoji: string },
                   ][]
-                ).map(([key, info]) => {
+                ).map(([key]) => {
                   const Icon = CATEGORY_ICONS[key];
                   const active = value === key;
                   return (
@@ -246,7 +246,7 @@ export const CustomItemForm = forwardRef<CustomItemFormRef, Props>(
                           active && styles.chipTextActive,
                         ]}
                       >
-                        {info.label}
+                        {t(`categories.${key}`)}
                       </Text>
                     </Pressable>
                   );
@@ -280,7 +280,7 @@ export const CustomItemForm = forwardRef<CustomItemFormRef, Props>(
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.label}>
-                {t("custom_items.field_cost")} (PO)
+                {t("custom_items.field_cost")} ({t("library.cost_unit")})
               </Text>
               <Controller
                 control={control}
@@ -332,7 +332,7 @@ export const CustomItemForm = forwardRef<CustomItemFormRef, Props>(
                         ]}
                         numberOfLines={1}
                       >
-                        {info.label}
+                        {t(`library.rarity_${key}`)}
                       </Text>
                     </Pressable>
                   );

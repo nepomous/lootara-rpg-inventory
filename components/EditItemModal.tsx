@@ -13,16 +13,6 @@ type Props = {
   onDelete: () => void;
 };
 
-const LOCATION_OPTIONS: {
-  value: BagItemLocation;
-  label: string;
-  emoji: string;
-}[] = [
-  { value: "equipped", label: "Equipado", emoji: "🧍" },
-  { value: "backpack", label: "Na mochila", emoji: "🎒" },
-  { value: "stored", label: "Guardado", emoji: "📦" },
-];
-
 export function EditItemModal({
   item,
   onClose,

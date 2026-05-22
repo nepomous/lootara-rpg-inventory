@@ -183,6 +183,9 @@ Antes de considerar qualquer fix/feature/prompt concluído, verificar:
 - [ ] Todos os textos novos têm chave em `pt-BR`?
 - [ ] A mesma chave existe nos outros 4 idiomas?
 - [ ] Nenhum componente novo usa string literal visível ao usuário?
+- [ ] TypeScript check executado (`npx tsc --noEmit`) sem erros?
+
+> **Regra obrigatória:** Ao final de **cada prompt**, executar `npx tsc --noEmit` e corrigir todos os erros antes de considerar a tarefa concluída.
 
 ---
 

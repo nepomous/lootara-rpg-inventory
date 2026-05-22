@@ -75,7 +75,9 @@ function LibraryPicker({
         renderItem={({ item: entry }) => {
           const isAll = entry === null;
           const key = isAll ? null : entry[0];
-          const label = isAll ? t("library.filter_all") : t(`categories.${entry[0]}`);
+          const label = isAll
+            ? t("library.filter_all")
+            : t(`categories.${entry[0]}`);
           const emoji = isAll ? "🗂️" : entry[1].emoji;
           const selected = activeCategory === key;
           return (
@@ -215,7 +217,9 @@ function ConfirmForm({
               {item.weight} lbs · {item.cost} {t("library.cost_unit")}
             </Text>
           ) : (
-            <Text className="text-text-muted text-xs">{t("library.custom_item")}</Text>
+            <Text className="text-text-muted text-xs">
+              {t("library.custom_item")}
+            </Text>
           )}
         </View>
       </View>
@@ -283,7 +287,13 @@ function ConfirmForm({
           onPress={onBack}
           className="flex-1 py-3 rounded-xl border border-border items-center"
         >
-          <Text className="text-text-muted font-semibold">{t("common.back")}</Text>
+          <Text className="text-text-muted font-semibold">
+            {t("common.back")}
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() =>
+            onConfirm({
               characterId,
               itemId: item?.id ?? null,
               customName: item ? null : customName,
@@ -334,7 +344,9 @@ function CustomNameForm({
           onPress={onBack}
           className="flex-1 py-3 rounded-xl border border-border items-center"
         >
-          <Text className="text-text-muted font-semibold">{t("common.back")}</Text>
+          <Text className="text-text-muted font-semibold">
+            {t("common.back")}
+          </Text>
         </Pressable>
         <Pressable
           onPress={() => name.trim() && onNext(name.trim())}

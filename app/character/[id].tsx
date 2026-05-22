@@ -334,7 +334,7 @@ export default function CharacterBagScreen() {
       {/* FAB */}
       <Pressable
         onPress={() => setAddVisible(true)}
-        className="absolute bottom-24 right-6 w-14 h-14 rounded-full bg-secondary items-center justify-center shadow-lg"
+        className="absolute bottom-36 right-6 w-14 h-14 rounded-full bg-secondary items-center justify-center shadow-lg"
         style={{ elevation: 6 }}
       >
         <Text className="text-white text-3xl font-light">+</Text>

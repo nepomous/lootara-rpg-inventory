@@ -384,7 +384,7 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
                     className="text-xs font-semibold"
                     style={{ color: locationColor }}
                   >
-                    {locationInfo.emoji} {locationInfo.label}
+                    {locationInfo.emoji} {t(`bag.tab_${item.location}`)}
                   </Text>
                 </View>
                 {isCustom && (
