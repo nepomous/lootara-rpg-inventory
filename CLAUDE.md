@@ -153,6 +153,32 @@ rpg-bag/
 - ❌ Não commitar chaves de API — use `app.config.ts` com `process.env` e `.env` no gitignore.
 - ❌ Não criar componentes acima de 200 linhas.
 - ❌ Não omitir partes do código com `// ...` — sempre mostrar o arquivo completo.
+- ❌ **Não editar um componente sem confirmar antes que ele é importado** em alguma tela ou outro componente. Use `grep -r "NomeDoComponente" app/ components/` antes de qualquer modificação.
+- ❌ **Não criar um novo componente/arquivo sem verificar se já existe um que serve ao mesmo propósito.** Pesquise por nome, funcionalidade e contexto antes de criar.
+- ❌ **Não assumir que um arquivo em `components/` está em uso** só porque existe no disco. Dead code é possível e comum em projetos evolutivos.
+
+---
+
+## Checklist pré-implementação de UI (obrigatório)
+
+**Toda implementação** que envolva telas, formulários ou navegação deve seguir estes passos **antes** de tocar em qualquer arquivo:
+
+1. **Rastrear o fluxo de navegação real** do entry point até o componente:
+   - Identifique o gatilho (FAB, botão, link, `router.push`).
+   - Siga o caminho: `app/(tabs)/index.tsx` → `router.push("/rota")` → arquivo de tela real.
+   - Confirme qual arquivo de tela é **realmente aberto** antes de editar qualquer coisa.
+
+2. **Verificar uso real do componente** antes de modificá-lo:
+
+   ```bash
+   grep -r "NomeDoComponente" app/ components/ hooks/
+   ```
+
+   Se retornar **zero resultados fora do próprio arquivo**, o componente é dead code — não edite, considere deletar.
+
+3. **Confirmar que o arquivo alvo é o correto** — não o mais parecido pelo nome.
+
+> **Exemplo do erro que esta regra previne:** O agente atualizou `AddCharacterSheet.tsx` (bottom sheet nunca usado) em vez de `app/character/new.tsx` (tela real aberta pelo FAB via `router.push("/character/new")`). Resultado: código duplicado, feature não funcionou.
 
 ---
 
@@ -180,6 +206,8 @@ locales/de/translation.json
 
 Antes de considerar qualquer fix/feature/prompt concluído, verificar:
 
+- [ ] O componente/tela modificado é realmente usado no app? (`grep -r` confirmado)
+- [ ] O fluxo de navegação foi rastreado do entry point até o arquivo real?
 - [ ] Todos os textos novos têm chave em `pt-BR`?
 - [ ] A mesma chave existe nos outros 4 idiomas?
 - [ ] Nenhum componente novo usa string literal visível ao usuário?
