@@ -11,7 +11,10 @@
     "error": "Error",
     "empty": "Vacío",
     "what_to_do": "¿Qué deseas hacer?",
-    "try_again": "Intentar de nuevo"
+    "try_again": "Intentar de nuevo",
+    "next": "Siguiente",
+    "add": "Añadir",
+    "other": "Otro"
   },
   "nav": {
     "heroes": "Héroes",
@@ -109,7 +112,12 @@
     "add_tap_hint": "Toca el botón + para añadir ítems",
     "edit_custom_item_prompt": "¿Qué deseas hacer?",
     "edit_in_bag": "Editar en la bolsa",
-    "edit_item_definition": "Editar ítem personalizado"
+    "edit_item_definition": "Editar ítem personalizado",
+    "title": "Bolsa",
+    "edit_item_title": "Editar Objeto",
+    "quantity_label": "Cantidad",
+    "location_label": "Ubicación",
+    "save_changes": "Guardar cambios"
   },
   "library": {
     "title": "Biblioteca de Objetos",
@@ -132,7 +140,12 @@
     "rarity_very_rare": "Muy Raro",
     "rarity_legendary": "Legendario",
     "custom_item": "Objeto personalizado",
-    "custom_item_placeholder": "Nombre del objeto..."
+    "custom_item_placeholder": "Nombre del objeto...",
+    "custom_item_subtitle": "Crear objeto con nombre libre",
+    "empty": "Ningún objeto encontrado",
+    "custom_item_name_label": "Nombre del objeto personalizado",
+    "custom_item_name_placeholder": "Ej: Amuleto de familia",
+    "add_item_title": "Añadir Objeto"
   },
   "settings": {
     "title": "Ajustes",
@@ -179,7 +192,11 @@
     "purchase_failed": "Error al procesar la compra. Inténtalo de nuevo.",
     "generic": "Algo salió mal. Inténtalo de nuevo.",
     "name_too_long": "Máximo {{max}} caracteres",
-    "load_characters": "Error al cargar personajes"
+    "load_characters": "Error al cargar personajes",
+    "class_required": "Selecciona una clase",
+    "race_required": "Selecciona una raza",
+    "init_title": "Error al iniciar",
+    "init_error": "Error al inicializar la app"
   },
   "custom_items": {
     "section_title": "Mis Objetos",
@@ -215,5 +232,15 @@
     "unlock_subtitle": "Apoya a Lootara y descubre la historia oculta de este objeto.",
     "unlocked_label": "Lore Revelado",
     "locked_hint": "Gratis para usuarios no premium"
+  },
+  "categories": {
+    "weapon": "Armas",
+    "armor": "Armaduras",
+    "gear": "Equipo",
+    "potion": "Pociones",
+    "tool": "Herramientas",
+    "magic": "Objetos Mágicos",
+    "ammunition": "Munición",
+    "container": "Recipientes"
   }
 }

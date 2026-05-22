@@ -11,7 +11,10 @@
     "error": "Error",
     "empty": "Empty",
     "what_to_do": "What would you like to do?",
-    "try_again": "Try again"
+    "try_again": "Try again",
+    "next": "Next",
+    "add": "Add",
+    "other": "Other"
   },
   "nav": {
     "heroes": "Heroes",
@@ -109,7 +112,12 @@
     "add_tap_hint": "Tap the + button to add items",
     "edit_custom_item_prompt": "What would you like to do?",
     "edit_in_bag": "Edit in bag",
-    "edit_item_definition": "Edit custom item"
+    "edit_item_definition": "Edit custom item",
+    "title": "Bag",
+    "edit_item_title": "Edit Item",
+    "quantity_label": "Quantity",
+    "location_label": "Location",
+    "save_changes": "Save changes"
   },
   "library": {
     "title": "Item Library",
@@ -132,7 +140,12 @@
     "rarity_very_rare": "Very Rare",
     "rarity_legendary": "Legendary",
     "custom_item": "Custom item",
-    "custom_item_placeholder": "Item name..."
+    "custom_item_placeholder": "Item name...",
+    "custom_item_subtitle": "Create item with free name",
+    "empty": "No items found",
+    "custom_item_name_label": "Custom item name",
+    "custom_item_name_placeholder": "E.g.: Family Amulet",
+    "add_item_title": "Add Item"
   },
   "settings": {
     "title": "Settings",
@@ -179,7 +192,11 @@
     "purchase_failed": "Failed to process the purchase. Please try again.",
     "generic": "Something went wrong. Please try again.",
     "name_too_long": "Maximum {{max}} characters",
-    "load_characters": "Error loading characters"
+    "load_characters": "Error loading characters",
+    "class_required": "Select a class",
+    "race_required": "Select a race",
+    "init_title": "Startup error",
+    "init_error": "Failed to initialize the app"
   },
   "custom_items": {
     "section_title": "My Items",
@@ -215,5 +232,15 @@
     "unlock_subtitle": "Support Lootara and reveal the hidden story behind this item.",
     "unlocked_label": "Lore Revealed",
     "locked_hint": "Free for non-premium users"
+  },
+  "categories": {
+    "weapon": "Weapons",
+    "armor": "Armor",
+    "gear": "Gear",
+    "potion": "Potions",
+    "tool": "Tools",
+    "magic": "Magic Items",
+    "ammunition": "Ammunition",
+    "container": "Containers"
   }
 }

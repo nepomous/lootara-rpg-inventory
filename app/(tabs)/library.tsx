@@ -202,8 +202,8 @@ export default function LibraryScreen() {
     [t],
   );
 
-  return (
-    <View className="flex-1 bg-background">
+  const ListHeader = (
+    <View>
       {/* Barra de busca */}
       <View style={{ paddingTop: insets.top + 12 }} className="px-4 pb-2">
         <TextInput
@@ -224,6 +224,7 @@ export default function LibraryScreen() {
           paddingHorizontal: 16,
           gap: 8,
           paddingBottom: 8,
+          alignItems: "center",
         }}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item: chip }) => {
@@ -248,9 +249,15 @@ export default function LibraryScreen() {
           );
         }}
       />
+    </View>
+  );
 
-      {/* Lista principal */}
+  return (
+    <View className="flex-1 bg-background">
+      {/* Lista principal com header embutido */}
       <SectionList
+        style={{ flex: 1 }}
+        ListHeaderComponent={ListHeader}
         sections={sections}
         keyExtractor={(item, i) => `${item.type}-${item.item.id}-${i}`}
         renderItem={({ item }) =>

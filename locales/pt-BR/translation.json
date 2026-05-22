@@ -11,7 +11,10 @@
     "error": "Erro",
     "empty": "Vazio",
     "what_to_do": "O que deseja fazer?",
-    "try_again": "Tentar novamente"
+    "try_again": "Tentar novamente",
+    "next": "Próximo",
+    "add": "Adicionar",
+    "other": "Outro"
   },
   "nav": {
     "heroes": "Heróis",
@@ -109,7 +112,12 @@
     "add_tap_hint": "Toque no botão + para adicionar itens",
     "edit_custom_item_prompt": "O que deseja fazer?",
     "edit_in_bag": "Editar na sacola",
-    "edit_item_definition": "Editar item personalizado"
+    "edit_item_definition": "Editar item personalizado",
+    "title": "Sacola",
+    "edit_item_title": "Editar Item",
+    "quantity_label": "Quantidade",
+    "location_label": "Localização",
+    "save_changes": "Salvar alterações"
   },
   "library": {
     "title": "Biblioteca de Itens",
@@ -132,7 +140,12 @@
     "rarity_very_rare": "Muito Raro",
     "rarity_legendary": "Lendário",
     "custom_item": "Item personalizado",
-    "custom_item_placeholder": "Nome do item..."
+    "custom_item_placeholder": "Nome do item...",
+    "custom_item_subtitle": "Criar item com nome livre",
+    "empty": "Nenhum item encontrado",
+    "custom_item_name_label": "Nome do item personalizado",
+    "custom_item_name_placeholder": "Ex: Amuleto da família",
+    "add_item_title": "Adicionar Item"
   },
   "settings": {
     "title": "Configurações",
@@ -179,7 +192,11 @@
     "purchase_failed": "Falha ao processar a compra. Tente novamente.",
     "generic": "Algo deu errado. Tente novamente.",
     "name_too_long": "Máximo {{max}} caracteres",
-    "load_characters": "Erro ao carregar personagens"
+    "load_characters": "Erro ao carregar personagens",
+    "class_required": "Selecione uma classe",
+    "race_required": "Selecione uma raça",
+    "init_title": "Erro ao iniciar",
+    "init_error": "Erro ao inicializar o app"
   },
   "ads": {
     "watch_to_unlock": "Assistir para desbloquear",
@@ -215,5 +232,15 @@
     "field_rarity": "Raridade",
     "field_description": "Descrição",
     "description_placeholder": "Descrição do item, habilidades especiais..."
+  },
+  "categories": {
+    "weapon": "Armas",
+    "armor": "Armaduras",
+    "gear": "Equipamentos",
+    "potion": "Poções",
+    "tool": "Ferramentas",
+    "magic": "Itens Mágicos",
+    "ammunition": "Munição",
+    "container": "Recipientes"
   }
 }

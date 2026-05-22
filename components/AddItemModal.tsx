@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import { ITEM_CATEGORIES } from "@/constants/rpg";
 import type { ItemCategory } from "@/constants/items";
 import type { BagItemLocation, RPGSystem } from "@/db/schema";
@@ -25,16 +26,6 @@ type Props = {
   onCustomItemCreate?: () => void;
 };
 
-const LOCATION_OPTIONS: {
-  value: BagItemLocation;
-  label: string;
-  emoji: string;
-}[] = [
-  { value: "equipped", label: "Equipado", emoji: "🧍" },
-  { value: "backpack", label: "Na mochila", emoji: "🎒" },
-  { value: "stored", label: "Guardado", emoji: "📦" },
-];
-
 const CATEGORY_ENTRIES = Object.entries(ITEM_CATEGORIES) as [
   ItemCategory,
   { label: string; emoji: string },
@@ -50,6 +41,7 @@ function LibraryPicker({
   onSelect: (item: Item) => void;
   onCustom: () => void;
 }) {
+  const { t } = useTranslation();
   const { items, search, setSearch, activeCategory, setActiveCategory } =
     useLibrary({ system: characterSystem });
 
@@ -59,7 +51,7 @@ function LibraryPicker({
       <TextInput
         value={search}
         onChangeText={setSearch}
-        placeholder="Buscar item..."
+        placeholder={t("library.search_placeholder")}
         placeholderTextColor="#9ca3af"
         className="mx-4 mb-3 bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm"
       />
@@ -83,7 +75,7 @@ function LibraryPicker({
         renderItem={({ item: entry }) => {
           const isAll = entry === null;
           const key = isAll ? null : entry[0];
-          const label = isAll ? "Todos" : entry[1].label;
+          const label = isAll ? t("library.filter_all") : t(`categories.${entry[0]}`);
           const emoji = isAll ? "🗂️" : entry[1].emoji;
           const selected = activeCategory === key;
           return (
@@ -116,10 +108,10 @@ function LibraryPicker({
         <Text className="text-2xl">✏️</Text>
         <View>
           <Text className="text-primary font-semibold text-sm">
-            Item personalizado
+            {t("library.custom_item")}
           </Text>
           <Text className="text-text-muted text-xs">
-            Criar item com nome livre
+            {t("library.custom_item_subtitle")}
           </Text>
         </View>
       </Pressable>
@@ -152,7 +144,7 @@ function LibraryPicker({
                   {item.name}
                 </Text>
                 <Text className="text-text-muted text-xs">
-                  {item.weight} lbs · {item.cost} PO
+                  {item.weight} lbs · {item.cost} {t("library.cost_unit")}
                 </Text>
               </View>
               <Text className="text-text-muted text-lg">›</Text>
@@ -162,7 +154,7 @@ function LibraryPicker({
         ListEmptyComponent={
           <View className="items-center py-8">
             <Text className="text-text-muted text-sm">
-              Nenhum item encontrado
+              {t("library.empty")}
             </Text>
           </View>
         }
@@ -187,10 +179,21 @@ function ConfirmForm({
   onConfirm: (input: AddBagItemInput) => void;
   onBack: () => void;
 }) {
+  const { t } = useTranslation();
   const [quantity, setQuantity] = useState(1);
   const [location, setLocation] = useState<BagItemLocation>("backpack");
 
-  const displayName = item?.name ?? customName ?? "Item personalizado";
+  const LOCATION_OPTIONS: {
+    value: BagItemLocation;
+    label: string;
+    emoji: string;
+  }[] = [
+    { value: "equipped", label: t("bag.tab_equipped"), emoji: "🧍" },
+    { value: "backpack", label: t("bag.tab_backpack"), emoji: "🎒" },
+    { value: "stored", label: t("bag.tab_stored"), emoji: "📦" },
+  ];
+
+  const displayName = item?.name ?? customName ?? t("library.custom_item");
 
   return (
     <View className="flex-1 px-4 pt-2">
@@ -209,17 +212,17 @@ function ConfirmForm({
           </Text>
           {item ? (
             <Text className="text-text-muted text-xs">
-              {item.weight} lbs · {item.cost} PO
+              {item.weight} lbs · {item.cost} {t("library.cost_unit")}
             </Text>
           ) : (
-            <Text className="text-text-muted text-xs">Item personalizado</Text>
+            <Text className="text-text-muted text-xs">{t("library.custom_item")}</Text>
           )}
         </View>
       </View>
 
       {/* Quantidade */}
       <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
-        Quantidade
+        {t("bag.quantity_label")}
       </Text>
       <View className="flex-row items-center gap-4 mb-6">
         <Pressable
@@ -246,7 +249,7 @@ function ConfirmForm({
 
       {/* Localização */}
       <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
-        Localização
+        {t("bag.location_label")}
       </Text>
       <View className="flex-row gap-2 mb-8">
         {LOCATION_OPTIONS.map((opt) => {
@@ -280,11 +283,7 @@ function ConfirmForm({
           onPress={onBack}
           className="flex-1 py-3 rounded-xl border border-border items-center"
         >
-          <Text className="text-text-muted font-semibold">Voltar</Text>
-        </Pressable>
-        <Pressable
-          onPress={() =>
-            onConfirm({
+          <Text className="text-text-muted font-semibold">{t("common.back")}</Text>
               characterId,
               itemId: item?.id ?? null,
               customName: item ? null : customName,
@@ -298,7 +297,7 @@ function ConfirmForm({
           {isAdding ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text className="text-white font-bold">Adicionar</Text>
+            <Text className="text-white font-bold">{t("common.add")}</Text>
           )}
         </Pressable>
       </View>
@@ -314,16 +313,17 @@ function CustomNameForm({
   onNext: (name: string) => void;
   onBack: () => void;
 }) {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   return (
     <View className="px-4 pt-2">
       <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
-        Nome do item personalizado
+        {t("library.custom_item_name_label")}
       </Text>
       <TextInput
         value={name}
         onChangeText={setName}
-        placeholder="Ex: Amuleto da família"
+        placeholder={t("library.custom_item_name_placeholder")}
         placeholderTextColor="#9ca3af"
         maxLength={60}
         className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-base mb-6"
@@ -334,7 +334,7 @@ function CustomNameForm({
           onPress={onBack}
           className="flex-1 py-3 rounded-xl border border-border items-center"
         >
-          <Text className="text-text-muted font-semibold">Voltar</Text>
+          <Text className="text-text-muted font-semibold">{t("common.back")}</Text>
         </Pressable>
         <Pressable
           onPress={() => name.trim() && onNext(name.trim())}
@@ -346,7 +346,7 @@ function CustomNameForm({
           <Text
             className={`font-bold ${name.trim() ? "text-white" : "text-border"}`}
           >
-            Próximo
+            {t("common.next")}
           </Text>
         </Pressable>
       </View>
@@ -369,6 +369,7 @@ export function AddItemModal({
   const [step, setStep] = useState<Step>("library");
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [customName, setCustomName] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   function reset() {
     setStep("library");
@@ -408,9 +409,9 @@ export function AddItemModal({
   }
 
   const stepTitle: Record<Step, string> = {
-    library: "Adicionar Item",
-    custom_name: "Item Personalizado",
-    confirm: "Confirmar",
+    library: t("library.add_item_title"),
+    custom_name: t("library.custom_item"),
+    confirm: t("common.confirm"),
   };
 
   return (

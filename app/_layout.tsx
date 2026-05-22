@@ -14,6 +14,7 @@ import {
   Nunito_700Bold,
 } from "@expo-google-fonts/nunito";
 import * as SplashScreen from "expo-splash-screen";
+import { useTranslation } from "react-i18next";
 import { runMigrations } from "@/db/index";
 import { initPremium } from "@/hooks/usePremium";
 import { initI18n } from "@/lib/i18n";
@@ -37,6 +38,7 @@ const queryClient = new QueryClient({
 function AppInitializer({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function init() {
@@ -50,8 +52,7 @@ function AppInitializer({ children }: { children: React.ReactNode }) {
         // 4. Inicializar AdMob (não bloqueia a UI se falhar)
         await initializeAds();
       } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Erro ao inicializar o app";
+        const message = e instanceof Error ? e.message : t("errors.init_error");
         setError(message);
       } finally {
         setReady(true);
@@ -73,7 +74,7 @@ function AppInitializer({ children }: { children: React.ReactNode }) {
     return (
       <View className="flex-1 items-center justify-center bg-background px-6">
         <Text className="text-error text-lg font-bold mb-2">
-          Erro ao iniciar
+          {t("errors.init_title")}
         </Text>
         <Text className="text-text-muted text-sm text-center">{error}</Text>
       </View>
@@ -121,11 +122,11 @@ export default function RootLayout() {
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen
                 name="character/new"
-                options={{ title: "Novo Personagem", presentation: "modal" }}
+                options={{ presentation: "modal" }}
               />
               <Stack.Screen
                 name="character/[id]"
-                options={{ title: "Sacola" }}
+                options={{ headerBackTitle: "" }}
               />
             </Stack>
           </AppInitializer>

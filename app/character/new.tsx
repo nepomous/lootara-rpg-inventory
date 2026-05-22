@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
   ActivityIndicator,
@@ -27,23 +28,16 @@ import { useCreateCharacter } from "@/hooks/useCharacters";
 const createCharacterSchema = z.object({
   name: z
     .string()
-    .min(1, "Nome obrigatório")
-    .max(50, "Máximo 50 caracteres")
+    .min(1, "errors.name_required")
+    .max(50, "errors.name_max")
     .trim(),
-  class: z.string().min(1, "Selecione uma classe"),
-  race: z.string().min(1, "Selecione uma raça"),
+  class: z.string().min(1, "errors.class_required"),
+  race: z.string().min(1, "errors.race_required"),
   level: z.number().int().min(MIN_LEVEL).max(MAX_LEVEL),
   system: z.enum(["dnd5e", "pf1", "pf2", "other"] as const),
 });
 
 type FormValues = z.infer<typeof createCharacterSchema>;
-
-const RPG_SYSTEM_OPTIONS: { value: RPGSystem; label: string }[] = [
-  { value: "dnd5e", label: "D&D 5e" },
-  { value: "pf1", label: "PF 1e" },
-  { value: "pf2", label: "PF 2e" },
-  { value: "other", label: "Outro" },
-];
 
 const CLASS_ENTRIES = Object.entries(CHARACTER_CLASSES) as [
   CharacterClass,
@@ -58,12 +52,17 @@ const RACE_ENTRIES = Object.entries(CHARACTER_RACES) as [
 // ── Subcomponentes ────────────────────────────────────────────────────────────
 
 function FieldLabel({ label, error }: { label: string; error?: string }) {
+  const { t } = useTranslation();
   return (
     <View className="flex-row items-baseline gap-2 mb-2">
       <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest">
         {label}
       </Text>
-      {error ? <Text className="text-error text-xs">{error}</Text> : null}
+      {error ? (
+        <Text className="text-error text-xs">
+          {t(error as Parameters<typeof t>[0])}
+        </Text>
+      ) : null}
     </View>
   );
 }
@@ -201,6 +200,13 @@ function SystemSegmented({
   value: string;
   onChange: (v: RPGSystem) => void;
 }) {
+  const { t } = useTranslation();
+  const RPG_SYSTEM_OPTIONS: { value: RPGSystem; label: string }[] = [
+    { value: "dnd5e", label: "D&D 5e" },
+    { value: "pf1", label: "PF 1e" },
+    { value: "pf2", label: "PF 2e" },
+    { value: "other", label: t("common.other") },
+  ];
   return (
     <View className="flex-row bg-background-surface rounded-xl p-1 gap-1">
       {RPG_SYSTEM_OPTIONS.map((opt) => {
@@ -279,6 +285,7 @@ export default function NewCharacterScreen() {
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
+      <Stack.Screen options={{ title: t("new_character.title") }} />
       {/* Nome */}
       <View>
         <FieldLabel
@@ -375,8 +382,11 @@ export default function NewCharacterScreen() {
               {watch("name") || t("new_character.no_name")}
             </Text>
             <Text className="text-text-muted text-sm">
-              {CHARACTER_CLASSES[selectedClass as CharacterClass]?.label} ·{" "}
-              {RPG_SYSTEMS[watch("system") as keyof typeof RPG_SYSTEMS]}
+              {t(`classes.${selectedClass as CharacterClass}`)}
+              {" · "}
+              {t(
+                `characters.system_${watch("system") as keyof typeof RPG_SYSTEMS}`,
+              )}
             </Text>
           </View>
         </View>

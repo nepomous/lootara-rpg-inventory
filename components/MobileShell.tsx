@@ -4,6 +4,7 @@ import { BlurView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Backpack, BookOpen, Settings } from "lucide-react-native";
 import type { LucideIcon } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Colors, Shadows, Typography } from "@/constants/theme";
 
 type Tab = {
@@ -12,17 +13,6 @@ type Tab = {
   icon: LucideIcon;
   href: string;
 };
-
-const TABS: Tab[] = [
-  { name: "index", label: "Heróis", icon: Backpack, href: "/" },
-  { name: "library", label: "Biblioteca", icon: BookOpen, href: "/library" },
-  {
-    name: "settings",
-    label: "Configurações",
-    icon: Settings,
-    href: "/settings",
-  },
-];
 
 type MobileShellProps = {
   activeTab: string;
@@ -33,7 +23,24 @@ export default function MobileShell({
   activeTab,
   onTabPress,
 }: MobileShellProps) {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+
+  const TABS: Tab[] = [
+    { name: "index", label: t("nav.heroes"), icon: Backpack, href: "/" },
+    {
+      name: "library",
+      label: t("nav.library"),
+      icon: BookOpen,
+      href: "/library",
+    },
+    {
+      name: "settings",
+      label: t("nav.settings"),
+      icon: Settings,
+      href: "/settings",
+    },
+  ];
 
   return (
     <View

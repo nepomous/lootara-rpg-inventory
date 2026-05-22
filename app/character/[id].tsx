@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { useCharacter } from "@/hooks/useCharacters";
 import {
@@ -24,7 +24,7 @@ import { AddItemModal } from "@/components/AddItemModal";
 import { CustomItemForm } from "@/components/CustomItemForm";
 import type { CustomItemFormRef } from "@/components/CustomItemForm";
 import { AdBanner } from "@/components/AdBanner";
-import { CHARACTER_CLASSES, RPG_SYSTEMS } from "@/constants/rpg";
+import { CHARACTER_CLASSES } from "@/constants/rpg";
 import { calcCarryCapacity, formatWeight } from "@/utils/weight";
 import { getCustomItemById } from "@/db/index";
 import type { BagItem, BagItemLocation, CustomItem } from "@/db/schema";
@@ -124,7 +124,7 @@ export default function CharacterBagScreen() {
 
   const classInfo =
     CHARACTER_CLASSES[character.class as keyof typeof CHARACTER_CLASSES];
-  const systemLabel = RPG_SYSTEMS[character.system];
+  const systemLabel = t(`characters.system_${character.system}`);
   const capacity = calcCarryCapacity(10);
   const bagCount = bagItems.length;
   const filteredItems = bagItems.filter((bi) => bi.location === activeTab);
@@ -214,6 +214,7 @@ export default function CharacterBagScreen() {
 
   return (
     <View className="flex-1 bg-background">
+      <Stack.Screen options={{ title: t("bag.title") }} />
       {/* Header do personagem */}
       <View className="px-4 pt-4 pb-3 bg-background-card border-b border-border">
         <View className="flex-row items-center gap-3">
@@ -227,8 +228,10 @@ export default function CharacterBagScreen() {
               {character.name}
             </Text>
             <Text className="text-text text-xs">
-              {classInfo?.label ?? character.class} ·{" "}
-              {t("characters.level", { level: character.level })} ·{" "}
+              {t(`classes.${character.class}`, {
+                defaultValue: classInfo?.label ?? character.class,
+              })}{" "}
+              · {t("characters.level", { level: character.level })} ·{" "}
               {systemLabel}
             </Text>
           </View>

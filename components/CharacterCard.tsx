@@ -6,11 +6,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import {
-  CHARACTER_CLASSES,
-  CHARACTER_RACES,
-  RPG_SYSTEMS,
-} from "@/constants/rpg";
+import { CHARACTER_CLASSES, CHARACTER_RACES } from "@/constants/rpg";
 import { Colors, Shadows, Typography, Spacing } from "@/constants/theme";
 import type { Character } from "@/db/schema";
 import { useDeleteCharacter } from "@/hooks/useCharacters";
@@ -36,9 +32,7 @@ export function CharacterCard({ character, onPress, onLongPress }: Props) {
   const raceInfo =
     CHARACTER_RACES[character.race as keyof typeof CHARACTER_RACES] ??
     CHARACTER_RACES.other;
-  const systemLabel =
-    RPG_SYSTEMS[character.system as keyof typeof RPG_SYSTEMS] ??
-    character.system;
+  const systemLabel = t(`characters.system_${character.system}`);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -125,7 +119,8 @@ export function CharacterCard({ character, onPress, onLongPress }: Props) {
           </Text>
           <Text style={styles.subtitle} numberOfLines={1}>
             {t("characters.level", { level: character.level })} ·{" "}
-            {classInfo.label} · {raceInfo.label}
+            {t(`classes.${character.class}`, { defaultValue: classInfo.label })}{" "}
+            · {t(`races.${character.race}`, { defaultValue: raceInfo.label })}
           </Text>
 
           {/* Badge de sistema (pill com borda gold) */}

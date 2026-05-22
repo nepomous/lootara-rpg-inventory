@@ -11,7 +11,10 @@
     "error": "Erreur",
     "empty": "Vide",
     "what_to_do": "Que souhaitez-vous faire ?",
-    "try_again": "Réessayer"
+    "try_again": "Réessayer",
+    "next": "Suivant",
+    "add": "Ajouter",
+    "other": "Autre"
   },
   "nav": {
     "heroes": "Héros",
@@ -109,7 +112,12 @@
     "add_tap_hint": "Appuyez sur + pour ajouter des objets",
     "edit_custom_item_prompt": "Que souhaitez-vous faire ?",
     "edit_in_bag": "Modifier dans le sac",
-    "edit_item_definition": "Modifier l'objet personnalisé"
+    "edit_item_definition": "Modifier l'objet personnalisé",
+    "title": "Sac",
+    "edit_item_title": "Modifier l'Objet",
+    "quantity_label": "Quantité",
+    "location_label": "Emplacement",
+    "save_changes": "Enregistrer les modifications"
   },
   "library": {
     "title": "Bibliothèque d'Objets",
@@ -132,7 +140,12 @@
     "rarity_very_rare": "Très rare",
     "rarity_legendary": "Légendaire",
     "custom_item": "Objet personnalisé",
-    "custom_item_placeholder": "Nom de l'objet..."
+    "custom_item_placeholder": "Nom de l'objet...",
+    "custom_item_subtitle": "Créer un objet avec un nom libre",
+    "empty": "Aucun objet trouvé",
+    "custom_item_name_label": "Nom de l'objet personnalisé",
+    "custom_item_name_placeholder": "Ex : Amulette de famille",
+    "add_item_title": "Ajouter un Objet"
   },
   "settings": {
     "title": "Paramètres",
@@ -179,7 +192,11 @@
     "purchase_failed": "Échec du traitement de l'achat. Veuillez réessayer.",
     "generic": "Une erreur s'est produite. Veuillez réessayer.",
     "name_too_long": "Maximum {{max}} caractères",
-    "load_characters": "Erreur lors du chargement des personnages"
+    "load_characters": "Erreur lors du chargement des personnages",
+    "class_required": "Choisissez une classe",
+    "race_required": "Choisissez une race",
+    "init_title": "Erreur de démarrage",
+    "init_error": "Échec d'initialisation de l'app"
   },
   "custom_items": {
     "section_title": "Mes Objets",
@@ -215,5 +232,15 @@
     "unlock_subtitle": "Soutenez Lootara et révélez l'histoire cachée de cet objet.",
     "unlocked_label": "Lore Révélé",
     "locked_hint": "Gratuit pour les non-abonnés"
+  },
+  "categories": {
+    "weapon": "Armes",
+    "armor": "Armures",
+    "gear": "Équipement",
+    "potion": "Potions",
+    "tool": "Outils",
+    "magic": "Objets Magiques",
+    "ammunition": "Munitions",
+    "container": "Récipients"
   }
 }

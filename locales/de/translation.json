@@ -11,7 +11,10 @@
     "error": "Fehler",
     "empty": "Leer",
     "what_to_do": "Was möchtest du tun?",
-    "try_again": "Erneut versuchen"
+    "try_again": "Erneut versuchen",
+    "next": "Weiter",
+    "add": "Hinzufügen",
+    "other": "Andere"
   },
   "nav": {
     "heroes": "Helden",
@@ -109,7 +112,12 @@
     "add_tap_hint": "Tippe auf +, um Gegenstände hinzuzufügen",
     "edit_custom_item_prompt": "Was möchtest du tun?",
     "edit_in_bag": "Im Beutel bearbeiten",
-    "edit_item_definition": "Benutzerdefiniertes Item bearbeiten"
+    "edit_item_definition": "Benutzerdefiniertes Item bearbeiten",
+    "title": "Beutel",
+    "edit_item_title": "Gegenstand bearbeiten",
+    "quantity_label": "Menge",
+    "location_label": "Ort",
+    "save_changes": "Änderungen speichern"
   },
   "library": {
     "title": "Gegenstands-Bibliothek",
@@ -132,7 +140,12 @@
     "rarity_very_rare": "Sehr selten",
     "rarity_legendary": "Legendär",
     "custom_item": "Eigener Gegenstand",
-    "custom_item_placeholder": "Gegenstandsname..."
+    "custom_item_placeholder": "Gegenstandsname...",
+    "custom_item_subtitle": "Gegenstand mit eigenem Namen erstellen",
+    "empty": "Keine Gegenstände gefunden",
+    "custom_item_name_label": "Name des eigenen Gegenstands",
+    "custom_item_name_placeholder": "z.B.: Familienamulette",
+    "add_item_title": "Gegenstand hinzufügen"
   },
   "settings": {
     "title": "Einstellungen",
@@ -179,7 +192,11 @@
     "purchase_failed": "Kauf konnte nicht verarbeitet werden. Bitte erneut versuchen.",
     "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
     "name_too_long": "Maximal {{max}} Zeichen",
-    "load_characters": "Fehler beim Laden der Charaktere"
+    "load_characters": "Fehler beim Laden der Charaktere",
+    "class_required": "Wähle eine Klasse",
+    "race_required": "Wähle eine Rasse",
+    "init_title": "Startfehler",
+    "init_error": "App konnte nicht initialisiert werden"
   },
   "custom_items": {
     "section_title": "Meine Gegenstände",
@@ -215,5 +232,15 @@
     "unlock_subtitle": "Unterstütze Lootara und enthülle die verborgene Geschichte dieses Gegenstands.",
     "unlocked_label": "Lore Enthüllt",
     "locked_hint": "Kostenlos für Nicht-Premium-Nutzer"
+  },
+  "categories": {
+    "weapon": "Waffen",
+    "armor": "Rüstungen",
+    "gear": "Ausrüstung",
+    "potion": "Tränke",
+    "tool": "Werkzeug",
+    "magic": "Magische Gegenstände",
+    "ammunition": "Munition",
+    "container": "Behälter"
   }
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { getItemById } from "@/constants/items";
 import { ITEM_CATEGORIES } from "@/constants/rpg";
 import type { BagItem, BagItemLocation } from "@/db/schema";
@@ -29,15 +30,26 @@ export function EditItemModal({
   onUpdateLocation,
   onDelete,
 }: Props) {
+  const { t } = useTranslation();
   const [quantity, setQuantity] = useState(item.quantity);
   const [location, setLocation] = useState<BagItemLocation>(item.location);
 
+  const LOCATION_OPTIONS: {
+    value: BagItemLocation;
+    label: string;
+    emoji: string;
+  }[] = [
+    { value: "equipped", label: t("bag.tab_equipped"), emoji: "🧍" },
+    { value: "backpack", label: t("bag.tab_backpack"), emoji: "🎒" },
+    { value: "stored", label: t("bag.tab_stored"), emoji: "📦" },
+  ];
+
   const staticItem = item.itemId ? getItemById(item.itemId) : null;
   const displayName =
-    staticItem?.name ?? item.customName ?? "Item personalizado";
+    staticItem?.name ?? item.customName ?? t("library.custom_item");
   const categoryInfo = staticItem
     ? ITEM_CATEGORIES[staticItem.category]
-    : { emoji: "🎁", label: "Personalizado" };
+    : { emoji: "🎁", label: "" };
 
   function handleSave() {
     if (quantity !== item.quantity) onUpdateQuantity(quantity);
@@ -55,7 +67,9 @@ export function EditItemModal({
       <View className="flex-1 bg-background pt-4 px-4">
         {/* Header */}
         <View className="flex-row items-center justify-between mb-6">
-          <Text className="text-text text-lg font-bold">Editar Item</Text>
+          <Text className="text-text text-lg font-bold">
+            {t("bag.edit_item_title")}
+          </Text>
           <Pressable onPress={onClose} className="p-2">
             <Text className="text-text-muted text-2xl">✕</Text>
           </Pressable>
@@ -74,7 +88,7 @@ export function EditItemModal({
 
         {/* Quantidade */}
         <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
-          Quantidade
+          {t("bag.quantity_label")}
         </Text>
         <View className="flex-row items-center gap-4 mb-6">
           <Pressable
@@ -101,7 +115,7 @@ export function EditItemModal({
 
         {/* Localização */}
         <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
-          Localização
+          {t("bag.location_label")}
         </Text>
         <View className="flex-row gap-2 mb-8">
           {LOCATION_OPTIONS.map((opt) => {
@@ -135,14 +149,16 @@ export function EditItemModal({
             onPress={handleSave}
             className="py-3 rounded-xl bg-secondary items-center"
           >
-            <Text className="text-white font-bold">Salvar alterações</Text>
+            <Text className="text-white font-bold">
+              {t("bag.save_changes")}
+            </Text>
           </Pressable>
           <Pressable
             onPress={onDelete}
             className="py-3 rounded-xl border border-red-500/40 items-center"
           >
             <Text className="text-red-400 font-semibold">
-              Remover da sacola
+              {t("bag.remove_item")}
             </Text>
           </Pressable>
         </View>

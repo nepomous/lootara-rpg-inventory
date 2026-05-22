@@ -266,7 +266,7 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
   const displayName = item.itemName;
   const categoryInfo = ITEM_CATEGORIES[item.itemCategory] ?? {
     emoji: "🎁",
-    label: "Custom",
+    label: "",
   };
   const locationInfo = BAG_LOCATIONS[item.location];
   const locationColor = LOCATION_COLORS[item.location];
@@ -277,20 +277,24 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
   const deleteVisible = useSharedValue(false);
 
   function triggerRemove() {
-    Alert.alert("Remover item", `Remover "${displayName}" da sacola?`, [
-      {
-        text: "Cancelar",
-        style: "cancel",
-        onPress: () => {
-          translateX.value = withSpring(0);
+    Alert.alert(
+      t("bag.remove_item"),
+      t("bag.remove_confirm_message", { name: displayName }),
+      [
+        {
+          text: t("common.cancel"),
+          style: "cancel",
+          onPress: () => {
+            translateX.value = withSpring(0);
+          },
         },
-      },
-      {
-        text: "Remover",
-        style: "destructive",
-        onPress: () => onRemove(item.id),
-      },
-    ]);
+        {
+          text: t("bag.remove_item"),
+          style: "destructive",
+          onPress: () => onRemove(item.id),
+        },
+      ],
+    );
   }
 
   const panGesture = Gesture.Pan()
