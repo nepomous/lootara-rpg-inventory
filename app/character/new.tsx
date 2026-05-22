@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { Stack } from "expo-router";
@@ -14,12 +15,12 @@ import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import {
   CHARACTER_CLASSES,
-  CHARACTER_RACES,
   CharacterClass,
-  CharacterRace,
   MAX_LEVEL,
   MIN_LEVEL,
   RPG_SYSTEMS,
+  getClassesBySystem,
+  getRacesBySystem,
 } from "@/constants/rpg";
 import type { RPGSystem } from "@/db/schema";
 import { useCreateCharacter } from "@/hooks/useCharacters";
@@ -39,15 +40,12 @@ const createCharacterSchema = z.object({
 
 type FormValues = z.infer<typeof createCharacterSchema>;
 
-const CLASS_ENTRIES = Object.entries(CHARACTER_CLASSES) as [
-  CharacterClass,
-  { label: string; emoji: string },
-][];
-
-const RACE_ENTRIES = Object.entries(CHARACTER_RACES) as [
-  CharacterRace,
-  { label: string; emoji: string },
-][];
+type ClassEntry = {
+  readonly id: string;
+  readonly label: string;
+  readonly emoji: string;
+  readonly group?: string;
+};
 
 // ── Subcomponentes ────────────────────────────────────────────────────────────
 
@@ -70,37 +68,67 @@ function FieldLabel({ label, error }: { label: string; error?: string }) {
 function ClassGrid({
   value,
   onChange,
+  entries,
 }: {
   value: string;
   onChange: (v: string) => void;
+  entries: readonly ClassEntry[];
 }) {
-  const { t } = useTranslation();
+  const hasGroups = entries.some((e) => e.group != null);
+
+  const renderItem = (item: ClassEntry) => {
+    const selected = value === item.id;
+    return (
+      <Pressable
+        key={item.id}
+        onPress={() => onChange(item.id)}
+        className={`w-16 items-center py-2 rounded-xl border ${
+          selected
+            ? "bg-primary border-primary"
+            : "bg-background-surface border-border"
+        }`}
+      >
+        <Text className="text-2xl">{item.emoji}</Text>
+        <Text
+          className={`text-xs mt-0.5 text-center leading-3 ${
+            selected ? "text-text-inverse font-bold" : "text-text-muted"
+          }`}
+          numberOfLines={2}
+        >
+          {item.label}
+        </Text>
+      </Pressable>
+    );
+  };
+
+  if (!hasGroups) {
+    return (
+      <View className="flex-row flex-wrap gap-2">
+        {entries.map(renderItem)}
+      </View>
+    );
+  }
+
+  const groupOrder: string[] = [];
+  const grouped: Record<string, ClassEntry[]> = {};
+  for (const e of entries) {
+    const g = e.group ?? "Outro";
+    if (!groupOrder.includes(g)) groupOrder.push(g);
+    if (!grouped[g]) grouped[g] = [];
+    grouped[g].push(e);
+  }
   return (
-    <View className="flex-row flex-wrap gap-2">
-      {CLASS_ENTRIES.map(([key, info]) => {
-        const selected = value === key;
-        return (
-          <Pressable
-            key={key}
-            onPress={() => onChange(key)}
-            className={`w-16 items-center py-2 rounded-xl border ${
-              selected
-                ? "bg-primary border-primary"
-                : "bg-background-surface border-border"
-            }`}
-          >
-            <Text className="text-2xl">{info.emoji}</Text>
-            <Text
-              className={`text-xs mt-0.5 text-center leading-3 ${
-                selected ? "text-text-inverse font-bold" : "text-text-muted"
-              }`}
-              numberOfLines={2}
-            >
-              {t(`classes.${key}`)}
-            </Text>
-          </Pressable>
-        );
-      })}
+    <View style={{ gap: 12 }}>
+      {groupOrder.map((group) => (
+        <View key={group}>
+          <Text className="text-primary text-xs font-bold uppercase tracking-widest mb-1">
+            {group}
+          </Text>
+          <View className="flex-row flex-wrap gap-2">
+            {grouped[group].map(renderItem)}
+          </View>
+        </View>
+      ))}
     </View>
   );
 }
@@ -108,11 +136,12 @@ function ClassGrid({
 function RaceDropdown({
   value,
   onChange,
+  races,
 }: {
   value: string;
   onChange: (v: string) => void;
+  races: readonly string[];
 }) {
-  const { t } = useTranslation();
   return (
     <ScrollView
       horizontal
@@ -120,25 +149,24 @@ function RaceDropdown({
       className="flex-row"
       contentContainerStyle={{ gap: 8, paddingVertical: 2 }}
     >
-      {RACE_ENTRIES.map(([key, info]) => {
-        const selected = value === key;
+      {races.map((race) => {
+        const selected = value === race;
         return (
           <Pressable
-            key={key}
-            onPress={() => onChange(key)}
+            key={race}
+            onPress={() => onChange(race)}
             className={`flex-row items-center gap-1.5 px-3 py-2 rounded-chip border ${
               selected
                 ? "bg-primary border-primary"
                 : "bg-background-surface border-border"
             }`}
           >
-            <Text>{info.emoji}</Text>
             <Text
               className={`text-sm ${
                 selected ? "text-text-inverse font-bold" : "text-text-muted"
               }`}
             >
-              {t(`races.${key}`)}
+              {race}
             </Text>
           </Pressable>
         );
@@ -244,6 +272,7 @@ export default function NewCharacterScreen() {
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(createCharacterSchema),
@@ -256,7 +285,17 @@ export default function NewCharacterScreen() {
     },
   });
 
+  const selectedSystem = watch("system");
   const selectedClass = watch("class");
+  const systemClasses = getClassesBySystem(
+    selectedSystem,
+  ) as readonly ClassEntry[];
+  const systemRaces = getRacesBySystem(selectedSystem);
+
+  useEffect(() => {
+    setValue("class", "");
+    setValue("race", "");
+  }, [selectedSystem]);
 
   function onSubmit(values: FormValues) {
     const classInfo =
@@ -286,6 +325,19 @@ export default function NewCharacterScreen() {
       showsVerticalScrollIndicator={false}
     >
       <Stack.Screen options={{ title: t("new_character.title") }} />
+
+      {/* Sistema — PRIMEIRO para filtrar classes e raças */}
+      <View>
+        <FieldLabel label={t("new_character.system_label")} />
+        <Controller
+          control={control}
+          name="system"
+          render={({ field: { onChange, value } }) => (
+            <SystemSegmented value={value} onChange={onChange} />
+          )}
+        />
+      </View>
+
       {/* Nome */}
       <View>
         <FieldLabel
@@ -321,22 +373,34 @@ export default function NewCharacterScreen() {
           control={control}
           name="class"
           render={({ field: { onChange, value } }) => (
-            <ClassGrid value={value} onChange={onChange} />
+            <ClassGrid
+              value={value}
+              onChange={onChange}
+              entries={systemClasses}
+            />
           )}
         />
       </View>
 
-      {/* Raça */}
+      {/* Raça / Ancestral */}
       <View>
         <FieldLabel
-          label={t("new_character.race_label")}
+          label={
+            selectedSystem === "pf2"
+              ? t("new_character.race_label_ancestral")
+              : t("new_character.race_label")
+          }
           error={errors.race?.message}
         />
         <Controller
           control={control}
           name="race"
           render={({ field: { onChange, value } }) => (
-            <RaceDropdown value={value} onChange={onChange} />
+            <RaceDropdown
+              value={value}
+              onChange={onChange}
+              races={systemRaces}
+            />
           )}
         />
       </View>
@@ -349,18 +413,6 @@ export default function NewCharacterScreen() {
           name="level"
           render={({ field: { onChange, value } }) => (
             <LevelStepper value={value} onChange={onChange} />
-          )}
-        />
-      </View>
-
-      {/* Sistema */}
-      <View>
-        <FieldLabel label={t("new_character.system_label")} />
-        <Controller
-          control={control}
-          name="system"
-          render={({ field: { onChange, value } }) => (
-            <SystemSegmented value={value} onChange={onChange} />
           )}
         />
       </View>
@@ -382,7 +434,8 @@ export default function NewCharacterScreen() {
               {watch("name") || t("new_character.no_name")}
             </Text>
             <Text className="text-text-muted text-sm">
-              {t(`classes.${selectedClass as CharacterClass}`)}
+              {systemClasses.find((e) => e.id === selectedClass)?.label ??
+                selectedClass}
               {" · "}
               {t(
                 `characters.system_${watch("system") as keyof typeof RPG_SYSTEMS}`,

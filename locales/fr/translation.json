@@ -34,7 +34,20 @@
     "delete_confirm_title": "Supprimer le personnage",
     "delete_confirm_message": "Êtes-vous sûr de vouloir supprimer {{name}} ? Tous les objets du sac seront supprimés.",
     "load_error": "Erreur lors du chargement des personnages",
-    "not_found": "Personnage introuvable"
+    "not_found": "Personnage introuvable",
+    "form": {
+      "title": "Nouveau Héros",
+      "subtitle": "Forgez votre légende",
+      "system_label": "Système de JDR",
+      "name_label": "Nom du personnage",
+      "name_placeholder": "Ex: Aldric Stoneforge",
+      "class_label": "Classe",
+      "race_label": "Race",
+      "race_label_ancestral": "Ascendance",
+      "level_label": "Niveau",
+      "level_of": "sur {{max}}",
+      "submit": "Forger le Héros"
+    }
   },
   "new_character": {
     "title": "Nouveau Personnage",
@@ -48,7 +61,8 @@
     "submit_button": "Créer le Personnage",
     "level_of": "sur {{max}}",
     "preview": "Aperçu",
-    "no_name": "Sans nom"
+    "no_name": "Sans nom",
+    "race_label_ancestral": "Ascendance"
   },
   "classes": {
     "fighter": "Guerrier",
@@ -265,7 +279,8 @@
     "invested": "Investi",
     "traits": "Traits",
     "system_fields_note": "Champs spécifiques au système non disponibles pour \"Autre\".",
-    "rarity": "Rarité"
+    "rarity": "Rarité",
+    "traits_placeholder": "Ajouter un trait..."
   },
   "aura_strength": {
     "faint": "Faible",
@@ -306,5 +321,214 @@
     "command_word": "Mot de commande",
     "spell_trigger": "Déclencheur magique",
     "spell_completion": "Achèvement magique"
+  },
+  "items": {
+    "weapon_longsword": {
+      "description": "Épée longue polyvalente en acier, maniable à une ou deux mains. Dégâts : 1d8 tranchant (1 main) ou 1d10 (2 mains)."
+    },
+    "weapon_shortsword": {
+      "description": "Épée courte agile, favorite des voleurs et duellistes. Propriétés : Légère, Finesse. Dégâts : 1d6 perforant."
+    },
+    "weapon_dagger": {
+      "description": "Dague légère et facilement dissimulable. Peut être lancée. Propriétés : Légère, Lancer, Finesse. Dégâts : 1d4 perforant."
+    },
+    "weapon_handaxe": {
+      "description": "Petite hache à manche court, efficace au corps à corps ou lancée. Propriétés : Légère, Lancer. Dégâts : 1d6 tranchant."
+    },
+    "weapon_greataxe": {
+      "description": "Grande hache de bataille à deux mains, destructrice d'armures. Propriétés : Lourde, Deux Mains. Dégâts : 1d12 tranchant."
+    },
+    "weapon_greatsword": {
+      "description": "Épée longue à deux mains, symbole de puissance martiale. Propriétés : Lourde, Deux Mains. Dégâts : 2d6 tranchant."
+    },
+    "weapon_rapier": {
+      "description": "Élégante rapière à lame fine, idéale pour les duellistes et bardes. Propriété : Finesse. Dégâts : 1d8 perforant."
+    },
+    "weapon_shortbow": {
+      "description": "Arc court en bois, agile et facile à utiliser à cheval ou en espace confiné. Portée : 24/96 m. Dégâts : 1d6 perforant."
+    },
+    "weapon_longbow": {
+      "description": "Arc long à grande portée, préféré des rôdeurs et elfes. Portée : 45/180 m. Propriétés : Lourd, Deux Mains. Dégâts : 1d8 perforant."
+    },
+    "weapon_quarterstaff": {
+      "description": "Solide bâton de bois, polyvalent et discret. Maniable à une ou deux mains. Dégâts : 1d6 (1 main) ou 1d8 (2 mains) contondant."
+    },
+    "weapon_mace": {
+      "description": "Masse à tête métallique, efficace contre les armures lourdes. Dégâts : 1d6 contondant."
+    },
+    "weapon_warhammer": {
+      "description": "Marteau de guerre polyvalent, forgé pour la bataille. Propriété : Polyvalent. Dégâts : 1d8 (1 main) ou 1d10 (2 mains) contondant."
+    },
+    "weapon_spear": {
+      "description": "Lance à long manche, polyvalente au corps à corps ou lancée. Portée : 6/18 m. Dégâts : 1d6 perforant."
+    },
+    "weapon_hand_crossbow": {
+      "description": "Arbalète de poing compacte, utilisable d'une main. Favorite des voleurs. Portée : 9/36 m. Dégâts : 1d6 perforant."
+    },
+    "weapon_light_crossbow": {
+      "description": "Arbalète légère facile à manier, populaire chez les aventuriers débutants. Portée : 24/96 m. Dégâts : 1d8 perforant."
+    },
+    "armor_leather": {
+      "description": "Armure de cuir durci, légère et silencieuse. CA 11 + mod DEX. Armure Légère."
+    },
+    "armor_studded_leather": {
+      "description": "Cuir renforcé de rivets métalliques. CA 12 + mod DEX. Armure Légère."
+    },
+    "armor_chain_shirt": {
+      "description": "Chemise de mailles protégeant le torse sans trop restreindre les mouvements. CA 13 + mod DEX (max 2). Armure Intermédiaire."
+    },
+    "armor_chain_mail": {
+      "description": "Armure complète d'anneaux métalliques entrelacés. CA 16. Armure Lourde. Désavantage en Discrétion."
+    },
+    "armor_plate": {
+      "description": "La meilleure armure conventionnelle disponible. Des plaques articulées couvrent tout le corps. CA 18. Armure Lourde. Désavantage en Discrétion."
+    },
+    "armor_shield": {
+      "description": "Bouclier en bois avec renfort métallique. Tenu en une main, accorde +2 à la CA."
+    },
+    "armor_hide": {
+      "description": "Armure rustique faite de peaux épaisses et de fourrures. CA 12 + mod DEX (max 2). Armure Intermédiaire."
+    },
+    "armor_half_plate": {
+      "description": "Plaques métalliques couvrant le torse et les épaules, avec cotte de mailles ailleurs. CA 15 + mod DEX (max 2). Armure Intermédiaire."
+    },
+    "gear_rope_hempen": {
+      "description": "Rouleau de 15 mètres de corde de chanvre résistante. Supporte jusqu'à 400 kg. Essentiel pour l'escalade et les pièges."
+    },
+    "gear_rope_silk": {
+      "description": "Rouleau de 15 mètres de corde de soie, plus légère et résistante que le chanvre. Favorite des voleurs."
+    },
+    "gear_torch": {
+      "description": "Torche illuminant un rayon de 6 mètres pendant 1 heure. Peut être utilisée comme arme improvisée (1d4 feu)."
+    },
+    "gear_lantern_hooded": {
+      "description": "Lanterne à capote réglable pouvant être fermée pour bloquer la lumière. Éclaire 9 m vif + 9 m faible pendant 6 heures (1 flacon d'huile)."
+    },
+    "gear_oil_flask": {
+      "description": "Flacon d'huile alimentant les lanternes pendant 6 heures. Peut être lancé comme projectile incendiaire (dégâts de feu en zone)."
+    },
+    "gear_healers_kit": {
+      "description": "Kit avec bandages, onguents et attelles. Contient 10 utilisations. Stabilise un personnage à 0 PV sans test de Médecine."
+    },
+    "gear_tinderbox": {
+      "description": "Boîte avec silex, amadou et mèche pour allumer un feu en 1 action (ou 1 minute en conditions défavorables)."
+    },
+    "gear_rations": {
+      "description": "Provisions pour un jour : viande séchée, biscuits durs, fromage et fruits secs. Suffisant pour maintenir un aventurier sur le terrain."
+    },
+    "gear_waterskin": {
+      "description": "Outre en cuir d'une capacité de 4 litres de liquide. Lourd quand plein, léger quand vide (0,5 lb)."
+    },
+    "gear_grappling_hook": {
+      "description": "Grappin en fer à 4 griffes pour s'accrocher aux rebords et surfaces. Utilisé avec une corde pour grimper."
+    },
+    "gear_crowbar": {
+      "description": "Pied-de-biche en fer accordant l'avantage aux tests de Force pour ouvrir portes et coffres verrouillés."
+    },
+    "gear_bedroll": {
+      "description": "Tapis de couchage enroulable pour se reposer sur le terrain. Permet un long repos adéquat dans des environnements hostiles."
+    },
+    "gear_spellbook": {
+      "description": "Grimoire relié en cuir avec 100 pages vierges. Essentiel pour les mages pour noter leurs sorts."
+    },
+    "gear_component_pouch": {
+      "description": "Petite bourse à compartiments contenant toutes les composantes matérielles sans valeur pour les sorts."
+    },
+    "gear_mirror_steel": {
+      "description": "Miroir en acier poli. Utile pour voir au coin des murs, identifier les vampires et signaler des alliés à distance."
+    },
+    "potion_healing": {
+      "description": "Liquide rouge brillant qui restaure 2d4+2 points de vie lorsqu'il est bu comme action bonus."
+    },
+    "potion_greater_healing": {
+      "description": "Puissante potion de soin qui restaure 4d4+4 points de vie. Brille intensément lorsqu'on l'agite."
+    },
+    "potion_superior_healing": {
+      "description": "Élixir de soin supérieur qui restaure 8d4+8 points de vie. Réservé aux aventuriers expérimentés."
+    },
+    "potion_antitoxin": {
+      "description": "Antidote accordant l'avantage aux jets de sauvegarde contre le poison pendant 1 heure. N'est pas une potion magique."
+    },
+    "potion_climbing": {
+      "description": "En buvant, vous obtenez une vitesse d'escalade égale à votre vitesse de déplacement et l'avantage aux tests d'escalade pendant 1 heure."
+    },
+    "potion_fire_breath": {
+      "description": "Après avoir bu, vous pouvez utiliser une action bonus pour cracher du feu en cône de 9 m (4d6 feu, DD 13). Peut être utilisé 3 fois en 1 heure."
+    },
+    "tool_thieves": {
+      "description": "Étui avec crochets, miroirs miniatures, pinces et tenailles. Nécessaire pour crocheter des serrures et désarmer des pièges."
+    },
+    "tool_herbalism_kit": {
+      "description": "Kit avec pochettes, ciseaux, mortier et herbes médicinales. Permet de créer des antidotes et potions de soin non magiques."
+    },
+    "tool_alchemist_supplies": {
+      "description": "Équipement d'alchimie : deux flacons en verre, un bec Bunsen, une paire de pinces et des réactifs variés."
+    },
+    "tool_cartographer": {
+      "description": "Instruments de cartographie : parchemins, compas, règles et encre spéciale pour créer et lire des cartes."
+    },
+    "tool_disguise_kit": {
+      "description": "Kit de déguisement avec cosmétiques, fausses perruques, vêtements supplémentaires et accessoires pour changer d'apparence."
+    },
+    "tool_poisoner_kit": {
+      "description": "Étui pour préparer et appliquer des poisons : flacons, seringues, gants et réactifs de base."
+    },
+    "tool_lute": {
+      "description": "Instrument à cordes à caisse bombée. Instrument classique de barde. Permet d'utiliser la maîtrise des instruments à cordes."
+    },
+    "magic_bag_of_holding": {
+      "description": "Sac magique à intérieur extradimensionnel : contient jusqu'à 500 lb / 64 pieds³, quel que soit le poids extérieur. L'ouvrir dans un espace replié cause une explosion."
+    },
+    "magic_cloak_protection": {
+      "description": "Cape enchantée accordant +1 à la CA et à tous les jets de sauvegarde lorsqu'elle est portée. Nécessite une harmonisation."
+    },
+    "magic_ring_protection": {
+      "description": "Anneau magique accordant +1 à la CA et à tous les jets de sauvegarde. Nécessite une harmonisation."
+    },
+    "magic_boots_elvenkind": {
+      "description": "Bottes elfiques enchantées qui silencient vos pas. Avantage aux tests de Discrétion liés au mouvement. Aucune harmonisation requise."
+    },
+    "magic_amulet_health": {
+      "description": "Amulette qui fixe votre Constitution à 19. Sans effet si votre Constitution est déjà à 19 ou plus. Nécessite une harmonisation."
+    },
+    "magic_+1_longsword": {
+      "description": "Épée longue enchantée avec +1 aux jets d'attaque et de dégâts. La lame brille faiblement dans l'obscurité."
+    },
+    "magic_wand_magic_missiles": {
+      "description": "Baguette avec 7 charges. Dépensez 1-3 charges pour lancer Projectile Magique aux niveaux correspondants. Récupère 1d6+1 charges à l'aube."
+    },
+    "magic_sending_stones": {
+      "description": "Paire de pierres polies enchantées. Une fois par jour, le porteur peut transmettre un message de 25 mots au porteur de la pierre jumelle."
+    },
+    "ammo_arrows_20": {
+      "description": "Carquois avec 20 flèches en bois et plumes. Compatible avec arcs courts et longs. Si l'attaque rate, la flèche est perdue 50% du temps."
+    },
+    "ammo_bolts_20": {
+      "description": "Étui avec 20 carreaux d'arbalète. Compatible avec arbalètes légères et de poing. Plus lourds que les flèches, plus pénétrants."
+    },
+    "ammo_sling_bullets_20": {
+      "description": "Vingt sphères de plomb pour fronde. Bon marché et abondantes, mais nécessitent une fronde. Dégâts : 1d4 contondant."
+    },
+    "ammo_silvered_arrows_5": {
+      "description": "5 flèches à pointe argentée. Contournent la résistance et l'immunité aux dégâts non magiques des morts-vivants et lycanthropes."
+    },
+    "container_backpack": {
+      "description": "Sac à dos en cuir robuste d'une capacité de 30 lb (1 pied³ de volume). Article de base de tout aventurier."
+    },
+    "container_chest": {
+      "description": "Coffre en bois renforcé de métal, d'une capacité de 300 lb (12 pieds³). Peut être fermé à clé."
+    },
+    "container_pouch": {
+      "description": "Petite bourse en cuir pour transporter des pièces ou des composantes de sorts. Capacité : 6 lb / 1/5 pied³."
+    },
+    "container_quiver": {
+      "description": "Carquois en cuir pouvant contenir jusqu'à 20 flèches ou carreaux. Permet de dégainer rapidement des munitions en combat."
+    },
+    "container_scroll_case": {
+      "description": "Étui cylindrique en cuir ou en os pour stocker et protéger jusqu'à 10 parchemins de l'humidité."
+    },
+    "container_saddlebags": {
+      "description": "Paire de sacoches de selle d'une capacité totale de 60 lb. Fixées sur les flancs de la monture."
+    }
   }
 }

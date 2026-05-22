@@ -62,6 +62,7 @@ function CustomItemRow({
 }
 
 function StaticItemRow({ item }: { item: Item }) {
+  const { t } = useTranslation();
   const rarityColor = ITEM_RARITIES[item.rarity].color;
   const rarityLabel = ITEM_RARITIES[item.rarity].label;
   const catInfo = ITEM_CATEGORIES[item.category];
@@ -118,7 +119,9 @@ function StaticItemRow({ item }: { item: Item }) {
 
           {/* Descrição mecânica — sempre visível */}
           <Text className="text-text-muted text-sm leading-5">
-            {item.description}
+            {t(`items.${item.id}.description`, {
+              defaultValue: item.description,
+            })}
           </Text>
 
           {/* Lore desbloqueável — só para itens raros com lore */}

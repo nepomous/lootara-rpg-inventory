@@ -36,12 +36,21 @@ export type AddBagItemInput = {
   quantity: number;
   location: BagItemLocation;
   notes?: string;
+  // Metadados de sistema (itens da biblioteca)
+  description?: string | null;
+  rarity?: ItemRarity | null;
+  magicBonus?: number;
+  systemMeta?: string | null;
 };
 
 export type UpdateBagItemInput = {
   quantity?: number;
   location?: BagItemLocation;
   notes?: string;
+  description?: string | null;
+  rarity?: ItemRarity | null;
+  magicBonus?: number;
+  systemMeta?: string | null;
 };
 
 // ── Helpers internos ──────────────────────────────────────────────────────────
@@ -67,10 +76,11 @@ function enrichBagItem(bi: BagItem): BagItemWithDetails {
     itemCategory: (staticItem?.category ?? "gear") as ItemCategory,
     itemWeight: staticItem?.weight ?? 0,
     itemCost: staticItem?.cost ?? 0,
-    itemDescription: staticItem?.description ?? "",
-    itemRarity: (staticItem?.rarity ?? "common") as ItemRarity,
-    itemMagicBonus: 0,
-    itemSystemMeta: null,
+    // Prefer bag-level overrides; fall back to static item values
+    itemDescription: bi.description ?? staticItem?.description ?? "",
+    itemRarity: (bi.rarity ?? staticItem?.rarity ?? "common") as ItemRarity,
+    itemMagicBonus: bi.magicBonus ?? 0,
+    itemSystemMeta: bi.systemMeta ?? null,
   };
 }
 
@@ -105,6 +115,10 @@ export function useAddBagItem(characterId: string) {
         quantity: input.quantity,
         location: input.location,
         notes: input.notes ?? null,
+        description: input.description ?? null,
+        rarity: input.rarity ?? null,
+        magicBonus: input.magicBonus ?? 0,
+        systemMeta: input.systemMeta ?? null,
       };
       return Promise.resolve(addBagItem(data));
     },

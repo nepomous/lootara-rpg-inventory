@@ -34,7 +34,20 @@
     "delete_confirm_title": "Charakter löschen",
     "delete_confirm_message": "Bist du sicher, dass du {{name}} löschen möchtest? Alle Gegenstände im Beutel werden entfernt.",
     "load_error": "Fehler beim Laden der Charaktere",
-    "not_found": "Charakter nicht gefunden"
+    "not_found": "Charakter nicht gefunden",
+    "form": {
+      "title": "Neuer Held",
+      "subtitle": "Schmiede deine Legende",
+      "system_label": "RPG-System",
+      "name_label": "Charaktername",
+      "name_placeholder": "Z.B.: Aldric Stoneforge",
+      "class_label": "Klasse",
+      "race_label": "Rasse",
+      "race_label_ancestral": "Abstammung",
+      "level_label": "Stufe",
+      "level_of": "von {{max}}",
+      "submit": "Helden schmieden"
+    }
   },
   "new_character": {
     "title": "Neuer Charakter",
@@ -48,7 +61,8 @@
     "submit_button": "Charakter erstellen",
     "level_of": "von {{max}}",
     "preview": "Vorschau",
-    "no_name": "Kein Name"
+    "no_name": "Kein Name",
+    "race_label_ancestral": "Abstammung"
   },
   "classes": {
     "fighter": "Kämpfer",
@@ -265,7 +279,8 @@
     "invested": "Investiert",
     "traits": "Eigenschaften",
     "system_fields_note": "Systemspezifische Felder für \"Sonstige\" nicht verfügbar.",
-    "rarity": "Seltenheit"
+    "rarity": "Seltenheit",
+    "traits_placeholder": "Merkmal hinzufügen..."
   },
   "aura_strength": {
     "faint": "Schwach",
@@ -306,5 +321,214 @@
     "command_word": "Befehlswort",
     "spell_trigger": "Zauberstichwort",
     "spell_completion": "Zauberabschluss"
+  },
+  "items": {
+    "weapon_longsword": {
+      "description": "Vielseitiges Stahllangschwert, einhändig oder beidhändig geführt. Schaden: 1d8 Hieb (1H) oder 1d10 (2H)."
+    },
+    "weapon_shortsword": {
+      "description": "Agiles Kurzschwert, bevorzugt von Schurken und Duellanten. Eigenschaften: Leicht, Finesse. Schaden: 1d6 Stich."
+    },
+    "weapon_dagger": {
+      "description": "Leichter und leicht verborgener Dolch. Kann geworfen werden. Eigenschaften: Leicht, Wurf, Finesse. Schaden: 1d4 Stich."
+    },
+    "weapon_handaxe": {
+      "description": "Kurzstielige Wurfaxt, effektiv im Nahkampf oder geworfen. Eigenschaften: Leicht, Wurf. Schaden: 1d6 Hieb."
+    },
+    "weapon_greataxe": {
+      "description": "Schwere Zweihand-Streitaxt, Rüstungszerstörerin. Eigenschaften: Schwer, Zweihand. Schaden: 1d12 Hieb."
+    },
+    "weapon_greatsword": {
+      "description": "Zweihand-Langschwert, Symbol kriegerischer Macht. Eigenschaften: Schwer, Zweihand. Schaden: 2d6 Hieb."
+    },
+    "weapon_rapier": {
+      "description": "Eleganter Degen mit feiner Klinge, ideal für Duellanten und Barden. Eigenschaft: Finesse. Schaden: 1d8 Stich."
+    },
+    "weapon_shortbow": {
+      "description": "Hölzerner Kurzbogen, wendig und leicht zu benutzen zu Pferde oder in engen Räumen. Reichweite: 24/96 m. Schaden: 1d6 Stich."
+    },
+    "weapon_longbow": {
+      "description": "Langbogen mit großer Reichweite, bevorzugt von Waldläufern und Elfen. Reichweite: 45/180 m. Eigenschaften: Schwer, Zweihand. Schaden: 1d8 Stich."
+    },
+    "weapon_quarterstaff": {
+      "description": "Robuster Holzstab, vielseitig und unscheinbar. Einhändig oder beidhändig geführt. Schaden: 1d6 (1H) oder 1d8 (2H) Wucht."
+    },
+    "weapon_mace": {
+      "description": "Metallkopf-Keule, effektiv gegen schwere Rüstungen. Schaden: 1d6 Wucht."
+    },
+    "weapon_warhammer": {
+      "description": "Vielseitiger Kriegshammer, für die Schlacht geschmiedet. Eigenschaft: Vielseitig. Schaden: 1d8 (1H) oder 1d10 (2H) Wucht."
+    },
+    "weapon_spear": {
+      "description": "Langschaftiger Speer, vielseitig im Nahkampf oder geworfen. Reichweite: 6/18 m. Schaden: 1d6 Stich."
+    },
+    "weapon_hand_crossbow": {
+      "description": "Kompakte Handarmbrust, einhändig benutzbar. Lieblingswaffe von Schurken. Reichweite: 9/36 m. Schaden: 1d6 Stich."
+    },
+    "weapon_light_crossbow": {
+      "description": "Leichte Armbrust, einfach zu handhaben, beliebt bei Anfänger-Abenteurern. Reichweite: 24/96 m. Schaden: 1d8 Stich."
+    },
+    "armor_leather": {
+      "description": "Gehärtete Lederrüstung, leicht und geräuschlos. RK 11 + GES-Mod. Leichte Rüstung."
+    },
+    "armor_studded_leather": {
+      "description": "Leder, verstärkt mit Metallnieten. RK 12 + GES-Mod. Leichte Rüstung."
+    },
+    "armor_chain_shirt": {
+      "description": "Kettenhemd, das den Oberkörper schützt ohne die Bewegung stark einzuschränken. RK 13 + GES-Mod (max. 2). Mittlere Rüstung."
+    },
+    "armor_chain_mail": {
+      "description": "Vollständige Rüstung aus ineinandergreifenden Metallringen. RK 16. Schwere Rüstung. Heimlichkeitsnachteil."
+    },
+    "armor_plate": {
+      "description": "Die beste konventionelle Rüstung. Gelenkige Metallplatten bedecken den gesamten Körper. RK 18. Schwere Rüstung. Heimlichkeitsnachteil."
+    },
+    "armor_shield": {
+      "description": "Holzschild mit Metallverstärkung. In einer Hand getragen, gewährt +2 auf die RK."
+    },
+    "armor_hide": {
+      "description": "Rustikale Rüstung aus dicken Häuten und Fellen. RK 12 + GES-Mod (max. 2). Mittlere Rüstung."
+    },
+    "armor_half_plate": {
+      "description": "Metallplatten bedecken Brust und Schultern, mit Kettenpanzer an den übrigen Stellen. RK 15 + GES-Mod (max. 2). Mittlere Rüstung."
+    },
+    "gear_rope_hempen": {
+      "description": "15-Meter-Rolle aus robustem Hanfseil. Hält bis zu 400 kg. Unverzichtbar für Klettern und Fallen."
+    },
+    "gear_rope_silk": {
+      "description": "15-Meter-Rolle aus Seidenseil, leichter und reißfester als Hanfseil. Liebling der Schurken."
+    },
+    "gear_torch": {
+      "description": "Fackel, die einen 6-Meter-Radius für 1 Stunde beleuchtet. Kann als improvisierte Waffe verwendet werden (1d4 Feuer)."
+    },
+    "gear_lantern_hooded": {
+      "description": "Blendlaterne mit verstellbarer Kappe, die geschlossen werden kann. Beleuchtet 9 m hell + 9 m schwach für 6 Stunden (1 Ölflasche)."
+    },
+    "gear_oil_flask": {
+      "description": "Ölflasche, die Laternen für 6 Stunden versorgt. Kann als Brandbombe geworfen werden (Feuerschaden im Bereich)."
+    },
+    "gear_healers_kit": {
+      "description": "Kit mit Bandagen, Salben und Schienen. Enthält 10 Anwendungen. Stabilisiert eine Kreatur bei 0 TP ohne Medizinwurf."
+    },
+    "gear_tinderbox": {
+      "description": "Büchse mit Feuerstein, Zunder und Docht zum Entzünden von Feuer in 1 Aktion (oder 1 Minute unter widrigen Umständen)."
+    },
+    "gear_rations": {
+      "description": "Vorräte für einen Tag: Dörrfleisch, Hartkeks, Käse und Trockenfrüchte. Ausreichend für einen Abenteurer im Feld."
+    },
+    "gear_waterskin": {
+      "description": "Leder-Wasserschlauch mit Fassungsvermögen von 4 Litern. Schwer wenn voll, leicht wenn leer (0,5 lb)."
+    },
+    "gear_grappling_hook": {
+      "description": "Eisenhaken mit 4 Zacken, um sich an Kanten und Oberflächen festzuhaken. Mit Seil zum Klettern verwendet."
+    },
+    "gear_crowbar": {
+      "description": "Eisenbrecheisen, das Vorteil auf Stärkewürfe zum Öffnen verriegelter Türen und Truhen gewährt."
+    },
+    "gear_bedroll": {
+      "description": "Einrollbare Schlafmatte zur Ruhe im Feld. Ermöglicht angemessene lange Rast in feindlicher Umgebung."
+    },
+    "gear_spellbook": {
+      "description": "In Leder gebundenes Zauberbuch mit 100 leeren Seiten. Unverzichtbar für Magier zum Aufzeichnen ihrer Zauber."
+    },
+    "gear_component_pouch": {
+      "description": "Kleiner Beutel mit Fächern für alle wertlosen Materialkomponenten zur Zauberspruchbenutzung."
+    },
+    "gear_mirror_steel": {
+      "description": "Polierter Stahlspiegel. Nützlich, um um Ecken zu sehen, Vampire zu erkennen und Verbündete in der Ferne zu signalisieren."
+    },
+    "potion_healing": {
+      "description": "Leuchtend rote Flüssigkeit, die 2d4+2 Trefferpunkte wiederherstellt, wenn sie als Bonusaktion getrunken wird."
+    },
+    "potion_greater_healing": {
+      "description": "Starker Heiltrank, der 4d4+4 Trefferpunkte wiederherstellt. Leuchtet intensiv wenn geschüttelt."
+    },
+    "potion_superior_healing": {
+      "description": "Überlegenes Heilelixtier, das 8d4+8 Trefferpunkte wiederherstellt. Für erfahrene Abenteurer reserviert."
+    },
+    "potion_antitoxin": {
+      "description": "Gegengift, das für 1 Stunde Vorteil auf Rettungswürfe gegen Gift gewährt. Kein magischer Trank."
+    },
+    "potion_climbing": {
+      "description": "Beim Trinken erhältst du für 1 Stunde eine Klettergeschwindigkeit gleich deiner Gehgeschwindigkeit und Vorteil auf Kletterwürfe."
+    },
+    "potion_fire_breath": {
+      "description": "Nach dem Trinken kannst du eine Bonusaktion nutzen, um Feuer in einem 9-m-Kegel zu speien (4d6 Feuer, SG 13). Kann 3-mal in 1 Stunde genutzt werden."
+    },
+    "tool_thieves": {
+      "description": "Etui mit Dietrichen, Miniaturspiegeln, Klemmen und Pinzetten. Nötig zum Schlossknacken und Entschärfen von Fallen."
+    },
+    "tool_herbalism_kit": {
+      "description": "Kit mit Beuteln, Schere, Mörser und Heilkräutern. Ermöglicht die Herstellung von Gegengiften und nicht-magischen Heiltränken."
+    },
+    "tool_alchemist_supplies": {
+      "description": "Alchemieausrüstung: zwei Glasflaschen, ein Bunsenbrenner, eine Zange und verschiedene Reagenzien."
+    },
+    "tool_cartographer": {
+      "description": "Kartographieinstrumente: Pergamente, Kompasse, Lineale und Spezialtinte zum Erstellen und Lesen von Karten."
+    },
+    "tool_disguise_kit": {
+      "description": "Verkleidungsset mit Kosmetika, falschem Haar, zusätzlicher Kleidung und Accessoires zur Veränderung des Aussehens."
+    },
+    "tool_poisoner_kit": {
+      "description": "Etui zur Herstellung und Anwendung von Giften: Flaschen, Spritzen, Handschuhe und Grundreagenzien."
+    },
+    "tool_lute": {
+      "description": "Saiteninstrument mit gewölbtem Resonanzkörper. Klassisches Barden-Instrument. Erlaubt die Nutzung von Saiteninstrument-Kompetenz."
+    },
+    "magic_bag_of_holding": {
+      "description": "Magische Tasche mit extradimensionalem Inneren: fasst bis zu 500 lb / 64 Kubikfuß unabhängig vom äußeren Gewicht. Das Öffnen in einem gefalteten Raum verursacht eine Explosion."
+    },
+    "magic_cloak_protection": {
+      "description": "Verzauberter Umhang, der +1 auf RK und alle Rettungswürfe gewährt, solange er getragen wird. Erfordert Einstimmung."
+    },
+    "magic_ring_protection": {
+      "description": "Magischer Ring, der +1 auf RK und alle Rettungswürfe gewährt. Erfordert Einstimmung."
+    },
+    "magic_boots_elvenkind": {
+      "description": "Verzauberte Elfenstiefel, die deine Schritte lautlos machen. Vorteil auf Heimlichkeitswürfe für Bewegung. Keine Einstimmung erforderlich."
+    },
+    "magic_amulet_health": {
+      "description": "Amulett, das deine Konstitution auf 19 setzt. Kein Effekt, wenn deine Konstitution bereits 19 oder höher ist. Erfordert Einstimmung."
+    },
+    "magic_+1_longsword": {
+      "description": "Langschwert, verzaubert mit +1 auf Angriffs- und Schadenswürfe. Die Klinge leuchtet im Dunkeln schwach."
+    },
+    "magic_wand_magic_missiles": {
+      "description": "Zauberstab mit 7 Ladungen. Verbrauche 1-3 Ladungen, um Magisches Geschoss auf entsprechenden Stufen zu wirken. Erhält 1d6+1 Ladungen bei Tagesanbruch zurück."
+    },
+    "magic_sending_stones": {
+      "description": "Paar verzauberter polierter Steine. Einmal täglich kann der Träger eine 25-Wort-Nachricht an den Träger des zugehörigen Steins übermitteln."
+    },
+    "ammo_arrows_20": {
+      "description": "Köcher mit 20 Holzpfeilen und Federn. Kompatibel mit Kurz- und Langbögen. Bei einem Fehlschuss geht der Pfeil zu 50% verloren."
+    },
+    "ammo_bolts_20": {
+      "description": "Etui mit 20 Armbrustbolzen. Kompatibel mit Leicht- und Handarmbrust. Schwerer als Pfeile, penetrationsstärker."
+    },
+    "ammo_sling_bullets_20": {
+      "description": "Zwanzig Bleikugeln für eine Schleuder. Billig und reichlich, aber erfordern eine Schleuder. Schaden: 1d4 Wucht."
+    },
+    "ammo_silvered_arrows_5": {
+      "description": "5 Silberspitzenpfeile. Überwinden Resistenz und Immunität gegen nichtmagischen Schaden von Untoten und Werwesen."
+    },
+    "container_backpack": {
+      "description": "Robuster Lederrucksack mit 30 lb Fassungsvermögen (1 Kubikfuß). Grundausstattung jedes Abenteurers."
+    },
+    "container_chest": {
+      "description": "Metallverstärkte Holztruhe mit 300 lb Fassungsvermögen (12 Kubikfuß). Kann mit einem Vorhängeschloss gesichert werden."
+    },
+    "container_pouch": {
+      "description": "Kleiner Lederbeutel zum Transportieren von Münzen oder Zauberkomponenten. Kapazität: 6 lb / 1/5 Kubikfuß."
+    },
+    "container_quiver": {
+      "description": "Lederköcher für bis zu 20 Pfeile oder Bolzen. Ermöglicht schnellen Munitionszug im Kampf."
+    },
+    "container_scroll_case": {
+      "description": "Zylindrisches Leder- oder Knochenetui zum Aufbewahren und Schützen von bis zu 10 Schriftrollen."
+    },
+    "container_saddlebags": {
+      "description": "Ein Paar Satteltaschen mit einer Gesamtkapazität von 60 lb. An den Flanken des Reittiers befestigt."
+    }
   }
 }

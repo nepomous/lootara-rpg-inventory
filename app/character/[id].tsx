@@ -369,6 +369,7 @@ export default function CharacterBagScreen() {
       <CustomItemForm
         ref={customFormRef}
         item={selectedCustomItem ?? undefined}
+        system={character.system}
         onSave={handleCustomItemSave}
         onDelete={handleCustomItemDelete}
       />

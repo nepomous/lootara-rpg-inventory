@@ -15,6 +15,13 @@
       "when": 1779479943378,
       "tag": "0001_jittery_garia",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1779700000000,
+      "tag": "0002_bag_item_meta",
+      "breakpoints": true
     }
   ]
 }

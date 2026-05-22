@@ -34,7 +34,20 @@
     "delete_confirm_title": "Eliminar personaje",
     "delete_confirm_message": "¿Estás seguro de que quieres eliminar a {{name}}? Se eliminarán todos los objetos de la bolsa.",
     "load_error": "Error al cargar personajes",
-    "not_found": "Personaje no encontrado"
+    "not_found": "Personaje no encontrado",
+    "form": {
+      "title": "Nuevo Héroe",
+      "subtitle": "Forja tu leyenda",
+      "system_label": "Sistema de RPG",
+      "name_label": "Nombre del personaje",
+      "name_placeholder": "Ej: Aldric Stoneforge",
+      "class_label": "Clase",
+      "race_label": "Raza",
+      "race_label_ancestral": "Ancestro",
+      "level_label": "Nivel",
+      "level_of": "de {{max}}",
+      "submit": "Forjar Héroe"
+    }
   },
   "new_character": {
     "title": "Nuevo Personaje",
@@ -48,7 +61,8 @@
     "submit_button": "Crear Personaje",
     "level_of": "de {{max}}",
     "preview": "Vista previa",
-    "no_name": "Sin nombre"
+    "no_name": "Sin nombre",
+    "race_label_ancestral": "Ancestro"
   },
   "classes": {
     "fighter": "Guerrero",
@@ -265,7 +279,8 @@
     "invested": "Investido",
     "traits": "Rasgos",
     "system_fields_note": "Campos específicos del sistema no disponibles para \"Otro\".",
-    "rarity": "Rareza"
+    "rarity": "Rareza",
+    "traits_placeholder": "Agregar rasgo..."
   },
   "aura_strength": {
     "faint": "Débil",
@@ -306,5 +321,214 @@
     "command_word": "Palabra de Mando",
     "spell_trigger": "Gatillo Mágico",
     "spell_completion": "Conclusión Mágica"
+  },
+  "items": {
+    "weapon_longsword": {
+      "description": "Espada larga versátil de acero, empuñada con una o dos manos. Daño: 1d8 cortante (1 mano) o 1d10 (2 manos)."
+    },
+    "weapon_shortsword": {
+      "description": "Espada corta ágil, favorita de ladrones y duelistas. Propiedades: Ligera, Agilidad. Daño: 1d6 perforante."
+    },
+    "weapon_dagger": {
+      "description": "Daga ligera y fácilmente ocultable. Puede lanzarse. Propiedades: Ligera, Arrojadiza, Agilidad. Daño: 1d4 perforante."
+    },
+    "weapon_handaxe": {
+      "description": "Hacha de mano de mango corto, efectiva en combate o arrojada. Propiedades: Ligera, Arrojadiza. Daño: 1d6 cortante."
+    },
+    "weapon_greataxe": {
+      "description": "Gran hacha de batalla a dos manos, destructora de armaduras. Propiedades: Pesada, Dos Manos. Daño: 1d12 cortante."
+    },
+    "weapon_greatsword": {
+      "description": "Espada larga de dos manos, símbolo de poder marcial. Propiedades: Pesada, Dos Manos. Daño: 2d6 cortante."
+    },
+    "weapon_rapier": {
+      "description": "Elegante estoque de hoja fina, ideal para duelistas y bardos. Propiedad: Agilidad. Daño: 1d8 perforante."
+    },
+    "weapon_shortbow": {
+      "description": "Arco corto de madera, ágil y fácil de usar a caballo o en espacios reducidos. Alcance: 24/96 m. Daño: 1d6 perforante."
+    },
+    "weapon_longbow": {
+      "description": "Arco largo de gran alcance, preferido por exploradores y elfos. Alcance: 45/180 m. Propiedades: Pesado, Dos Manos. Daño: 1d8 perforante."
+    },
+    "weapon_quarterstaff": {
+      "description": "Bastón de madera resistente, versátil y discreto. Empuñado con una o dos manos. Daño: 1d6 (1 mano) o 1d8 (2 manos) contundente."
+    },
+    "weapon_mace": {
+      "description": "Maza de cabeza metálica, efectiva contra armaduras pesadas. Daño: 1d6 contundente."
+    },
+    "weapon_warhammer": {
+      "description": "Martillo de guerra versátil, forjado para la batalla. Propiedad: Versátil. Daño: 1d8 (1 mano) o 1d10 (2 manos) contundente."
+    },
+    "weapon_spear": {
+      "description": "Lanza de asta larga, versátil para ataque cuerpo a cuerpo o arrojada. Alcance: 6/18 m. Daño: 1d6 perforante."
+    },
+    "weapon_hand_crossbow": {
+      "description": "Ballesta de mano compacta, usada con una mano. Favorita de ladrones. Alcance: 9/36 m. Daño: 1d6 perforante."
+    },
+    "weapon_light_crossbow": {
+      "description": "Ballesta ligera de fácil manejo, popular entre aventureros principiantes. Alcance: 24/96 m. Daño: 1d8 perforante."
+    },
+    "armor_leather": {
+      "description": "Armadura de cuero endurecido, ligera y silenciosa. CA 11 + mod DES. Armadura Ligera."
+    },
+    "armor_studded_leather": {
+      "description": "Cuero reforzado con remaches metálicos. CA 12 + mod DES. Armadura Ligera."
+    },
+    "armor_chain_shirt": {
+      "description": "Cota de malla que protege el torso sin restringir mucho el movimiento. CA 13 + mod DES (máx 2). Armadura Media."
+    },
+    "armor_chain_mail": {
+      "description": "Armadura completa de anillos metálicos entrelazados. CA 16. Armadura Pesada. Penalización a Sigilo."
+    },
+    "armor_plate": {
+      "description": "La mejor armadura convencional disponible. Placas articuladas cubren todo el cuerpo. CA 18. Armadura Pesada. Penalización a Sigilo."
+    },
+    "armor_shield": {
+      "description": "Escudo de madera con refuerzo metálico. Empuñado con una mano, otorga +2 a la CA."
+    },
+    "armor_hide": {
+      "description": "Armadura rústica hecha de pieles gruesas. CA 12 + mod DES (máx 2). Armadura Media."
+    },
+    "armor_half_plate": {
+      "description": "Placas metálicas cubriendo el torso y hombros, con cota de malla en el resto. CA 15 + mod DES (máx 2). Armadura Media."
+    },
+    "gear_rope_hempen": {
+      "description": "Rollo de 15 metros de cuerda de cáñamo resistente. Aguanta hasta 400 kg. Esencial para escaladas y trampas."
+    },
+    "gear_rope_silk": {
+      "description": "Rollo de 15 metros de cuerda de seda, más ligera y resistente que la de cáñamo. Favorita de ladrones."
+    },
+    "gear_torch": {
+      "description": "Antorcha que ilumina un radio de 6 metros durante 1 hora. Puede usarse como arma improvisada (1d4 fuego)."
+    },
+    "gear_lantern_hooded": {
+      "description": "Linterna con capucha ajustable que puede cerrarse para bloquear la luz. Ilumina 9 m brillante + 9 m tenue por 6 horas (1 frasco de aceite)."
+    },
+    "gear_oil_flask": {
+      "description": "Frasco de aceite que alimenta linternas por 6 horas. Puede lanzarse como proyectil incendiario (daño de fuego en área)."
+    },
+    "gear_healers_kit": {
+      "description": "Kit con vendas, ungüentos y férulas. Contiene 10 usos. Estabiliza a un personaje con 0 PV sin prueba de Medicina."
+    },
+    "gear_tinderbox": {
+      "description": "Caja con pedernal, yesca y mecha para encender fuego en 1 acción (o 1 minuto en condiciones adversas)."
+    },
+    "gear_rations": {
+      "description": "Provisiones para un día: carne seca, galletas duras, queso y frutas secas. Suficiente para mantener a un aventurero en campo."
+    },
+    "gear_waterskin": {
+      "description": "Odre de cuero con capacidad para 4 litros de líquido. Pesado cuando lleno, ligero cuando vacío (0,5 lb)."
+    },
+    "gear_grappling_hook": {
+      "description": "Garfio de hierro con 4 puntas para agarrarse en bordes y superficies. Usado con cuerda para escalar."
+    },
+    "gear_crowbar": {
+      "description": "Palanca de hierro que otorga ventaja en pruebas de Fuerza para abrir puertas y cofres cerrados."
+    },
+    "gear_bedroll": {
+      "description": "Colchoneta enrollable para descansar en campo. Proporciona descanso largo adecuado en entornos hostiles."
+    },
+    "gear_spellbook": {
+      "description": "Libro de hechizos encuadernado en cuero con 100 páginas en blanco. Esencial para magos que registran sus conjuros."
+    },
+    "gear_component_pouch": {
+      "description": "Pequeña bolsa con compartimentos que contiene todos los componentes materiales de bajo valor para conjuración."
+    },
+    "gear_mirror_steel": {
+      "description": "Espejo de acero pulido. Útil para ver alrededor de esquinas, identificar vampiros y señalar aliados a distancia."
+    },
+    "potion_healing": {
+      "description": "Líquido rojo brillante que recupera 2d4+2 puntos de golpe al beberse como acción adicional."
+    },
+    "potion_greater_healing": {
+      "description": "Poción de curación potente que recupera 4d4+4 puntos de golpe. Brilla intensamente al agitarse."
+    },
+    "potion_superior_healing": {
+      "description": "Elixir de curación superior que recupera 8d4+8 puntos de golpe. Reservado para aventureros experimentados."
+    },
+    "potion_antitoxin": {
+      "description": "Antídoto que otorga ventaja en tiradas de salvación contra veneno durante 1 hora. No es una poción mágica."
+    },
+    "potion_climbing": {
+      "description": "Al beber, ganas velocidad de escalar igual a la de caminar y ventaja en pruebas de escalar durante 1 hora."
+    },
+    "potion_fire_breath": {
+      "description": "Tras beber, puedes usar acción adicional para exhalar fuego en cono de 9 m (4d6 fuego, CD 13). Puede usarse 3 veces en 1 hora."
+    },
+    "tool_thieves": {
+      "description": "Estuche con ganzúas, espejos en miniatura, abrazaderas y pinzas. Necesario para abrir cerraduras y desactivar trampas."
+    },
+    "tool_herbalism_kit": {
+      "description": "Kit con bolsas, tijeras, mortero y hierbas medicinales. Permite crear antídotos y pociones de curación no mágicas."
+    },
+    "tool_alchemist_supplies": {
+      "description": "Equipamiento de alquimia: dos frascos de vidrio, un mechero Bunsen, unas pinzas y reactivos variados."
+    },
+    "tool_cartographer": {
+      "description": "Instrumentos de cartografía: pergaminos, compases, reglas y tinta especial para crear e interpretar mapas."
+    },
+    "tool_disguise_kit": {
+      "description": "Kit de disfraz con cosméticos, pelucas, ropa adicional y accesorios para cambiar tu apariencia."
+    },
+    "tool_poisoner_kit": {
+      "description": "Estuche para preparar y aplicar venenos: frascos, jeringas, guantes y reactivos básicos."
+    },
+    "tool_lute": {
+      "description": "Instrumento de cuerdas de caja abombada. Instrumento clásico de bardo. Permite usar competencia con instrumentos de cuerda."
+    },
+    "magic_bag_of_holding": {
+      "description": "Bolsa mágica de interior extradimensional: carga hasta 500 lb / 64 pies³, sin importar el peso externo. Abrirla en espacio doblado causa explosión."
+    },
+    "magic_cloak_protection": {
+      "description": "Capa encantada que otorga +1 a la CA y a todas las tiradas de salvación mientras se lleva puesta. Requiere sintonización."
+    },
+    "magic_ring_protection": {
+      "description": "Anillo mágico que otorga +1 a la CA y a todas las tiradas de salvación. Requiere sintonización."
+    },
+    "magic_boots_elvenkind": {
+      "description": "Botas élficas encantadas que silencian tus pasos. Ventaja en pruebas de Sigilo relacionadas con movimiento. No requiere sintonización."
+    },
+    "magic_amulet_health": {
+      "description": "Amuleto que eleva tu Constitución a 19. Sin efecto si tu Constitución ya es 19 o mayor. Requiere sintonización."
+    },
+    "magic_+1_longsword": {
+      "description": "Espada larga encantada con +1 en tiradas de ataque y de daño. La hoja brilla levemente en la oscuridad."
+    },
+    "magic_wand_magic_missiles": {
+      "description": "Varita con 7 cargas. Gasta 1-3 cargas para lanzar Proyectil Mágico en los niveles correspondientes. Recupera 1d6+1 cargas al amanecer."
+    },
+    "magic_sending_stones": {
+      "description": "Par de piedras pulidas encantadas. Una vez al día, el portador puede transmitir un mensaje de 25 palabras al portador de la piedra par."
+    },
+    "ammo_arrows_20": {
+      "description": "Carcaj con 20 flechas de madera y plumas. Compatible con arcos cortos y largos. Si el ataque falla, la flecha se pierde en el 50% de los casos."
+    },
+    "ammo_bolts_20": {
+      "description": "Estuche con 20 virotes de ballesta. Compatible con ballestas ligeras y de mano. Más pesados que flechas, más penetrantes."
+    },
+    "ammo_sling_bullets_20": {
+      "description": "Veinte esferas de plomo para honda. Baratas y abundantes, pero requieren una honda para usarse. Daño: 1d4 contundente."
+    },
+    "ammo_silvered_arrows_5": {
+      "description": "5 flechas de punta plateada. Superan resistencia e inmunidad al daño no mágico de no-muertos y licántropos."
+    },
+    "container_backpack": {
+      "description": "Mochila de cuero resistente con capacidad para 30 lb (1 pie³ de volumen). Artículo básico de cualquier aventurero."
+    },
+    "container_chest": {
+      "description": "Cofre de madera reforzado con metal, con capacidad para 300 lb (12 pies³). Puede cerrarse con candado."
+    },
+    "container_pouch": {
+      "description": "Bolsa de cuero pequeña para llevar monedas o componentes de magia. Capacidad: 6 lb / 1/5 pie³."
+    },
+    "container_quiver": {
+      "description": "Carcaj de cuero que admite hasta 20 flechas o virotes. Permite sacar munición rápidamente en combate."
+    },
+    "container_scroll_case": {
+      "description": "Estuche cilíndrico de cuero o hueso para almacenar y proteger hasta 10 pergaminos del daño y la humedad."
+    },
+    "container_saddlebags": {
+      "description": "Par de alforjas para montura, con capacidad total de 60 lb. Fijadas en los flancos del animal."
+    }
   }
 }

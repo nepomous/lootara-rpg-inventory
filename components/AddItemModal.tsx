@@ -4,17 +4,47 @@ import {
   FlatList,
   Modal,
   Pressable,
+  ScrollView,
+  Switch,
   Text,
   TextInput,
   View,
 } from "react-native";
 import { useTranslation } from "react-i18next";
-import { ITEM_CATEGORIES } from "@/constants/rpg";
-import type { ItemCategory } from "@/constants/items";
+import { ITEM_CATEGORIES, ITEM_RARITIES } from "@/constants/rpg";
+import type { ItemCategory, ItemRarity } from "@/constants/rpg";
 import type { BagItemLocation, RPGSystem } from "@/db/schema";
 import type { AddBagItemInput } from "@/hooks/useBag";
 import { useLibrary } from "@/hooks/useLibrary";
 import type { Item } from "@/hooks/useLibrary";
+
+// ── Constantes de sistema ─────────────────────────────────────────────────────
+
+const PF2E_BULK_OPTIONS = ["L", 1, 2, 3, 4, 5] as const;
+const PF2E_STRIKING = [
+  "striking",
+  "greater striking",
+  "major striking",
+] as const;
+const PF2E_RESILIENT = [
+  "resilient",
+  "greater resilient",
+  "major resilient",
+] as const;
+const PF2E_PROPERTY_RUNES = [
+  "Flaming",
+  "Frost",
+  "Shock",
+  "Corrosive",
+  "Ghost Touch",
+  "Keen",
+  "Speed",
+  "Vorpal",
+  "Energy-Resistant",
+  "Fortification",
+  "Shadow",
+  "Slick",
+] as const;
 
 type Props = {
   visible: boolean;
@@ -165,11 +195,12 @@ function LibraryPicker({
   );
 }
 
-// ── Tela 2: confirmar quantidade e localização ────────────────────────────────
+// ── Tela 2: confirmar quantidade, localização e metadados de sistema ──────────
 function ConfirmForm({
   item,
   customName,
   characterId,
+  characterSystem,
   isAdding,
   onConfirm,
   onBack,
@@ -177,6 +208,7 @@ function ConfirmForm({
   item: Item | null;
   customName: string | null;
   characterId: string;
+  characterSystem: RPGSystem;
   isAdding: boolean;
   onConfirm: (input: AddBagItemInput) => void;
   onBack: () => void;
@@ -184,6 +216,32 @@ function ConfirmForm({
   const { t } = useTranslation();
   const [quantity, setQuantity] = useState(1);
   const [location, setLocation] = useState<BagItemLocation>("backpack");
+
+  // Metadados comuns
+  const [description, setDescription] = useState("");
+  const [rarity, setRarity] = useState<ItemRarity>("common");
+  const [magicBonus, setMagicBonus] = useState(0);
+
+  // D&D 5e
+  const [attunement, setAttunement] = useState(false);
+  const [attunementPrereq, setAttunementPrereq] = useState("");
+  const [charges, setCharges] = useState<number | null>(null);
+  const [recharge, setRecharge] = useState("");
+  const [cursed, setCursed] = useState(false);
+
+  // PF1e
+  const [casterLevel, setCasterLevel] = useState<number | null>(null);
+
+  // PF2e
+  const [itemLevel, setItemLevel] = useState(1);
+  const [bulk, setBulk] = useState<string | number | null>(null);
+  const [potencyRune, setPotencyRune] = useState<number | null>(null);
+  const [strikingRune, setStrikingRune] = useState<string | null>(null);
+  const [resilientRune, setResilientRune] = useState<string | null>(null);
+  const [propertyRunes, setPropertyRunes] = useState<string[]>([]);
+  const [invested, setInvested] = useState(false);
+  const [traits, setTraits] = useState<string[]>([]);
+  const [traitInput, setTraitInput] = useState("");
 
   const LOCATION_OPTIONS: {
     value: BagItemLocation;
@@ -197,92 +255,561 @@ function ConfirmForm({
 
   const displayName = item?.name ?? customName ?? t("library.custom_item");
 
+  function buildSystemMeta(): string | null {
+    switch (characterSystem) {
+      case "dnd5e": {
+        const meta: Record<string, unknown> = {};
+        if (attunement) {
+          meta.attunement = true;
+          if (attunementPrereq.trim())
+            meta.attunementPrereq = attunementPrereq.trim();
+        }
+        if (charges !== null) meta.charges = charges;
+        if (recharge.trim()) meta.recharge = recharge.trim();
+        if (cursed) meta.cursed = true;
+        return Object.keys(meta).length > 0 ? JSON.stringify(meta) : null;
+      }
+      case "pf1": {
+        const meta: Record<string, unknown> = {};
+        if (casterLevel !== null) meta.casterLevel = casterLevel;
+        return Object.keys(meta).length > 0 ? JSON.stringify(meta) : null;
+      }
+      case "pf2": {
+        const meta: Record<string, unknown> = { itemLevel };
+        if (bulk !== null) meta.bulk = bulk;
+        if (potencyRune !== null) meta.potencyRune = potencyRune;
+        if (strikingRune) meta.strikingRune = strikingRune;
+        if (resilientRune) meta.resilientRune = resilientRune;
+        if (propertyRunes.length > 0) meta.propertyRunes = propertyRunes;
+        if (invested) meta.invested = true;
+        if (traits.length > 0) meta.traits = traits;
+        return JSON.stringify(meta);
+      }
+      default:
+        return null;
+    }
+  }
+
   return (
-    <View className="flex-1 px-4 pt-2">
-      {/* Info do item */}
-      <View className="bg-background-card border border-border rounded-xl p-4 mb-6 flex-row items-center gap-3">
-        {item ? (
-          <Text className="text-3xl">
-            {ITEM_CATEGORIES[item.category].emoji}
-          </Text>
-        ) : (
-          <Text className="text-3xl">✏️</Text>
-        )}
-        <View className="flex-1">
-          <Text className="text-text font-bold text-base" numberOfLines={1}>
-            {displayName}
-          </Text>
+    <View className="flex-1">
+      <ScrollView
+        className="flex-1 px-4"
+        contentContainerStyle={{ paddingTop: 8, paddingBottom: 24 }}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* Info do item */}
+        <View className="bg-background-card border border-border rounded-xl p-4 mb-6 flex-row items-center gap-3">
           {item ? (
-            <Text className="text-text-muted text-xs">
-              {item.weight} lbs · {item.cost} {t("library.cost_unit")}
+            <Text className="text-3xl">
+              {ITEM_CATEGORIES[item.category].emoji}
             </Text>
           ) : (
-            <Text className="text-text-muted text-xs">
-              {t("library.custom_item")}
-            </Text>
+            <Text className="text-3xl">✏️</Text>
           )}
+          <View className="flex-1">
+            <Text className="text-text font-bold text-base" numberOfLines={1}>
+              {displayName}
+            </Text>
+            {item ? (
+              <Text className="text-text-muted text-xs">
+                {item.weight} lbs · {item.cost} {t("library.cost_unit")}
+              </Text>
+            ) : (
+              <Text className="text-text-muted text-xs">
+                {t("library.custom_item")}
+              </Text>
+            )}
+          </View>
         </View>
-      </View>
 
-      {/* Quantidade */}
-      <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
-        {t("bag.quantity_label")}
-      </Text>
-      <View className="flex-row items-center gap-4 mb-6">
-        <Pressable
-          onPress={() => setQuantity((q) => Math.max(1, q - 1))}
-          disabled={quantity <= 1}
-          className="w-10 h-10 rounded-full bg-background-surface items-center justify-center border border-border"
-        >
-          <Text
-            className={`text-xl font-bold ${quantity <= 1 ? "text-border" : "text-text"}`}
-          >
-            −
-          </Text>
-        </Pressable>
-        <Text className="text-primary text-2xl font-bold min-w-8 text-center">
-          {quantity}
+        {/* Quantidade */}
+        <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
+          {t("bag.quantity_label")}
         </Text>
-        <Pressable
-          onPress={() => setQuantity((q) => q + 1)}
-          className="w-10 h-10 rounded-full bg-background-surface items-center justify-center border border-border"
-        >
-          <Text className="text-xl font-bold text-text">+</Text>
-        </Pressable>
-      </View>
-
-      {/* Localização */}
-      <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
-        {t("bag.location_label")}
-      </Text>
-      <View className="flex-row gap-2 mb-8">
-        {LOCATION_OPTIONS.map((opt) => {
-          const selected = location === opt.value;
-          return (
-            <Pressable
-              key={opt.value}
-              onPress={() => setLocation(opt.value)}
-              className={`flex-1 items-center py-3 rounded-xl border ${
-                selected
-                  ? "bg-primary border-primary"
-                  : "bg-background-surface border-border"
+        <View className="flex-row items-center gap-4 mb-6">
+          <Pressable
+            onPress={() => setQuantity((q) => Math.max(1, q - 1))}
+            disabled={quantity <= 1}
+            className="w-10 h-10 rounded-full bg-background-surface items-center justify-center border border-border"
+          >
+            <Text
+              className={`text-xl font-bold ${
+                quantity <= 1 ? "text-border" : "text-text"
               }`}
             >
-              <Text className="text-2xl mb-1">{opt.emoji}</Text>
-              <Text
-                className={`text-xs font-semibold text-center ${
-                  selected ? "text-text-inverse" : "text-text-muted"
+              −
+            </Text>
+          </Pressable>
+          <Text className="text-primary text-2xl font-bold min-w-8 text-center">
+            {quantity}
+          </Text>
+          <Pressable
+            onPress={() => setQuantity((q) => q + 1)}
+            className="w-10 h-10 rounded-full bg-background-surface items-center justify-center border border-border"
+          >
+            <Text className="text-xl font-bold text-text">+</Text>
+          </Pressable>
+        </View>
+
+        {/* Localização */}
+        <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-3">
+          {t("bag.location_label")}
+        </Text>
+        <View className="flex-row gap-2 mb-6">
+          {LOCATION_OPTIONS.map((opt) => {
+            const selected = location === opt.value;
+            return (
+              <Pressable
+                key={opt.value}
+                onPress={() => setLocation(opt.value)}
+                className={`flex-1 items-center py-3 rounded-xl border ${
+                  selected
+                    ? "bg-primary border-primary"
+                    : "bg-background-surface border-border"
                 }`}
               >
-                {opt.label}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
+                <Text className="text-2xl mb-1">{opt.emoji}</Text>
+                <Text
+                  className={`text-xs font-semibold text-center ${
+                    selected ? "text-text-inverse" : "text-text-muted"
+                  }`}
+                >
+                  {opt.label}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
 
-      {/* Botões */}
-      <View className="flex-row gap-3">
+        {/* ── Descrição ─────────────────────────────────────────────────────── */}
+        <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+          {t("custom_items.field_description")}
+        </Text>
+        <TextInput
+          value={description}
+          onChangeText={setDescription}
+          placeholder={t("custom_items.description_placeholder")}
+          placeholderTextColor="#9ca3af"
+          multiline
+          numberOfLines={3}
+          className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-6"
+          style={{ minHeight: 72, textAlignVertical: "top" }}
+        />
+
+        {/* ── Raridade (oculto para PF1e) ───────────────────────────────────── */}
+        {characterSystem !== "pf1" && (
+          <>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.rarity")}
+            </Text>
+            <View className="flex-row flex-wrap gap-2 mb-6">
+              {(
+                Object.entries(ITEM_RARITIES) as [
+                  ItemRarity,
+                  { label: string; color: string },
+                ][]
+              ).map(([key, val]) => {
+                const selected = rarity === key;
+                return (
+                  <Pressable
+                    key={key}
+                    onPress={() => setRarity(key)}
+                    className="px-3 py-2 rounded-chip border bg-background-surface"
+                    style={{
+                      borderColor: selected ? val.color : "#374151",
+                    }}
+                  >
+                    <Text
+                      className="text-xs font-semibold"
+                      style={{ color: selected ? val.color : "#9ca3af" }}
+                    >
+                      {val.label}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </>
+        )}
+
+        {/* ── Bônus Mágico ──────────────────────────────────────────────────── */}
+        <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+          {t("item_meta.magic_bonus")}
+        </Text>
+        <View className="flex-row items-center gap-3 mb-6">
+          <Pressable
+            onPress={() => setMagicBonus((v) => Math.max(0, v - 1))}
+            disabled={magicBonus <= 0}
+            className="w-10 h-10 rounded-full bg-background-surface items-center justify-center border border-border"
+          >
+            <Text
+              className={`text-xl font-bold ${
+                magicBonus <= 0 ? "text-border" : "text-text"
+              }`}
+            >
+              −
+            </Text>
+          </Pressable>
+          <Text className="text-primary text-2xl font-bold min-w-8 text-center">
+            {magicBonus > 0
+              ? `+${magicBonus}`
+              : t("item_meta.magic_bonus_none")}
+          </Text>
+          <Pressable
+            onPress={() => setMagicBonus((v) => Math.min(5, v + 1))}
+            disabled={magicBonus >= 5}
+            className="w-10 h-10 rounded-full bg-background-surface items-center justify-center border border-border"
+          >
+            <Text
+              className={`text-xl font-bold ${
+                magicBonus >= 5 ? "text-border" : "text-text"
+              }`}
+            >
+              +
+            </Text>
+          </Pressable>
+        </View>
+
+        {/* ── Campos D&D 5e ─────────────────────────────────────────────────── */}
+        {characterSystem === "dnd5e" && (
+          <>
+            <View className="flex-row items-center justify-between mb-4">
+              <Text className="text-text text-sm font-medium">
+                {t("item_meta.attunement")}
+              </Text>
+              <Switch
+                value={attunement}
+                onValueChange={setAttunement}
+                trackColor={{ true: "#f59e0b", false: "#374151" }}
+                thumbColor="#f5f0e8"
+              />
+            </View>
+            {attunement && (
+              <>
+                <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+                  {t("item_meta.attunement_prereq")}
+                </Text>
+                <TextInput
+                  value={attunementPrereq}
+                  onChangeText={setAttunementPrereq}
+                  placeholder="Ex: apenas conjuradores"
+                  placeholderTextColor="#9ca3af"
+                  className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-4"
+                />
+              </>
+            )}
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.charges")}
+            </Text>
+            <TextInput
+              value={charges !== null ? String(charges) : ""}
+              onChangeText={(v) =>
+                setCharges(v === "" ? null : parseInt(v, 10) || 0)
+              }
+              keyboardType="number-pad"
+              placeholder="—"
+              placeholderTextColor="#9ca3af"
+              className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-4"
+            />
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.recharge")}
+            </Text>
+            <TextInput
+              value={recharge}
+              onChangeText={setRecharge}
+              placeholder="Ex: 1d6+1 ao amanhecer"
+              placeholderTextColor="#9ca3af"
+              className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-4"
+            />
+            <View className="flex-row items-center justify-between mb-6">
+              <Text className="text-text text-sm font-medium">
+                {t("item_meta.cursed")}
+              </Text>
+              <Switch
+                value={cursed}
+                onValueChange={setCursed}
+                trackColor={{ true: "#ef4444", false: "#374151" }}
+                thumbColor="#f5f0e8"
+              />
+            </View>
+          </>
+        )}
+
+        {/* ── Campos PF1e ───────────────────────────────────────────────────── */}
+        {characterSystem === "pf1" && (
+          <>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.caster_level")}
+            </Text>
+            <TextInput
+              value={casterLevel !== null ? String(casterLevel) : ""}
+              onChangeText={(v) =>
+                setCasterLevel(v === "" ? null : parseInt(v, 10) || null)
+              }
+              keyboardType="number-pad"
+              placeholder="1–30"
+              placeholderTextColor="#9ca3af"
+              className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-4"
+            />
+          </>
+        )}
+
+        {/* ── Campos PF2e ───────────────────────────────────────────────────── */}
+        {characterSystem === "pf2" && (
+          <>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.item_level")} *
+            </Text>
+            <View className="flex-row items-center gap-3 mb-4">
+              <Pressable
+                onPress={() => setItemLevel((v) => Math.max(1, v - 1))}
+                disabled={itemLevel <= 1}
+                className="w-10 h-10 rounded-full bg-background-surface items-center justify-center border border-border"
+              >
+                <Text
+                  className={`text-xl font-bold ${
+                    itemLevel <= 1 ? "text-border" : "text-text"
+                  }`}
+                >
+                  −
+                </Text>
+              </Pressable>
+              <Text className="text-primary text-2xl font-bold min-w-8 text-center">
+                {itemLevel}
+              </Text>
+              <Pressable
+                onPress={() => setItemLevel((v) => Math.min(25, v + 1))}
+                disabled={itemLevel >= 25}
+                className="w-10 h-10 rounded-full bg-background-surface items-center justify-center border border-border"
+              >
+                <Text
+                  className={`text-xl font-bold ${
+                    itemLevel >= 25 ? "text-border" : "text-text"
+                  }`}
+                >
+                  +
+                </Text>
+              </Pressable>
+            </View>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.bulk")}
+            </Text>
+            <View className="flex-row flex-wrap gap-2 mb-4">
+              {PF2E_BULK_OPTIONS.map((opt) => {
+                const active = bulk === opt;
+                return (
+                  <Pressable
+                    key={String(opt)}
+                    onPress={() => setBulk(active ? null : opt)}
+                    className={`px-4 py-2 rounded-chip border ${
+                      active
+                        ? "bg-primary border-primary"
+                        : "bg-background-surface border-border"
+                    }`}
+                  >
+                    <Text
+                      className={`text-xs font-semibold ${
+                        active ? "text-text-inverse" : "text-text-muted"
+                      }`}
+                    >
+                      {opt}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.potency_rune")}
+            </Text>
+            <View className="flex-row flex-wrap gap-2 mb-4">
+              {([0, 1, 2, 3] as const).map((opt) => {
+                const active = potencyRune === opt;
+                return (
+                  <Pressable
+                    key={opt}
+                    onPress={() =>
+                      setPotencyRune(active && opt !== 0 ? null : opt)
+                    }
+                    className={`px-4 py-2 rounded-chip border ${
+                      active && opt > 0
+                        ? "border-amber-600"
+                        : active
+                          ? "bg-primary border-primary"
+                          : "bg-background-surface border-border"
+                    }`}
+                    style={
+                      active && opt > 0
+                        ? { backgroundColor: "#d97706" }
+                        : undefined
+                    }
+                  >
+                    <Text
+                      className={`text-xs font-semibold ${
+                        active ? "text-white" : "text-text-muted"
+                      }`}
+                    >
+                      {opt === 0
+                        ? t("item_meta.magic_bonus_none", "+0")
+                        : `+${opt}`}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.striking_rune")}
+            </Text>
+            <View className="flex-row flex-wrap gap-2 mb-4">
+              {PF2E_STRIKING.map((opt) => {
+                const active = strikingRune === opt;
+                return (
+                  <Pressable
+                    key={opt}
+                    onPress={() => setStrikingRune(active ? null : opt)}
+                    className={`px-3 py-2 rounded-chip border ${
+                      active
+                        ? "bg-primary border-primary"
+                        : "bg-background-surface border-border"
+                    }`}
+                  >
+                    <Text
+                      className={`text-xs font-semibold ${
+                        active ? "text-text-inverse" : "text-text-muted"
+                      }`}
+                    >
+                      {opt}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.resilient_rune")}
+            </Text>
+            <View className="flex-row flex-wrap gap-2 mb-4">
+              {PF2E_RESILIENT.map((opt) => {
+                const active = resilientRune === opt;
+                return (
+                  <Pressable
+                    key={opt}
+                    onPress={() => setResilientRune(active ? null : opt)}
+                    className={`px-3 py-2 rounded-chip border ${
+                      active
+                        ? "bg-primary border-primary"
+                        : "bg-background-surface border-border"
+                    }`}
+                  >
+                    <Text
+                      className={`text-xs font-semibold ${
+                        active ? "text-text-inverse" : "text-text-muted"
+                      }`}
+                    >
+                      {opt}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.property_runes")}
+            </Text>
+            <View className="flex-row flex-wrap gap-2 mb-4">
+              {PF2E_PROPERTY_RUNES.map((rune) => {
+                const active = propertyRunes.includes(rune);
+                const atMax = propertyRunes.length >= 3;
+                return (
+                  <Pressable
+                    key={rune}
+                    onPress={() => {
+                      if (active)
+                        setPropertyRunes((prev) =>
+                          prev.filter((r) => r !== rune),
+                        );
+                      else if (!atMax)
+                        setPropertyRunes((prev) => [...prev, rune]);
+                    }}
+                    className={`px-3 py-2 rounded-chip border ${
+                      active
+                        ? "bg-primary border-primary"
+                        : "bg-background-surface border-border"
+                    }`}
+                    style={!active && atMax ? { opacity: 0.4 } : undefined}
+                  >
+                    <Text
+                      className={`text-xs font-semibold ${
+                        active ? "text-text-inverse" : "text-text-muted"
+                      }`}
+                    >
+                      {rune}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <View className="flex-row items-center justify-between mb-4">
+              <Text className="text-text text-sm font-medium">
+                {t("item_meta.invested")}
+              </Text>
+              <Switch
+                value={invested}
+                onValueChange={setInvested}
+                trackColor={{ true: "#f59e0b", false: "#374151" }}
+                thumbColor="#f5f0e8"
+              />
+            </View>
+            <Text className="text-text-muted text-xs font-semibold uppercase tracking-widest mb-2">
+              {t("item_meta.traits")}
+            </Text>
+            <View className="flex-row flex-wrap gap-2 mb-2">
+              {traits.map((trait, i) => (
+                <Pressable
+                  key={i}
+                  onPress={() =>
+                    setTraits((prev) => prev.filter((_, idx) => idx !== i))
+                  }
+                  className="flex-row items-center gap-1 px-3 py-1.5 rounded-chip bg-primary border border-primary"
+                >
+                  <Text className="text-text-inverse text-xs font-semibold">
+                    {trait}
+                  </Text>
+                  <Text className="text-text-inverse text-xs">×</Text>
+                </Pressable>
+              ))}
+            </View>
+            <View className="flex-row gap-2 mb-6">
+              <TextInput
+                value={traitInput}
+                onChangeText={setTraitInput}
+                placeholder={t("item_meta.traits_placeholder")}
+                placeholderTextColor="#9ca3af"
+                className="flex-1 bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm"
+                onSubmitEditing={() => {
+                  const trimmed = traitInput.trim();
+                  if (trimmed && !traits.includes(trimmed))
+                    setTraits((prev) => [...prev, trimmed]);
+                  setTraitInput("");
+                }}
+                returnKeyType="done"
+              />
+              <Pressable
+                onPress={() => {
+                  const trimmed = traitInput.trim();
+                  if (trimmed && !traits.includes(trimmed))
+                    setTraits((prev) => [...prev, trimmed]);
+                  setTraitInput("");
+                }}
+                className="px-4 rounded-xl bg-background-surface border border-border items-center justify-center"
+              >
+                <Text className="text-text font-bold">+</Text>
+              </Pressable>
+            </View>
+          </>
+        )}
+      </ScrollView>
+
+      {/* Botões fixos no rodapé */}
+      <View className="flex-row gap-3 px-4 pb-6 pt-3 border-t border-border">
         <Pressable
           onPress={onBack}
           className="flex-1 py-3 rounded-xl border border-border items-center"
@@ -299,6 +826,10 @@ function ConfirmForm({
               customName: item ? null : customName,
               quantity,
               location,
+              description: description.trim() || null,
+              rarity: characterSystem !== "pf1" ? rarity : null,
+              magicBonus,
+              systemMeta: buildSystemMeta(),
             })
           }
           disabled={isAdding}
@@ -462,6 +993,7 @@ export function AddItemModal({
             item={selectedItem}
             customName={customName}
             characterId={characterId}
+            characterSystem={characterSystem}
             isAdding={isAdding}
             onConfirm={handleAdd}
             onBack={() => setStep(selectedItem ? "library" : "custom_name")}

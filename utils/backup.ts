@@ -35,6 +35,13 @@ const BagItemSchema = z.object({
   quantity: z.number().int().min(1),
   location: z.enum(["equipped", "backpack", "stored"]),
   notes: z.string().nullable(),
+  description: z.string().nullable().default(null),
+  rarity: z
+    .enum(["common", "uncommon", "rare", "very_rare", "legendary"])
+    .nullable()
+    .default(null),
+  magicBonus: z.number().int().min(0).max(5).default(0),
+  systemMeta: z.string().nullable().default(null),
   createdAt: z.number(),
   updatedAt: z.number(),
 });

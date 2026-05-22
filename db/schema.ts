@@ -48,6 +48,11 @@ export const bagItems = sqliteTable("bag_items", {
     .notNull()
     .default("backpack"),
   notes: text("notes"),
+  // Metadados de sistema — sobrescrevem os valores do item estático
+  description: text("description"), // override da descrição do item
+  rarity: text("rarity").$type<ItemRarity>(), // override de raridade (null = usar o do item)
+  magicBonus: integer("magic_bonus").notNull().default(0), // +0 a +5
+  systemMeta: text("system_meta"), // JSON com campos específicos de sistema
   createdAt: integer("created_at").notNull(),
   updatedAt: integer("updated_at").notNull(),
 });
