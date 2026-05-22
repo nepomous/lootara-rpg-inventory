@@ -59,7 +59,31 @@
     "cleric": "Clérigo",
     "barbarian": "Bárbaro",
     "monk": "Monge",
-    "sorcerer": "Feiticeiro"
+    "sorcerer": "Feiticeiro",
+    "alchemist": "Alquimista",
+    "champion": "Campeão",
+    "investigator": "Investigador",
+    "oracle": "Oráculo",
+    "swashbuckler": "Duelista",
+    "witch": "Bruxa",
+    "other": "Outro"
+  },
+  "races": {
+    "human": "Humano",
+    "elf": "Elfo",
+    "dwarf": "Anão",
+    "halfling": "Halfling",
+    "gnome": "Gnomo",
+    "half_elf": "Meio-Elfo",
+    "half_orc": "Meio-Orc",
+    "tiefling": "Tiefling",
+    "dragonborn": "Draconato",
+    "aasimar": "Aasimar",
+    "goliath": "Golias",
+    "orc": "Orc",
+    "goblin": "Goblin",
+    "kobold": "Kobold",
+    "other": "Outra"
   },
   "bag": {
     "tab_equipped": "Equipado",

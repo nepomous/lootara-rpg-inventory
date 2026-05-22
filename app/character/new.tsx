@@ -75,6 +75,7 @@ function ClassGrid({
   value: string;
   onChange: (v: string) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <View className="flex-row flex-wrap gap-2">
       {CLASS_ENTRIES.map(([key, info]) => {
@@ -96,7 +97,7 @@ function ClassGrid({
               }`}
               numberOfLines={2}
             >
-              {info.label}
+              {t(`classes.${key}`)}
             </Text>
           </Pressable>
         );
@@ -112,6 +113,7 @@ function RaceDropdown({
   value: string;
   onChange: (v: string) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <ScrollView
       horizontal
@@ -137,7 +139,7 @@ function RaceDropdown({
                 selected ? "text-text-inverse font-bold" : "text-text-muted"
               }`}
             >
-              {info.label}
+              {t(`races.${key}`)}
             </Text>
           </Pressable>
         );

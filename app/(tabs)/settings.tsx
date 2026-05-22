@@ -24,7 +24,7 @@ import { exportData, importData } from "@/utils/backup";
 import { useQueryClient } from "@tanstack/react-query";
 
 const APP_VERSION = Constants.expoConfig?.version ?? "1.0.0";
-const KOFI_URL = "https://ko-fi.com/lootara";
+const KOFI_URL = "https://ko-fi.com/nepomous";
 
 // ── Componentes de card reutilizáveis ─────────────────────────────────────────
 function SectionTitle({ title }: { title: string }) {

@@ -59,7 +59,31 @@
     "cleric": "Kleriker",
     "barbarian": "Barbar",
     "monk": "Mönch",
-    "sorcerer": "Hexer"
+    "sorcerer": "Hexer",
+    "alchemist": "Alchemist",
+    "champion": "Champion",
+    "investigator": "Ermittler",
+    "oracle": "Orakel",
+    "swashbuckler": "Fechter",
+    "witch": "Hexe",
+    "other": "Andere"
+  },
+  "races": {
+    "human": "Mensch",
+    "elf": "Elfe",
+    "dwarf": "Zwerg",
+    "halfling": "Halbling",
+    "gnome": "Gnom",
+    "half_elf": "Halbelf",
+    "half_orc": "Halbork",
+    "tiefling": "Tiefling",
+    "dragonborn": "Drachengeborener",
+    "aasimar": "Aasimar",
+    "goliath": "Goliath",
+    "orc": "Ork",
+    "goblin": "Goblin",
+    "kobold": "Kobold",
+    "other": "Andere"
   },
   "bag": {
     "tab_equipped": "Ausgerüstet",
