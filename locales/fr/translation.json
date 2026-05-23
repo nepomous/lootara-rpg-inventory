@@ -83,7 +83,35 @@
     "oracle": "Oracle",
     "swashbuckler": "Bretteur",
     "witch": "Sorcière",
-    "other": "Autre"
+    "other": "Autre",
+    "cavalier": "Chevalier",
+    "gunslinger": "Pistolier",
+    "inquisitor": "Inquisiteur",
+    "magus": "Magus",
+    "summoner": "Invocateur",
+    "arcanist": "Arcaniste",
+    "bloodrager": "Bloodrager",
+    "brawler": "Bagarreur",
+    "hunter": "Chasseur",
+    "shaman": "Chaman",
+    "skald": "Skald",
+    "slayer": "Pourfendeur",
+    "warpriest": "Prêtre de Guerre",
+    "kineticist": "Cinétiste",
+    "medium": "Médium",
+    "mesmerist": "Mesmériste",
+    "occultist": "Occultiste",
+    "psychic": "Psychique",
+    "spiritualist": "Spiritualiste",
+    "antipaladin": "Antipaladin",
+    "ninja": "Ninja",
+    "samurai": "Samouraï",
+    "animist": "Animiste",
+    "exemplar": "Exemplaire",
+    "inventor": "Inventeur",
+    "thaumaturge": "Thaumaturge",
+    "warrior": "Guerrier",
+    "mage": "Mage"
   },
   "races": {
     "human": "Humain",
@@ -530,5 +558,12 @@
     "container_saddlebags": {
       "description": "Paire de sacoches de selle d'une capacité totale de 60 lb. Fixées sur les flancs de la monture."
     }
+  },
+  "class_groups": {
+    "Core": "Core",
+    "Base": "Base",
+    "Híbrida": "Hybride",
+    "Ocultista": "Occultiste",
+    "Alternativa": "Alternative"
   }
 }

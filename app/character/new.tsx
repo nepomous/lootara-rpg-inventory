@@ -74,6 +74,7 @@ function ClassGrid({
   onChange: (v: string) => void;
   entries: readonly ClassEntry[];
 }) {
+  const { t } = useTranslation();
   const hasGroups = entries.some((e) => e.group != null);
 
   const renderItem = (item: ClassEntry) => {
@@ -95,7 +96,7 @@ function ClassGrid({
           }`}
           numberOfLines={2}
         >
-          {item.label}
+          {t(`classes.${item.id}`, { defaultValue: item.label })}
         </Text>
       </Pressable>
     );
@@ -122,7 +123,7 @@ function ClassGrid({
       {groupOrder.map((group) => (
         <View key={group}>
           <Text className="text-primary text-xs font-bold uppercase tracking-widest mb-1">
-            {group}
+            {t(`class_groups.${group}`, { defaultValue: group })}
           </Text>
           <View className="flex-row flex-wrap gap-2">
             {grouped[group].map(renderItem)}

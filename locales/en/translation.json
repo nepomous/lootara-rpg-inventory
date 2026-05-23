@@ -83,7 +83,35 @@
     "oracle": "Oracle",
     "swashbuckler": "Swashbuckler",
     "witch": "Witch",
-    "other": "Other"
+    "other": "Other",
+    "cavalier": "Cavalier",
+    "gunslinger": "Gunslinger",
+    "inquisitor": "Inquisitor",
+    "magus": "Magus",
+    "summoner": "Summoner",
+    "arcanist": "Arcanist",
+    "bloodrager": "Bloodrager",
+    "brawler": "Brawler",
+    "hunter": "Hunter",
+    "shaman": "Shaman",
+    "skald": "Skald",
+    "slayer": "Slayer",
+    "warpriest": "Warpriest",
+    "kineticist": "Kineticist",
+    "medium": "Medium",
+    "mesmerist": "Mesmerist",
+    "occultist": "Occultist",
+    "psychic": "Psychic",
+    "spiritualist": "Spiritualist",
+    "antipaladin": "Antipaladin",
+    "ninja": "Ninja",
+    "samurai": "Samurai",
+    "animist": "Animist",
+    "exemplar": "Exemplar",
+    "inventor": "Inventor",
+    "thaumaturge": "Thaumaturge",
+    "warrior": "Warrior",
+    "mage": "Mage"
   },
   "races": {
     "human": "Human",
@@ -530,5 +558,12 @@
     "container_saddlebags": {
       "description": "Pair of saddlebags with a total capacity of 60 lbs. Attached to the flanks of a mount."
     }
+  },
+  "class_groups": {
+    "Core": "Core",
+    "Base": "Base",
+    "Híbrida": "Hybrid",
+    "Ocultista": "Occult",
+    "Alternativa": "Alternate"
   }
 }

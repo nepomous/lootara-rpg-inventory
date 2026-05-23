@@ -83,7 +83,35 @@
     "oracle": "Orakel",
     "swashbuckler": "Fechter",
     "witch": "Hexe",
-    "other": "Andere"
+    "other": "Andere",
+    "cavalier": "Kavalier",
+    "gunslinger": "Revolverheld",
+    "inquisitor": "Inquisitor",
+    "magus": "Magus",
+    "summoner": "Beschwörer",
+    "arcanist": "Arkanist",
+    "bloodrager": "Bloodrager",
+    "brawler": "Raufbold",
+    "hunter": "Jäger",
+    "shaman": "Schamane",
+    "skald": "Skald",
+    "slayer": "Vertilger",
+    "warpriest": "Kriegspriester",
+    "kineticist": "Kinetiker",
+    "medium": "Medium",
+    "mesmerist": "Mesmerist",
+    "occultist": "Okkultist",
+    "psychic": "Mentalist",
+    "spiritualist": "Spiritualist",
+    "antipaladin": "Antipaladin",
+    "ninja": "Ninja",
+    "samurai": "Samurai",
+    "animist": "Animist",
+    "exemplar": "Exemplar",
+    "inventor": "Erfinder",
+    "thaumaturge": "Thaumaturg",
+    "warrior": "Krieger",
+    "mage": "Zauberer"
   },
   "races": {
     "human": "Mensch",
@@ -530,5 +558,12 @@
     "container_saddlebags": {
       "description": "Ein Paar Satteltaschen mit einer Gesamtkapazität von 60 lb. An den Flanken des Reittiers befestigt."
     }
+  },
+  "class_groups": {
+    "Core": "Core",
+    "Base": "Base",
+    "Híbrida": "Hybrid",
+    "Ocultista": "Okkulte",
+    "Alternativa": "Alternative"
   }
 }

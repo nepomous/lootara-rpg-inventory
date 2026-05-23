@@ -83,7 +83,35 @@
     "oracle": "Oráculo",
     "swashbuckler": "Espadachín",
     "witch": "Bruja",
-    "other": "Otro"
+    "other": "Otro",
+    "cavalier": "Caballero",
+    "gunslinger": "Pistolero",
+    "inquisitor": "Inquisidor",
+    "magus": "Magus",
+    "summoner": "Invocador",
+    "arcanist": "Arcanista",
+    "bloodrager": "Bloodrager",
+    "brawler": "Peleador",
+    "hunter": "Cazador",
+    "shaman": "Chamán",
+    "skald": "Skald",
+    "slayer": "Asesino",
+    "warpriest": "Sacerdote de Guerra",
+    "kineticist": "Cinético",
+    "medium": "Médium",
+    "mesmerist": "Mesmerista",
+    "occultist": "Ocultista",
+    "psychic": "Psíquico",
+    "spiritualist": "Espiritualista",
+    "antipaladin": "Antipaladín",
+    "ninja": "Ninja",
+    "samurai": "Samurai",
+    "animist": "Animista",
+    "exemplar": "Ejemplar",
+    "inventor": "Inventor",
+    "thaumaturge": "Taumaturgo",
+    "warrior": "Guerrero",
+    "mage": "Mago"
   },
   "races": {
     "human": "Humano",
@@ -530,5 +558,12 @@
     "container_saddlebags": {
       "description": "Par de alforjas para montura, con capacidad total de 60 lb. Fijadas en los flancos del animal."
     }
+  },
+  "class_groups": {
+    "Core": "Core",
+    "Base": "Base",
+    "Híbrida": "Híbrida",
+    "Ocultista": "Ocultista",
+    "Alternativa": "Alternativa"
   }
 }
