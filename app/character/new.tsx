@@ -79,9 +79,11 @@ function ClassGrid({
 
   const renderItem = (item: ClassEntry) => {
     const selected = value === item.id;
+    const rawLabel = t(`classes.${item.id}`, { defaultValue: item.label });
+    const displayLabel = typeof rawLabel === "string" ? rawLabel : item.label;
     return (
       <Pressable
-        key={item.id}
+        key={`class-${String(item.id)}`}
         onPress={() => onChange(item.id)}
         className={`w-16 items-center py-2 rounded-xl border ${
           selected
@@ -96,7 +98,7 @@ function ClassGrid({
           }`}
           numberOfLines={2}
         >
-          {t(`classes.${item.id}`, { defaultValue: item.label })}
+          {displayLabel}
         </Text>
       </Pressable>
     );
@@ -436,8 +438,11 @@ export default function NewCharacterScreen() {
               {watch("name") || t("new_character.no_name")}
             </Text>
             <Text className="text-text-muted text-sm">
-              {systemClasses.find((e) => e.id === selectedClass)?.label ??
-                selectedClass}
+              {t(`classes.${selectedClass}`, {
+                defaultValue:
+                  systemClasses.find((e) => e.id === selectedClass)?.label ??
+                  selectedClass,
+              })}
               {" · "}
               {t(
                 `characters.system_${watch("system") as keyof typeof RPG_SYSTEMS}`,

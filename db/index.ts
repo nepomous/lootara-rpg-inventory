@@ -30,20 +30,6 @@ export async function runMigrations(): Promise<void> {
   } catch {
     // Column already exists or table doesn't exist yet — both are fine.
   }
-  // Safe upgrade: add system-metadata columns to bag_items (migration 0002)
-  const bagItemCols = [
-    "ALTER TABLE bag_items ADD COLUMN description TEXT",
-    "ALTER TABLE bag_items ADD COLUMN rarity TEXT",
-    "ALTER TABLE bag_items ADD COLUMN magic_bonus INTEGER NOT NULL DEFAULT 0",
-    "ALTER TABLE bag_items ADD COLUMN system_meta TEXT",
-  ];
-  for (const sql of bagItemCols) {
-    try {
-      sqlite.execSync(sql);
-    } catch {
-      // Column already exists — safe to ignore.
-    }
-  }
   await migrate(db, migrations);
 }
 

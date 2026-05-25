@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -72,6 +72,16 @@ export default function CharacterBagScreen() {
   const router = useRouter();
   const { t } = useTranslation();
 
+  // SEC-05: Validar UUID v4 antes de usar em queries — previne manipulação via
+  // deep link lootara://character/<payload>. Drizzle usa queries parametrizadas
+  // (sem SQL injection), mas a validação garante rejeição antecipada e evita
+  // lookups com valores arbitrários no banco.
+  const isValidId =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      id ?? "",
+    );
+  const safeId = isValidId ? id : "";
+
   const [activeTab, setActiveTab] = useState<TabId>("backpack");
   const [addVisible, setAddVisible] = useState(false);
   const [editingItem, setEditingItem] = useState<BagItemWithDetails | null>(
@@ -85,17 +95,24 @@ export default function CharacterBagScreen() {
     data: character,
     isLoading: charLoading,
     error: charError,
-  } = useCharacter(id);
+  } = useCharacter(safeId);
 
   const {
     data: bagItems = [],
     isLoading: bagLoading,
     carriedWeight,
-  } = useBag(id);
+  } = useBag(safeId);
 
-  const { mutate: addItem, isPending: isAdding } = useAddBagItem(id);
-  const { mutate: updateItem } = useUpdateBagItem(id);
-  const { mutate: removeItem } = useRemoveBagItem(id);
+  const { mutate: addItem, isPending: isAdding } = useAddBagItem(safeId);
+  const { mutate: updateItem } = useUpdateBagItem(safeId);
+  const { mutate: removeItem } = useRemoveBagItem(safeId);
+
+  // Redireciona para home se o UUID for inválido (e.g. deep link manipulado)
+  useEffect(() => {
+    if (!isValidId) router.replace("/");
+  }, [isValidId, router]);
+
+  if (!isValidId) return null;
 
   if (charLoading || bagLoading) {
     return (
@@ -165,7 +182,7 @@ export default function CharacterBagScreen() {
     }
     // New custom item created from "Criar item personalizado" — auto-add to bag
     addItem({
-      characterId: id,
+      characterId: safeId,
       itemId: savedItem.id,
       customName: null,
       quantity: 1,

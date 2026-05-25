@@ -42,7 +42,6 @@ function RewardedAdButtonInner({
   onRewarded: () => void;
   label: string;
 }) {
-  const { t } = useTranslation();
   const { show, isLoaded, isLoading } = useRewardedAd(onRewarded, () => {
     // Feedback de incompleto é emitido via prop — o pai pode exibir toast
   });
