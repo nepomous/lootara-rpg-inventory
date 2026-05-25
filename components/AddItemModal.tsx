@@ -97,10 +97,12 @@ function LibraryPicker({
         }
         keyExtractor={(item) => (item === null ? "all" : item[0])}
         showsHorizontalScrollIndicator={false}
+        style={{ flexGrow: 0, flexShrink: 0 }}
         contentContainerStyle={{
           paddingHorizontal: 16,
           gap: 8,
           paddingBottom: 8,
+          alignItems: "center",
         }}
         renderItem={({ item: entry }) => {
           const isAll = entry === null;
@@ -153,6 +155,7 @@ function LibraryPicker({
         data={items}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        style={{ flex: 1 }}
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingBottom: 24,

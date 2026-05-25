@@ -7,7 +7,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Pencil, Plus } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { ITEM_CATEGORIES, ITEM_RARITIES } from "@/constants/rpg";
@@ -136,7 +135,6 @@ function StaticItemRow({ item }: { item: Item }) {
 
 export default function LibraryScreen() {
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
   const [filter, setFilter] = useState<FilterValue>(null);
   const [selectedItem, setSelectedItem] = useState<CustomItem | undefined>();
   const formRef = useRef<CustomItemFormRef>(null);
@@ -208,7 +206,7 @@ export default function LibraryScreen() {
   const ListHeader = (
     <View>
       {/* Barra de busca */}
-      <View style={{ paddingTop: insets.top + 12 }} className="px-4 pb-2">
+      <View className="px-4 pt-3 pb-2">
         <TextInput
           value={search}
           onChangeText={setSearch}
