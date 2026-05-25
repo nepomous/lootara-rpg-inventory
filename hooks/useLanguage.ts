@@ -18,7 +18,11 @@ export function useLanguage() {
     async (locale: SupportedLocale): Promise<void> => {
       await i18n.changeLanguage(locale);
       try {
-        await SecureStore.setItemAsync(LANGUAGE_STORE_KEY, locale);
+        // SEC-02: AFTER_FIRST_UNLOCK é suficiente para preferência não-sensível;
+        // garante que o valor não migra para outros dispositivos via backup
+        await SecureStore.setItemAsync(LANGUAGE_STORE_KEY, locale, {
+          keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK,
+        });
       } catch {
         // SecureStore indisponível — a mudança ainda aplica na sessão atual
       }

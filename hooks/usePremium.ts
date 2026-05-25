@@ -4,6 +4,7 @@ import { usePremiumStore } from "@/store/premiumStore";
 import * as SecureStore from "expo-secure-store";
 import Purchases, { LOG_LEVEL } from "react-native-purchases";
 import Constants from "expo-constants";
+import { logger } from "@/utils/logger";
 
 const SECURE_STORE_KEY = "premium_status";
 
@@ -14,7 +15,10 @@ export async function initPremium(): Promise<void> {
     const apiKey = Constants.expoConfig?.extra?.revenueCatApiKeyAndroid ?? "";
 
     if (!apiKey) {
-      const cached = await SecureStore.getItemAsync(SECURE_STORE_KEY);
+      // SEC-02: WHEN_UNLOCKED_THIS_DEVICE_ONLY impede exportação via backup ADB/iCloud
+      const cached = await SecureStore.getItemAsync(SECURE_STORE_KEY, {
+        keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      });
       usePremiumStore.getState().setIsPremium(cached === "true");
       return;
     }
@@ -22,19 +26,36 @@ export async function initPremium(): Promise<void> {
     Purchases.setLogLevel(LOG_LEVEL.ERROR);
     Purchases.configure({ apiKey });
 
+    // SEC-06: Aviso em modo de desenvolvimento — sem bloqueio.
+    // __DEV__ é false em builds de produção, portanto este log nunca aparece
+    // no APK/IPA publicado. Não bloqueamos o app em dispositivos rooteados porque
+    // o RevenueCat valida compras server-side (Apple/Google): mesmo que o
+    // SecureStore local seja manipulado, getCustomerInfo() no próximo boot
+    // sobrescreve o estado com a verdade vinda do servidor.
+    if (__DEV__) {
+      logger.warn(
+        "Development build — ensure RevenueCat is configured for production before releasing",
+      );
+    }
+
     const info = await Purchases.getCustomerInfo();
     const isPremium =
       typeof info.entitlements.active["premium"] !== "undefined";
 
+    // SEC-02: WHEN_UNLOCKED_THIS_DEVICE_ONLY impede exportação via backup ADB/iCloud
+    // e garante que o valor só é lido com o dispositivo desbloqueado
     await SecureStore.setItemAsync(
       SECURE_STORE_KEY,
       isPremium ? "true" : "false",
+      { keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY },
     );
     usePremiumStore.getState().setIsPremium(isPremium);
   } catch {
     // Fallback offline: lê do SecureStore
     try {
-      const cached = await SecureStore.getItemAsync(SECURE_STORE_KEY);
+      const cached = await SecureStore.getItemAsync(SECURE_STORE_KEY, {
+        keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      });
       usePremiumStore.getState().setIsPremium(cached === "true");
     } catch {
       // Silencia — padrão é não-premium
@@ -64,6 +85,7 @@ export function usePremium() {
       await SecureStore.setItemAsync(
         SECURE_STORE_KEY,
         value ? "true" : "false",
+        { keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY },
       );
       setIsPremium(value);
     },

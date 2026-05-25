@@ -32,7 +32,11 @@ const resources = {
 async function resolveInitialLocale(): Promise<SupportedLocale> {
   // 1. Check saved preference
   try {
-    const saved = await SecureStore.getItemAsync(LANGUAGE_STORE_KEY);
+    // SEC-02: AFTER_FIRST_UNLOCK — preferência de idioma não é dado sensível;
+    // deve ser consistente com o modo usado em useLanguage.ts ao salvar
+    const saved = await SecureStore.getItemAsync(LANGUAGE_STORE_KEY, {
+      keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK,
+    });
     if (saved && (SUPPORTED_LOCALES as readonly string[]).includes(saved)) {
       return saved as SupportedLocale;
     }

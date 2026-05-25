@@ -30,10 +30,20 @@ yarn-error.*
 .DS_Store
 *.pem
 
+# Firebase / Google Cloud (nunca commitar — contêm chaves privadas)
+google-services.json
+GoogleService-Info.plist
+service-account.json
+
 # local env files
 .env
 .env.local
+.env.production
+.env.staging
 .env*.local
+
+# Security audit (contém riscos aceitos — não commitar em repos públicos)
+docs/SECURITY_AUDIT.md
 
 # typescript
 *.tsbuildinfo

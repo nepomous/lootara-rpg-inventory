@@ -13,42 +13,49 @@ import {
 
 const BACKUP_VERSION = 2;
 
-// ── Schemas de validação do arquivo de backup ─────────────────────────────────
-const CharacterSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1),
-  class: z.string().min(1),
-  race: z.string().min(1),
+// ── Schemas de validação defensiva do arquivo de backup ───────────────────────
+// SEC-04: Cada campo tem tipo exato, limites de tamanho e formato validado.
+// Isso impede que um arquivo JSON malicioso injete dados fora do esperado.
+
+const CharacterImportSchema = z.object({
+  // SEC-04: UUID v4 obrigatório — impede IDs arbitrários via import malicioso
+  id: z.string().uuid(),
+  name: z.string().min(1).max(60),
+  class: z.string().min(1).max(50),
+  race: z.string().min(1).max(50),
   level: z.number().int().min(1).max(20),
   system: z.enum(["dnd5e", "pf1", "pf2", "other"]),
-  avatarEmoji: z.string().nullable(),
-  createdAt: z.number(),
-  updatedAt: z.number(),
+  avatarEmoji: z.string().max(10).nullable().default(null),
+  // SEC-04: timestamps positivos evitam datas negativas ou overflow
+  createdAt: z.number().int().positive(),
+  updatedAt: z.number().int().positive(),
 });
 
-const BagItemSchema = z.object({
-  id: z.string().min(1),
-  characterId: z.string().min(1),
-  itemId: z.string().nullable(),
-  customName: z.string().nullable(),
+const BagItemImportSchema = z.object({
+  id: z.string().uuid(),
+  characterId: z.string().uuid(),
+  // SEC-04: itemId referencia itens da biblioteca — limite razoável de 100 chars
+  itemId: z.string().max(100).nullable().default(null),
+  customName: z.string().max(60).nullable().default(null),
   isCustom: z.number().int().min(0).max(1).default(0),
-  quantity: z.number().int().min(1),
+  quantity: z.number().int().min(1).max(9999),
   location: z.enum(["equipped", "backpack", "stored"]),
-  notes: z.string().nullable(),
-  description: z.string().nullable().default(null),
+  notes: z.string().max(500).nullable().default(null),
+  description: z.string().max(1000).nullable().default(null),
   rarity: z
     .enum(["common", "uncommon", "rare", "very_rare", "legendary"])
     .nullable()
     .default(null),
   magicBonus: z.number().int().min(0).max(5).default(0),
-  systemMeta: z.string().nullable().default(null),
-  createdAt: z.number(),
-  updatedAt: z.number(),
+  // SEC-04: systemMeta é JSON serializado — limite de 2000 chars
+  systemMeta: z.string().max(2000).nullable().default(null),
+  createdAt: z.number().int().positive(),
+  updatedAt: z.number().int().positive(),
 });
 
-const CustomItemSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1),
+const CustomItemImportSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(1).max(60),
   category: z.enum([
     "weapon",
     "armor",
@@ -59,22 +66,24 @@ const CustomItemSchema = z.object({
     "ammunition",
     "container",
   ]),
-  weight: z.number().min(0),
-  cost: z.number().min(0),
+  weight: z.number().min(0).max(9999),
+  cost: z.number().min(0).max(9_999_999),
   rarity: z.enum(["common", "uncommon", "rare", "very_rare", "legendary"]),
-  description: z.string().nullable(),
+  description: z.string().max(1000).nullable().default(null),
   magicBonus: z.number().int().min(0).max(5).default(0),
-  systemMeta: z.string().nullable().default(null),
-  createdAt: z.number(),
-  updatedAt: z.number(),
+  systemMeta: z.string().max(2000).nullable().default(null),
+  createdAt: z.number().int().positive(),
+  updatedAt: z.number().int().positive(),
 });
 
 const BackupSchema = z.object({
-  version: z.number(),
-  exportedAt: z.number(),
-  characters: z.array(CharacterSchema),
-  bagItems: z.array(BagItemSchema),
-  customItems: z.array(CustomItemSchema).optional(),
+  // SEC-04: version literal(2) rejeita backups de versões incompatíveis
+  version: z.literal(2),
+  exportedAt: z.number().int().positive(),
+  // SEC-04: limites de array evitam DoS por imports gigantes
+  characters: z.array(CharacterImportSchema).max(500),
+  bagItems: z.array(BagItemImportSchema).max(10_000),
+  customItems: z.array(CustomItemImportSchema).max(1_000).optional(),
 });
 
 // ── Export ────────────────────────────────────────────────────────────────────
@@ -142,6 +151,12 @@ export async function importData(): Promise<{
     });
   } catch {
     throw new Error("Não foi possível ler o arquivo.");
+  }
+
+  // SEC-04: Limite de 5 MB — rejeita arquivos gigantes antes de parsear
+  // Previne DoS via JSON.parse de strings arbitrariamente grandes
+  if (raw.length > 5_000_000) {
+    throw new Error("Arquivo muito grande. O backup deve ter menos de 5 MB.");
   }
 
   let parsed: unknown;
