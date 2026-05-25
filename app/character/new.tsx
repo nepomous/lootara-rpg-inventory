@@ -141,8 +141,9 @@ function RaceDropdown({
 }: {
   value: string;
   onChange: (v: string) => void;
-  races: readonly string[];
+  races: readonly { id: string; label: string }[];
 }) {
+  const { t } = useTranslation();
   return (
     <ScrollView
       horizontal
@@ -151,11 +152,11 @@ function RaceDropdown({
       contentContainerStyle={{ gap: 8, paddingVertical: 2 }}
     >
       {races.map((race) => {
-        const selected = value === race;
+        const selected = value === race.id;
         return (
           <Pressable
-            key={race}
-            onPress={() => onChange(race)}
+            key={race.id}
+            onPress={() => onChange(race.id)}
             className={`flex-row items-center gap-1.5 px-3 py-2 rounded-chip border ${
               selected
                 ? "bg-primary border-primary"
@@ -167,7 +168,7 @@ function RaceDropdown({
                 selected ? "text-text-inverse font-bold" : "text-text-muted"
               }`}
             >
-              {race}
+              {t(`races.${race.id}`, { defaultValue: race.label })}
             </Text>
           </Pressable>
         );

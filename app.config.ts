@@ -2,7 +2,7 @@ import { ExpoConfig, ConfigContext } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "Lootara - RPG Inventory",
+  name: "Lootara",
   slug: "lootara-rpg-inventory",
   version: "1.0.0",
   orientation: "portrait",
