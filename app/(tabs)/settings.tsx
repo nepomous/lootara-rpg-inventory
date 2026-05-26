@@ -13,6 +13,8 @@ import {
   Coffee,
   Crown,
   Download,
+  FileText,
+  Lock,
   RefreshCw,
   Upload,
 } from "lucide-react-native";
@@ -25,6 +27,8 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const APP_VERSION = Constants.expoConfig?.version ?? "1.0.0";
 const KOFI_URL = "https://ko-fi.com/nepomous";
+const PRIVACY_URL = "https://v0-lootara-marketing-site.vercel.app/privacy";
+const TERMS_URL = "https://v0-lootara-marketing-site.vercel.app/terms";
 
 // ── Componentes de card reutilizáveis ─────────────────────────────────────────
 function SectionTitle({ title }: { title: string }) {
@@ -255,6 +259,30 @@ function BackupCard() {
   );
 }
 
+// ── Card Legal ────────────────────────────────────────────────────────────────
+function LegalCard() {
+  const { t } = useTranslation();
+  return (
+    <Card>
+      <CardRow
+        icon={<Lock size={22} color="#8a8a9a" />}
+        title={t("settings.privacy_policy")}
+        subtitle={t("settings.privacy_policy_subtitle")}
+        onPress={() => Linking.openURL(PRIVACY_URL).catch(() => {})}
+        right={<Text className="text-text-muted text-lg">›</Text>}
+      />
+      <Divider />
+      <CardRow
+        icon={<FileText size={22} color="#8a8a9a" />}
+        title={t("settings.terms_of_use")}
+        subtitle={t("settings.terms_of_use_subtitle")}
+        onPress={() => Linking.openURL(TERMS_URL).catch(() => {})}
+        right={<Text className="text-text-muted text-lg">›</Text>}
+      />
+    </Card>
+  );
+}
+
 // ── Tela principal ────────────────────────────────────────────────────────────
 export default function SettingsScreen() {
   const { t } = useTranslation();
@@ -294,6 +322,9 @@ export default function SettingsScreen() {
           {t("settings.backup_warning")}
         </Text>
       </View>
+
+      <SectionTitle title={t("settings.section_legal")} />
+      <LegalCard />
 
       {/* Versão do app */}
       <View className="items-center mt-8">

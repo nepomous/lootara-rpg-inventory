@@ -256,7 +256,12 @@
     "backup_export_subtitle": "Save characters and bags to JSON",
     "backup_import_subtitle": "Restore from a backup file",
     "backup_success_title": "Imported successfully! ✅",
-    "backup_success_message": "{{characters}} character(s), {{bagItems}} item(s) and {{customItems}} custom item(s) restored."
+    "backup_success_message": "{{characters}} character(s), {{bagItems}} item(s) and {{customItems}} custom item(s) restored.",
+    "section_legal": "Legal",
+    "privacy_policy": "Privacy Policy",
+    "privacy_policy_subtitle": "How your data is handled",
+    "terms_of_use": "Terms of Use",
+    "terms_of_use_subtitle": "App usage rules"
   },
   "language": {
     "pt-BR": "Português (BR)",

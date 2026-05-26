@@ -256,7 +256,12 @@
     "backup_export_subtitle": "Charaktere und Beutel als JSON speichern",
     "backup_import_subtitle": "Aus einer Sicherungsdatei wiederherstellen",
     "backup_success_title": "Erfolgreich importiert! ✅",
-    "backup_success_message": "{{characters}} Charakter(e), {{bagItems}} Gegenstand/Gegenstände und {{customItems}} benutzerdefinierte(r) Gegenstand/Gegenstände wiederhergestellt."
+    "backup_success_message": "{{characters}} Charakter(e), {{bagItems}} Gegenstand/Gegenstände und {{customItems}} benutzerdefinierte(r) Gegenstand/Gegenstände wiederhergestellt.",
+    "section_legal": "Rechtliches",
+    "privacy_policy": "Datenschutzrichtlinie",
+    "privacy_policy_subtitle": "Wie Ihre Daten verarbeitet werden",
+    "terms_of_use": "Nutzungsbedingungen",
+    "terms_of_use_subtitle": "Nutzungsregeln der App"
   },
   "language": {
     "pt-BR": "Português (BR)",

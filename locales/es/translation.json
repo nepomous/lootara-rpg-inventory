@@ -256,7 +256,12 @@
     "backup_export_subtitle": "Guardar personajes y bolsas en JSON",
     "backup_import_subtitle": "Restaurar desde un archivo de copia de seguridad",
     "backup_success_title": "¡Importado con éxito! ✅",
-    "backup_success_message": "{{characters}} personaje(s), {{bagItems}} objeto(s) y {{customItems}} objeto(s) personalizado(s) restaurados."
+    "backup_success_message": "{{characters}} personaje(s), {{bagItems}} objeto(s) y {{customItems}} objeto(s) personalizado(s) restaurados.",
+    "section_legal": "Legal",
+    "privacy_policy": "Política de Privacidad",
+    "privacy_policy_subtitle": "Cómo se manejan tus datos",
+    "terms_of_use": "Términos de Uso",
+    "terms_of_use_subtitle": "Reglas de uso de la aplicación"
   },
   "language": {
     "pt-BR": "Português (BR)",

@@ -279,6 +279,7 @@ function Dnd5eFields({ control }: { control: Control<FormValues> }) {
               onValueChange={onChange}
               trackColor={{ true: Colors.gold, false: Colors.borderSubtle }}
               thumbColor={Colors.parchment}
+              ios_backgroundColor={Colors.surfaceElevated}
             />
           )}
         />
@@ -343,6 +344,7 @@ function Dnd5eFields({ control }: { control: Control<FormValues> }) {
               onValueChange={onChange}
               trackColor={{ true: Colors.crimson, false: Colors.borderSubtle }}
               thumbColor={Colors.parchment}
+              ios_backgroundColor={Colors.surfaceElevated}
             />
           )}
         />
@@ -733,6 +735,7 @@ function Pf2eFields({ control }: { control: Control<FormValues> }) {
               onValueChange={onChange}
               trackColor={{ true: Colors.gold, false: Colors.borderSubtle }}
               thumbColor={Colors.parchment}
+              ios_backgroundColor={Colors.surfaceElevated}
             />
           )}
         />

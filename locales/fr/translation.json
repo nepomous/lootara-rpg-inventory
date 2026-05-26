@@ -256,7 +256,12 @@
     "backup_export_subtitle": "Enregistrer les personnages et les sacs en JSON",
     "backup_import_subtitle": "Restaurer depuis un fichier de sauvegarde",
     "backup_success_title": "Importé avec succès ! ✅",
-    "backup_success_message": "{{characters}} personnage(s), {{bagItems}} objet(s) et {{customItems}} objet(s) personnalisé(s) restaurés."
+    "backup_success_message": "{{characters}} personnage(s), {{bagItems}} objet(s) et {{customItems}} objet(s) personnalisé(s) restaurés.",
+    "section_legal": "Légal",
+    "privacy_policy": "Politique de confidentialité",
+    "privacy_policy_subtitle": "Comment vos données sont traitées",
+    "terms_of_use": "Conditions d'utilisation",
+    "terms_of_use_subtitle": "Règles d'utilisation de l'application"
   },
   "language": {
     "pt-BR": "Português (BR)",

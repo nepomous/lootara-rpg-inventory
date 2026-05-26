@@ -256,7 +256,12 @@
     "backup_export_subtitle": "Salvar personagens e sacolas em JSON",
     "backup_import_subtitle": "Restaurar a partir de um arquivo de backup",
     "backup_success_title": "Importado com sucesso! ✅",
-    "backup_success_message": "{{characters}} personagem(ns), {{bagItems}} item(ns) e {{customItems}} item(ns) personalizado(s) restaurados."
+    "backup_success_message": "{{characters}} personagem(ns), {{bagItems}} item(ns) e {{customItems}} item(ns) personalizado(s) restaurados.",
+    "section_legal": "Legal",
+    "privacy_policy": "Política de Privacidade",
+    "privacy_policy_subtitle": "Como seus dados são tratados",
+    "terms_of_use": "Termos de Uso",
+    "terms_of_use_subtitle": "Regras de uso do aplicativo"
   },
   "language": {
     "pt-BR": "Português (BR)",
