@@ -15,6 +15,7 @@ import {
   Download,
   FileText,
   Lock,
+  Mail,
   RefreshCw,
   Upload,
 } from "lucide-react-native";
@@ -29,6 +30,7 @@ const APP_VERSION = Constants.expoConfig?.version ?? "1.0.0";
 const KOFI_URL = "https://ko-fi.com/nepomous";
 const PRIVACY_URL = "https://v0-lootara-marketing-site.vercel.app/privacy";
 const TERMS_URL = "https://v0-lootara-marketing-site.vercel.app/terms";
+const SUPPORT_EMAIL = "lootara.support@gmail.com";
 
 // ── Componentes de card reutilizáveis ─────────────────────────────────────────
 function SectionTitle({ title }: { title: string }) {
@@ -264,6 +266,16 @@ function LegalCard() {
   const { t } = useTranslation();
   return (
     <Card>
+      <CardRow
+        icon={<Mail size={22} color="#8a8a9a" />}
+        title={t("settings.contact_support_title")}
+        subtitle={t("settings.contact_support_subtitle")}
+        onPress={() =>
+          Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(() => {})
+        }
+        right={<Text className="text-text-muted text-lg">›</Text>}
+      />
+      <Divider />
       <CardRow
         icon={<Lock size={22} color="#8a8a9a" />}
         title={t("settings.privacy_policy")}

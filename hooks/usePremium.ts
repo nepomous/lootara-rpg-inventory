@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 import { usePremiumStore } from "@/store/premiumStore";
 import * as SecureStore from "expo-secure-store";
 import Purchases, { LOG_LEVEL } from "react-native-purchases";
@@ -11,8 +11,19 @@ const SECURE_STORE_KEY = "premium_status";
 // ── Inicialização no app load (_layout.tsx) ───────────────────────────────────
 // Configura RevenueCat, lê status e salva em SecureStore + Zustand.
 export async function initPremium(): Promise<void> {
+  // Flag de teste: EXPO_PUBLIC_FORCE_PREMIUM=true no .env
+  // Só funciona em builds de desenvolvimento (__DEV__) — nunca em produção.
+  if (__DEV__ && process.env.EXPO_PUBLIC_FORCE_PREMIUM === "true") {
+    logger.warn("[DEV] FORCE_PREMIUM ativo — simulando conta premium");
+    usePremiumStore.getState().setIsPremium(true);
+    return;
+  }
+
   try {
-    const apiKey = Constants.expoConfig?.extra?.revenueCatApiKeyAndroid ?? "";
+    const apiKey =
+      Platform.OS === "ios"
+        ? (Constants.expoConfig?.extra?.revenueCatApiKeyIos ?? "")
+        : (Constants.expoConfig?.extra?.revenueCatApiKeyAndroid ?? "");
 
     if (!apiKey) {
       // SEC-02: WHEN_UNLOCKED_THIS_DEVICE_ONLY impede exportação via backup ADB/iCloud

@@ -66,9 +66,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     admobBannerCharacter: process.env.EXPO_PUBLIC_ADMOB_BANNER_CHARACTER,
     admobRewarded: process.env.EXPO_PUBLIC_ADMOB_REWARDED,
     eas: {
-      // SEC-05 [CORRETO]: EAS_PROJECT_ID NÃO usa prefixo EXPO_PUBLIC_ —
-      // é injetado apenas em build-time e não é embutido no bundle JS.
-      projectId: process.env.EAS_PROJECT_ID,
+      // EAS project ID é um identificador público — seguro para commitar.
+      // Ref: https://docs.expo.dev/workflow/configuration/#dynamic-configuration-with-appconfigjs
+      projectId: "9fc57fda-6a8e-4934-9841-2f99a2ea3b50",
     },
   },
 });

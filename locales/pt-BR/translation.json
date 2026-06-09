@@ -258,6 +258,8 @@
     "backup_success_title": "Importado com sucesso! ✅",
     "backup_success_message": "{{characters}} personagem(ns), {{bagItems}} item(ns) e {{customItems}} item(ns) personalizado(s) restaurados.",
     "section_legal": "Legal",
+    "contact_support_title": "Falar com o Suporte",
+    "contact_support_subtitle": "lootara.support@gmail.com",
     "privacy_policy": "Política de Privacidade",
     "privacy_policy_subtitle": "Como seus dados são tratados",
     "terms_of_use": "Termos de Uso",
