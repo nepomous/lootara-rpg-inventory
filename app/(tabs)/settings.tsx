@@ -5,6 +5,7 @@ import {
   Linking,
   Pressable,
   ScrollView,
+  Switch,
   Text,
   View,
 } from "react-native";
@@ -23,6 +24,7 @@ import { useTranslation } from "react-i18next";
 import Constants from "expo-constants";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { usePremium } from "@/hooks/usePremium";
+import { usePremiumStore } from "@/store/premiumStore";
 import { exportData, importData } from "@/utils/backup";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -295,6 +297,37 @@ function LegalCard() {
   );
 }
 
+// ── [DEV ONLY] Toggle Premium ─────────────────────────────────────────────────
+// Este card NUNCA aparece em builds de produção. __DEV__ é false em produção
+// (Metro injeta a constante em bundle time) → o bloco inteiro é dead code.
+function DevPremiumCard() {
+  const { t } = useTranslation();
+  const isPremium = usePremiumStore((s) => s.isPremium);
+  const setIsPremium = usePremiumStore((s) => s.setIsPremium);
+
+  return (
+    <Card>
+      <CardRow
+        icon={
+          <View className="w-6 h-6 rounded items-center justify-center bg-yellow-500/20">
+            <Text className="text-yellow-400 text-xs font-bold">DEV</Text>
+          </View>
+        }
+        title={t("settings.dev_toggle_title")}
+        subtitle={t("settings.dev_toggle_subtitle")}
+        right={
+          <Switch
+            value={isPremium}
+            onValueChange={setIsPremium}
+            trackColor={{ false: "#3f3f5a", true: "#c9a84c" }}
+            thumbColor={isPremium ? "#ffd700" : "#8a8a9a"}
+          />
+        }
+      />
+    </Card>
+  );
+}
+
 // ── Tela principal ────────────────────────────────────────────────────────────
 export default function SettingsScreen() {
   const { t } = useTranslation();
@@ -345,6 +378,14 @@ export default function SettingsScreen() {
           {t("settings.version", { version: APP_VERSION })}
         </Text>
       </View>
+
+      {/* ── Seção visível SOMENTE em desenvolvimento ─── */}
+      {__DEV__ && (
+        <>
+          <SectionTitle title={t("settings.dev_section_title")} />
+          <DevPremiumCard />
+        </>
+      )}
     </ScrollView>
   );
 }

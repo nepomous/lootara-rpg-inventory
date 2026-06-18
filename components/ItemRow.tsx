@@ -98,40 +98,46 @@ export function LibraryItemRow({
       stored: t("bag.move_to_stored"),
     };
 
-    Alert.alert(item.name, t("common.what_to_do"), [
-      ...LOCATIONS.filter((l) => l !== bagItem.location).map((l) => ({
-        text: LOCATION_LABELS[l],
-        onPress: () => onChangeLocation(bagItem.id, l),
-      })),
-      {
-        text: t("bag.consume_qty", { qty: bagItem.quantity }),
-        onPress: () => {
-          if (bagItem.quantity <= 1) {
-            onRemove(bagItem.id);
-          } else {
-            onChangeQuantity(bagItem.id, bagItem.quantity - 1);
-          }
+    Alert.alert(
+      t(`items.${item.id}.name`, { defaultValue: item.name }),
+      t("common.what_to_do"),
+      [
+        ...LOCATIONS.filter((l) => l !== bagItem.location).map((l) => ({
+          text: LOCATION_LABELS[l],
+          onPress: () => onChangeLocation(bagItem.id, l),
+        })),
+        {
+          text: t("bag.consume_qty", { qty: bagItem.quantity }),
+          onPress: () => {
+            if (bagItem.quantity <= 1) {
+              onRemove(bagItem.id);
+            } else {
+              onChangeQuantity(bagItem.id, bagItem.quantity - 1);
+            }
+          },
         },
-      },
-      {
-        text: t("bag.remove_item"),
-        style: "destructive",
-        onPress: () =>
-          Alert.alert(
-            t("bag.remove_item"),
-            t("bag.remove_confirm_message", { name: item.name }),
-            [
-              { text: t("common.cancel"), style: "cancel" },
-              {
-                text: t("bag.remove_item"),
-                style: "destructive",
-                onPress: () => onRemove(bagItem.id),
-              },
-            ],
-          ),
-      },
-      { text: t("common.cancel"), style: "cancel" },
-    ]);
+        {
+          text: t("bag.remove_item"),
+          style: "destructive",
+          onPress: () =>
+            Alert.alert(
+              t("bag.remove_item"),
+              t("bag.remove_confirm_message", {
+                name: t(`items.${item.id}.name`, { defaultValue: item.name }),
+              }),
+              [
+                { text: t("common.cancel"), style: "cancel" },
+                {
+                  text: t("bag.remove_item"),
+                  style: "destructive",
+                  onPress: () => onRemove(bagItem.id),
+                },
+              ],
+            ),
+        },
+        { text: t("common.cancel"), style: "cancel" },
+      ],
+    );
   }
 
   return (
@@ -157,7 +163,7 @@ export function LibraryItemRow({
         {/* Nome + peso */}
         <View className="flex-1 gap-0.5">
           <Text style={styles.itemName} numberOfLines={1}>
-            {item.name}
+            {t(`items.${item.id}.name`, { defaultValue: item.name })}
           </Text>
           <Text style={styles.weightText}>{weightText}</Text>
         </View>

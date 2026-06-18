@@ -79,7 +79,7 @@ function StaticItemRow({ item }: { item: Item }) {
         </View>
         <View className="flex-1">
           <Text className="text-text text-sm font-semibold" numberOfLines={1}>
-            {item.name}
+            {t(`items.${item.id}.name`, { defaultValue: item.name })}
           </Text>
           <Text className="text-text-muted text-xs mt-0.5">
             {item.weight} lbs · {item.cost} PO

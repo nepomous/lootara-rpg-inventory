@@ -200,7 +200,7 @@ locales/de/translation.json
 - Ao criar uma nova chave, adicioná-la nos **5 arquivos** na mesma operação.
 - `pt-BR` é a fonte de verdade para nomenclatura das chaves.
 - Traduções devem ser naturais no idioma alvo — não usar Google Translate literal.
-- Chaves ausentes em qualquer idioma causam `undefined` silencioso na UI — tratar como bug.
+- Chaves ausentes em qualquer idioma causam `undefined` silencioso na UI — tratar como bug.- **Nomes de itens da biblioteca** ficam em `items.{id}.name` em todos os 5 locales. Ao adicionar um novo item em `constants/items.ts`, adicionar o `name` nos 5 arquivos e usar `t(\`items.${item.id}.name\`, { defaultValue: item.name })` nos componentes.
 
 ### Checklist pré-entrega
 

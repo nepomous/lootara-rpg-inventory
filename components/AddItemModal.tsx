@@ -176,7 +176,7 @@ function LibraryPicker({
                   className="text-text text-sm font-semibold"
                   numberOfLines={1}
                 >
-                  {item.name}
+                  {t(`items.${item.id}.name`, { defaultValue: item.name })}
                 </Text>
                 <Text className="text-text-muted text-xs">
                   {item.weight} lbs · {item.cost} {t("library.cost_unit")}

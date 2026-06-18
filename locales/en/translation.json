@@ -263,7 +263,10 @@
     "privacy_policy": "Privacy Policy",
     "privacy_policy_subtitle": "How your data is handled",
     "terms_of_use": "Terms of Use",
-    "terms_of_use_subtitle": "App usage rules"
+    "terms_of_use_subtitle": "App usage rules",
+    "dev_section_title": "Development",
+    "dev_toggle_title": "Simulate Premium account",
+    "dev_toggle_subtitle": "Toggles paid mode on/off (DEV only)"
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -397,210 +400,279 @@
   },
   "items": {
     "weapon_longsword": {
+      "name": "Longsword",
       "description": "Versatile steel longsword, wielded with one or two hands. Damage: 1d8 slashing (1H) or 1d10 (2H)."
     },
     "weapon_shortsword": {
+      "name": "Shortsword",
       "description": "Agile short sword, favored by rogues and duelists. Properties: Light, Finesse. Damage: 1d6 piercing."
     },
     "weapon_dagger": {
+      "name": "Dagger",
       "description": "Light and easily concealed blade. Can be thrown. Properties: Light, Thrown, Finesse. Damage: 1d4 piercing."
     },
     "weapon_handaxe": {
+      "name": "Handaxe",
       "description": "Short-hafted hatchet, effective in melee or thrown. Properties: Light, Thrown. Damage: 1d6 slashing."
     },
     "weapon_greataxe": {
+      "name": "Greataxe",
       "description": "Heavy two-handed battle axe, an armor destroyer. Properties: Heavy, Two-Handed. Damage: 1d12 slashing."
     },
     "weapon_greatsword": {
+      "name": "Greatsword",
       "description": "Two-handed longsword, symbol of martial power. Properties: Heavy, Two-Handed. Damage: 2d6 slashing."
     },
     "weapon_rapier": {
+      "name": "Rapier",
       "description": "Elegant thin-bladed fencing sword, ideal for duelists and bards. Property: Finesse. Damage: 1d8 piercing."
     },
     "weapon_shortbow": {
+      "name": "Shortbow",
       "description": "Wooden short bow, agile and easy to use on horseback or in tight spaces. Range: 80/320 ft. Damage: 1d6 piercing."
     },
     "weapon_longbow": {
+      "name": "Longbow",
       "description": "Long-range bow, preferred by rangers and elves. Range: 150/600 ft. Properties: Heavy, Two-Handed. Damage: 1d8 piercing."
     },
     "weapon_quarterstaff": {
+      "name": "Quarterstaff",
       "description": "Sturdy wooden staff, versatile and unassuming. Wielded with one or two hands. Damage: 1d6 (1H) or 1d8 (2H) bludgeoning."
     },
     "weapon_mace": {
+      "name": "Mace",
       "description": "Metal-headed mace, effective against heavy armor. Damage: 1d6 bludgeoning."
     },
     "weapon_warhammer": {
+      "name": "Warhammer",
       "description": "Versatile war hammer forged for battle. Property: Versatile. Damage: 1d8 (1H) or 1d10 (2H) bludgeoning."
     },
     "weapon_spear": {
+      "name": "Spear",
       "description": "Long-shafted spear, versatile for melee or throwing. Range: 20/60 ft. Damage: 1d6 piercing."
     },
     "weapon_hand_crossbow": {
+      "name": "Hand Crossbow",
       "description": "Compact hand crossbow, usable with one hand. Favorite of rogues. Range: 30/120 ft. Damage: 1d6 piercing."
     },
     "weapon_light_crossbow": {
+      "name": "Light Crossbow",
       "description": "Light crossbow, easy to handle, popular among novice adventurers. Range: 80/320 ft. Damage: 1d8 piercing."
     },
     "armor_leather": {
+      "name": "Leather Armor",
       "description": "Hardened leather armor, light and silent. AC 11 + DEX mod. Light Armor."
     },
     "armor_studded_leather": {
+      "name": "Studded Leather",
       "description": "Leather reinforced with metal rivets. AC 12 + DEX mod. Light Armor."
     },
     "armor_chain_shirt": {
+      "name": "Chain Shirt",
       "description": "Chain shirt protecting the torso without greatly restricting movement. AC 13 + DEX mod (max 2). Medium Armor."
     },
     "armor_chain_mail": {
+      "name": "Chain Mail",
       "description": "Full armor of interlocked metal rings. AC 16. Heavy Armor. Stealth Disadvantage."
     },
     "armor_plate": {
+      "name": "Plate Armor",
       "description": "The finest conventional armor available. Articulated metal plates cover the entire body. AC 18. Heavy Armor. Stealth Disadvantage."
     },
     "armor_shield": {
+      "name": "Shield",
       "description": "Wooden shield with metal reinforcement. Wielded in one hand, grants +2 to AC."
     },
     "armor_hide": {
+      "name": "Hide Armor",
       "description": "Rustic armor made of thick hides and furs. AC 12 + DEX mod (max 2). Medium Armor."
     },
     "armor_half_plate": {
+      "name": "Half Plate",
       "description": "Metal plates covering the torso and shoulders, with chain mail elsewhere. AC 15 + DEX mod (max 2). Medium Armor."
     },
     "gear_rope_hempen": {
+      "name": "Hempen Rope (50 ft)",
       "description": "50-foot roll of sturdy hempen rope. Holds up to 900 lbs. Essential for climbing and traps."
     },
     "gear_rope_silk": {
+      "name": "Silk Rope (50 ft)",
       "description": "50-foot roll of silk rope, lighter and stronger than hemp. Favored by rogues."
     },
     "gear_torch": {
+      "name": "Torch",
       "description": "Torch that illuminates a 20-foot radius for 1 hour. Can be used as an improvised weapon (1d4 fire)."
     },
     "gear_lantern_hooded": {
+      "name": "Hooded Lantern",
       "description": "Hooded lantern with adjustable hood that can be closed to block light. Illuminates 30 ft bright + 30 ft dim for 6 hours (1 oil flask)."
     },
     "gear_oil_flask": {
+      "name": "Oil Flask",
       "description": "Oil flask that fuels lanterns for 6 hours. Can be thrown as an incendiary projectile (fire damage in area)."
     },
     "gear_healers_kit": {
+      "name": "Healer's Kit",
       "description": "Kit with bandages, salves, and splints. Contains 10 uses. Stabilizes a creature at 0 HP without a Medicine check."
     },
     "gear_tinderbox": {
+      "name": "Tinderbox",
       "description": "Box with flint, steel, and tinder to start a fire in 1 action (or 1 minute in adverse conditions)."
     },
     "gear_rations": {
+      "name": "Rations (1 day)",
       "description": "One day's provisions: dried meat, hardtack, cheese, and dried fruit. Enough to sustain an adventurer in the field."
     },
     "gear_waterskin": {
+      "name": "Waterskin",
       "description": "Leather waterskin with capacity for 4 pints of liquid. Heavy when full, light when empty (0.5 lb)."
     },
     "gear_grappling_hook": {
+      "name": "Grappling Hook",
       "description": "Iron grappling hook with 4 prongs to catch on ledges and surfaces. Used with rope for climbing."
     },
     "gear_crowbar": {
+      "name": "Crowbar",
       "description": "Iron crowbar that grants advantage on Strength checks to open locked doors and chests."
     },
     "gear_bedroll": {
+      "name": "Bedroll",
       "description": "Rollable sleeping mat for rest in the field. Provides adequate long rest in hostile environments."
     },
     "gear_spellbook": {
+      "name": "Spellbook",
       "description": "Leather-bound spellbook with 100 blank pages. Essential for wizards to record their spells."
     },
     "gear_component_pouch": {
+      "name": "Component Pouch",
       "description": "Small pouch with compartments containing all non-costly material components for spellcasting."
     },
     "gear_mirror_steel": {
+      "name": "Steel Mirror",
       "description": "Polished steel mirror. Useful for seeing around corners, identifying vampires, and signaling allies at a distance."
     },
     "potion_healing": {
+      "name": "Potion of Healing",
       "description": "Bright red liquid that restores 2d4+2 hit points when drunk as a bonus action."
     },
     "potion_greater_healing": {
+      "name": "Potion of Greater Healing",
       "description": "Potent healing potion that restores 4d4+4 hit points. Glows intensely when shaken."
     },
     "potion_superior_healing": {
+      "name": "Potion of Superior Healing",
       "description": "Superior healing elixir that restores 8d4+8 hit points. Reserved for seasoned adventurers."
     },
     "potion_antitoxin": {
+      "name": "Antitoxin",
       "description": "Antidote that grants advantage on saving throws against poison for 1 hour. Not a magical potion."
     },
     "potion_climbing": {
+      "name": "Potion of Climbing",
       "description": "When drunk, you gain a climbing speed equal to your walking speed and advantage on climbing checks for 1 hour."
     },
     "potion_fire_breath": {
+      "name": "Potion of Fire Breath",
       "description": "After drinking, you can use a bonus action to breathe fire in a 30-ft cone (4d6 fire, DC 13). Can be used 3 times within 1 hour."
     },
     "tool_thieves": {
+      "name": "Thieves' Tools",
       "description": "Case with lockpicks, miniature mirrors, clamps, and tweezers. Required to pick locks and disarm traps."
     },
     "tool_herbalism_kit": {
+      "name": "Herbalism Kit",
       "description": "Kit with pouches, scissors, mortar, and medicinal herbs. Allows creation of antitoxins and non-magical healing potions."
     },
     "tool_alchemist_supplies": {
+      "name": "Alchemist's Supplies",
       "description": "Alchemy equipment: two glass flasks, a Bunsen burner, a pair of tongs, and various reagents."
     },
     "tool_cartographer": {
+      "name": "Cartographer's Tools",
       "description": "Cartography instruments: parchments, compasses, rulers, and special ink for creating and reading maps."
     },
     "tool_disguise_kit": {
+      "name": "Disguise Kit",
       "description": "Disguise kit with cosmetics, false hair, extra clothing, and accessories to change your appearance."
     },
     "tool_poisoner_kit": {
+      "name": "Poisoner's Kit",
       "description": "Kit for preparing and applying poisons: flasks, syringes, gloves, and basic reagents."
     },
     "tool_lute": {
+      "name": "Lute",
       "description": "Lute with a rounded soundbox. Classic bard instrument. Allows use of string instrument proficiency."
     },
     "magic_bag_of_holding": {
+      "name": "Bag of Holding",
       "description": "Magic bag with an extradimensional interior: holds up to 500 lb / 64 cu ft, regardless of external weight. Opening inside a folded space causes an explosion."
     },
     "magic_cloak_protection": {
+      "name": "Cloak of Protection",
       "description": "Enchanted cloak that grants +1 to AC and all saving throws while worn. Requires attunement."
     },
     "magic_ring_protection": {
+      "name": "Ring of Protection",
       "description": "Magic ring that grants +1 to AC and all saving throws. Requires attunement."
     },
     "magic_boots_elvenkind": {
+      "name": "Boots of Elvenkind",
       "description": "Enchanted elven boots that silence your footsteps. Advantage on Stealth checks related to movement. No attunement required."
     },
     "magic_amulet_health": {
+      "name": "Amulet of Health",
       "description": "Amulet that sets your Constitution to 19. No effect if your Constitution is already 19 or higher. Requires attunement."
     },
     "magic_+1_longsword": {
+      "name": "+1 Longsword",
       "description": "Longsword enchanted with +1 to attack rolls and damage rolls. The blade faintly glows in the dark."
     },
     "magic_wand_magic_missiles": {
+      "name": "Wand of Magic Missiles",
       "description": "Wand with 7 charges. Expend 1-3 charges to cast Magic Missile at corresponding levels. Regains 1d6+1 charges at dawn."
     },
     "magic_sending_stones": {
+      "name": "Sending Stones",
       "description": "Pair of enchanted polished stones. Once per day, the holder can transmit a 25-word message to the holder of the paired stone."
     },
     "ammo_arrows_20": {
+      "name": "Arrows (20)",
       "description": "Quiver with 20 wooden feathered arrows. Compatible with short and long bows. On a miss, the arrow is lost 50% of the time."
     },
     "ammo_bolts_20": {
+      "name": "Crossbow Bolts (20)",
       "description": "Case with 20 crossbow bolts. Compatible with light and hand crossbows. Heavier than arrows, more penetrating."
     },
     "ammo_sling_bullets_20": {
+      "name": "Sling Bullets (20)",
       "description": "Twenty lead spheres for a sling. Cheap and plentiful, but require a sling to use. Damage: 1d4 bludgeoning."
     },
     "ammo_silvered_arrows_5": {
+      "name": "Silvered Arrows (5)",
       "description": "5 silver-tipped arrows. Overcome resistance and immunity to non-magical damage from undead and lycanthropes."
     },
     "container_backpack": {
+      "name": "Backpack",
       "description": "Sturdy leather backpack with capacity for 30 lbs (1 cu ft of volume). Basic item for any adventurer."
     },
     "container_chest": {
+      "name": "Chest",
       "description": "Metal-reinforced wooden chest with capacity for 300 lbs (12 cu ft). Can be locked with a padlock."
     },
     "container_pouch": {
+      "name": "Pouch",
       "description": "Small leather pouch for carrying coins or spell components. Capacity: 6 lbs / 1/5 cu ft."
     },
     "container_quiver": {
+      "name": "Quiver",
       "description": "Leather quiver holding up to 20 arrows or bolts. Enables quick ammunition draw in combat."
     },
     "container_scroll_case": {
+      "name": "Scroll Case",
       "description": "Cylindrical leather or bone case for storing and protecting up to 10 scrolls from damage and moisture."
     },
     "container_saddlebags": {
+      "name": "Saddlebags",
       "description": "Pair of saddlebags with a total capacity of 60 lbs. Attached to the flanks of a mount."
     }
   },

@@ -4,7 +4,7 @@ export type { ItemCategory, ItemRarity } from "./rpg";
 
 export type Item = {
   id: string;
-  name: string; // em inglês (padrão RPG)
+  name: string; // em português BR (padrão RPG)
   category: ItemCategory;
   weight: number; // em libras
   cost: number; // em peças de ouro (GP)
@@ -21,7 +21,7 @@ export const ITEMS: Item[] = [
 
   {
     id: "weapon_longsword",
-    name: "Longsword",
+    name: "Espada Longa",
     category: "weapon",
     weight: 3,
     cost: 15,
@@ -32,7 +32,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_shortsword",
-    name: "Shortsword",
+    name: "Espada Curta",
     category: "weapon",
     weight: 2,
     cost: 10,
@@ -43,7 +43,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_dagger",
-    name: "Dagger",
+    name: "Adaga",
     category: "weapon",
     weight: 1,
     cost: 2,
@@ -54,7 +54,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_handaxe",
-    name: "Handaxe",
+    name: "Machadinha",
     category: "weapon",
     weight: 2,
     cost: 5,
@@ -65,7 +65,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_greataxe",
-    name: "Greataxe",
+    name: "Machado Grande",
     category: "weapon",
     weight: 7,
     cost: 30,
@@ -76,7 +76,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_greatsword",
-    name: "Greatsword",
+    name: "Espada Grande",
     category: "weapon",
     weight: 6,
     cost: 50,
@@ -87,7 +87,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_rapier",
-    name: "Rapier",
+    name: "Florete",
     category: "weapon",
     weight: 2,
     cost: 25,
@@ -98,7 +98,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_shortbow",
-    name: "Shortbow",
+    name: "Arco Curto",
     category: "weapon",
     weight: 2,
     cost: 25,
@@ -109,7 +109,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_longbow",
-    name: "Longbow",
+    name: "Arco Longo",
     category: "weapon",
     weight: 2,
     cost: 50,
@@ -120,7 +120,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_quarterstaff",
-    name: "Quarterstaff",
+    name: "Cajado",
     category: "weapon",
     weight: 4,
     cost: 2,
@@ -131,7 +131,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_mace",
-    name: "Mace",
+    name: "Maça",
     category: "weapon",
     weight: 4,
     cost: 5,
@@ -142,7 +142,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_warhammer",
-    name: "Warhammer",
+    name: "Martelo de Guerra",
     category: "weapon",
     weight: 2,
     cost: 15,
@@ -153,7 +153,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_spear",
-    name: "Spear",
+    name: "Lança",
     category: "weapon",
     weight: 3,
     cost: 1,
@@ -164,7 +164,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_hand_crossbow",
-    name: "Hand Crossbow",
+    name: "Besta de Mão",
     category: "weapon",
     weight: 3,
     cost: 75,
@@ -175,7 +175,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "weapon_light_crossbow",
-    name: "Light Crossbow",
+    name: "Besta Leve",
     category: "weapon",
     weight: 5,
     cost: 25,
@@ -189,7 +189,7 @@ export const ITEMS: Item[] = [
 
   {
     id: "armor_leather",
-    name: "Leather Armor",
+    name: "Armadura de Couro",
     category: "armor",
     weight: 10,
     cost: 10,
@@ -200,7 +200,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "armor_studded_leather",
-    name: "Studded Leather",
+    name: "Couro Rebitado",
     category: "armor",
     weight: 13,
     cost: 45,
@@ -211,7 +211,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "armor_chain_shirt",
-    name: "Chain Shirt",
+    name: "Camisa de Malha",
     category: "armor",
     weight: 20,
     cost: 50,
@@ -222,7 +222,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "armor_chain_mail",
-    name: "Chain Mail",
+    name: "Cota de Malha",
     category: "armor",
     weight: 55,
     cost: 75,
@@ -233,7 +233,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "armor_plate",
-    name: "Plate Armor",
+    name: "Armadura de Placas",
     category: "armor",
     weight: 65,
     cost: 1500,
@@ -244,7 +244,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "armor_shield",
-    name: "Shield",
+    name: "Escudo",
     category: "armor",
     weight: 6,
     cost: 10,
@@ -255,7 +255,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "armor_hide",
-    name: "Hide Armor",
+    name: "Armadura de Peles",
     category: "armor",
     weight: 12,
     cost: 10,
@@ -266,7 +266,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "armor_half_plate",
-    name: "Half Plate",
+    name: "Meia Placa",
     category: "armor",
     weight: 40,
     cost: 750,
@@ -280,7 +280,7 @@ export const ITEMS: Item[] = [
 
   {
     id: "gear_rope_hempen",
-    name: "Hempen Rope (50 ft)",
+    name: "Corda de Cânhamo (15 m)",
     category: "gear",
     weight: 10,
     cost: 1,
@@ -291,7 +291,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_rope_silk",
-    name: "Silk Rope (50 ft)",
+    name: "Corda de Seda (15 m)",
     category: "gear",
     weight: 5,
     cost: 10,
@@ -302,7 +302,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_torch",
-    name: "Torch",
+    name: "Tocha",
     category: "gear",
     weight: 1,
     cost: 0.01,
@@ -313,7 +313,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_lantern_hooded",
-    name: "Hooded Lantern",
+    name: "Lanterna com Capuz",
     category: "gear",
     weight: 2,
     cost: 5,
@@ -324,7 +324,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_oil_flask",
-    name: "Oil Flask",
+    name: "Frasco de Óleo",
     category: "gear",
     weight: 1,
     cost: 0.1,
@@ -335,7 +335,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_healers_kit",
-    name: "Healer's Kit",
+    name: "Kit de Cura",
     category: "gear",
     weight: 3,
     cost: 5,
@@ -346,7 +346,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_tinderbox",
-    name: "Tinderbox",
+    name: "Isqueiro",
     category: "gear",
     weight: 1,
     cost: 0.5,
@@ -357,7 +357,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_rations",
-    name: "Rations (1 day)",
+    name: "Rações (1 dia)",
     category: "gear",
     weight: 2,
     cost: 0.5,
@@ -368,7 +368,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_waterskin",
-    name: "Waterskin",
+    name: "Odre",
     category: "gear",
     weight: 5,
     cost: 0.2,
@@ -379,7 +379,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_grappling_hook",
-    name: "Grappling Hook",
+    name: "Gancho de Alpinismo",
     category: "gear",
     weight: 4,
     cost: 2,
@@ -390,7 +390,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_crowbar",
-    name: "Crowbar",
+    name: "Pé de Cabra",
     category: "gear",
     weight: 5,
     cost: 2,
@@ -401,7 +401,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_bedroll",
-    name: "Bedroll",
+    name: "Saco de Dormir",
     category: "gear",
     weight: 7,
     cost: 1,
@@ -412,7 +412,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_spellbook",
-    name: "Spellbook",
+    name: "Livro de Magia",
     category: "gear",
     weight: 3,
     cost: 50,
@@ -423,7 +423,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_component_pouch",
-    name: "Component Pouch",
+    name: "Bolsa de Componentes",
     category: "gear",
     weight: 2,
     cost: 25,
@@ -434,7 +434,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "gear_mirror_steel",
-    name: "Steel Mirror",
+    name: "Espelho de Aço",
     category: "gear",
     weight: 0.5,
     cost: 5,
@@ -448,7 +448,7 @@ export const ITEMS: Item[] = [
 
   {
     id: "potion_healing",
-    name: "Potion of Healing",
+    name: "Poção de Cura",
     category: "potion",
     weight: 0.5,
     cost: 50,
@@ -459,7 +459,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "potion_greater_healing",
-    name: "Potion of Greater Healing",
+    name: "Poção de Cura Maior",
     category: "potion",
     weight: 0.5,
     cost: 150,
@@ -470,7 +470,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "potion_superior_healing",
-    name: "Potion of Superior Healing",
+    name: "Poção de Cura Superior",
     category: "potion",
     weight: 0.5,
     cost: 450,
@@ -482,7 +482,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "potion_antitoxin",
-    name: "Antitoxin",
+    name: "Antitoxina",
     category: "potion",
     weight: 0,
     cost: 50,
@@ -493,7 +493,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "potion_climbing",
-    name: "Potion of Climbing",
+    name: "Poção de Escalada",
     category: "potion",
     weight: 0.5,
     cost: 180,
@@ -504,7 +504,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "potion_fire_breath",
-    name: "Potion of Fire Breath",
+    name: "Poção de Sopro de Fogo",
     category: "potion",
     weight: 0.5,
     cost: 150,
@@ -518,7 +518,7 @@ export const ITEMS: Item[] = [
 
   {
     id: "tool_thieves",
-    name: "Thieves' Tools",
+    name: "Ferramentas de Ladrão",
     category: "tool",
     weight: 1,
     cost: 25,
@@ -529,7 +529,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "tool_herbalism_kit",
-    name: "Herbalism Kit",
+    name: "Kit de Herbalismo",
     category: "tool",
     weight: 3,
     cost: 5,
@@ -540,7 +540,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "tool_alchemist_supplies",
-    name: "Alchemist's Supplies",
+    name: "Suprimentos de Alquimista",
     category: "tool",
     weight: 8,
     cost: 50,
@@ -551,7 +551,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "tool_cartographer",
-    name: "Cartographer's Tools",
+    name: "Ferramentas de Cartógrafo",
     category: "tool",
     weight: 6,
     cost: 15,
@@ -562,7 +562,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "tool_disguise_kit",
-    name: "Disguise Kit",
+    name: "Kit de Disfarce",
     category: "tool",
     weight: 3,
     cost: 25,
@@ -573,7 +573,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "tool_poisoner_kit",
-    name: "Poisoner's Kit",
+    name: "Kit de Envenenador",
     category: "tool",
     weight: 2,
     cost: 50,
@@ -584,7 +584,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "tool_lute",
-    name: "Lute",
+    name: "Alaúde",
     category: "tool",
     weight: 2,
     cost: 35,
@@ -598,7 +598,7 @@ export const ITEMS: Item[] = [
 
   {
     id: "magic_bag_of_holding",
-    name: "Bag of Holding",
+    name: "Bolsa de Contenção",
     category: "magic",
     weight: 15,
     cost: 4000,
@@ -609,7 +609,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "magic_cloak_protection",
-    name: "Cloak of Protection",
+    name: "Manto de Proteção",
     category: "magic",
     weight: 1,
     cost: 3500,
@@ -620,7 +620,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "magic_ring_protection",
-    name: "Ring of Protection",
+    name: "Anel de Proteção",
     category: "magic",
     weight: 0,
     cost: 3500,
@@ -632,7 +632,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "magic_boots_elvenkind",
-    name: "Boots of Elvenkind",
+    name: "Botas Élficas",
     category: "magic",
     weight: 1,
     cost: 2500,
@@ -643,7 +643,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "magic_amulet_health",
-    name: "Amulet of Health",
+    name: "Amuleto de Saúde",
     category: "magic",
     weight: 0,
     cost: 8000,
@@ -655,7 +655,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "magic_+1_longsword",
-    name: "+1 Longsword",
+    name: "Espada Longa +1",
     category: "magic",
     weight: 3,
     cost: 1000,
@@ -666,7 +666,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "magic_wand_magic_missiles",
-    name: "Wand of Magic Missiles",
+    name: "Varinha de Mísseis Mágicos",
     category: "magic",
     weight: 1,
     cost: 6000,
@@ -677,7 +677,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "magic_sending_stones",
-    name: "Sending Stones",
+    name: "Pedras do Mensageiro",
     category: "magic",
     weight: 0,
     cost: 5000,
@@ -691,7 +691,7 @@ export const ITEMS: Item[] = [
 
   {
     id: "ammo_arrows_20",
-    name: "Arrows (20)",
+    name: "Flechas (20)",
     category: "ammunition",
     weight: 1,
     cost: 1,
@@ -702,7 +702,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "ammo_bolts_20",
-    name: "Crossbow Bolts (20)",
+    name: "Virotes (20)",
     category: "ammunition",
     weight: 1.5,
     cost: 1,
@@ -713,7 +713,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "ammo_sling_bullets_20",
-    name: "Sling Bullets (20)",
+    name: "Projéteis de Funda (20)",
     category: "ammunition",
     weight: 1.5,
     cost: 0.04,
@@ -724,7 +724,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "ammo_silvered_arrows_5",
-    name: "Silvered Arrows (5)",
+    name: "Flechas Prateadas (5)",
     category: "ammunition",
     weight: 0.25,
     cost: 25,
@@ -738,7 +738,7 @@ export const ITEMS: Item[] = [
 
   {
     id: "container_backpack",
-    name: "Backpack",
+    name: "Mochila",
     category: "container",
     weight: 5,
     cost: 2,
@@ -749,7 +749,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "container_chest",
-    name: "Chest",
+    name: "Baú",
     category: "container",
     weight: 25,
     cost: 5,
@@ -760,7 +760,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "container_pouch",
-    name: "Pouch",
+    name: "Bolsa",
     category: "container",
     weight: 1,
     cost: 0.5,
@@ -771,7 +771,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "container_quiver",
-    name: "Quiver",
+    name: "Aljava",
     category: "container",
     weight: 1,
     cost: 1,
@@ -782,7 +782,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "container_scroll_case",
-    name: "Scroll Case",
+    name: "Estojo para Pergaminhos",
     category: "container",
     weight: 1,
     cost: 1,
@@ -793,7 +793,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: "container_saddlebags",
-    name: "Saddlebags",
+    name: "Alforjes",
     category: "container",
     weight: 8,
     cost: 4,

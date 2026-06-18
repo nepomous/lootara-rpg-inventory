@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ITEMS } from "@/constants/items";
 import type { Item, ItemCategory } from "@/constants/items";
 import type { RPGSystem } from "@/db/schema";
@@ -8,6 +9,7 @@ type UseLibraryOptions = {
 };
 
 export function useLibrary({ system }: UseLibraryOptions = {}) {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<ItemCategory | null>(
     null,
@@ -25,15 +27,18 @@ export function useLibrary({ system }: UseLibraryOptions = {}) {
       // Filtro de categoria
       if (activeCategory && item.category !== activeCategory) return false;
 
-      // Filtro de busca (nome, case-insensitive)
+      // Filtro de busca (nome traduzido, case-insensitive)
       if (search.trim()) {
         const q = search.trim().toLowerCase();
-        if (!item.name.toLowerCase().includes(q)) return false;
+        const translatedName = t(`items.${item.id}.name`, {
+          defaultValue: item.name,
+        });
+        if (!translatedName.toLowerCase().includes(q)) return false;
       }
 
       return true;
     });
-  }, [system, activeCategory, search]);
+  }, [system, activeCategory, search, t]);
 
   return {
     items: filtered,
