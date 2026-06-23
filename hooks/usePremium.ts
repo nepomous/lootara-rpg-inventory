@@ -1,12 +1,47 @@
 import { useCallback, useEffect, useState } from "react";
 import { Alert, Platform } from "react-native";
+import { useTranslation } from "react-i18next";
 import { usePremiumStore } from "@/store/premiumStore";
 import * as SecureStore from "expo-secure-store";
-import Purchases, { LOG_LEVEL } from "react-native-purchases";
+import Purchases, {
+  LOG_LEVEL,
+  type CustomerInfo,
+} from "react-native-purchases";
 import Constants from "expo-constants";
 import { logger } from "@/utils/logger";
 
 const SECURE_STORE_KEY = "premium_status";
+const ENTITLEMENT_ID = "Lootara Premium";
+
+// ── Helpers compartilhados ────────────────────────────────────────────────────
+async function persistPremiumStatus(info: CustomerInfo): Promise<void> {
+  const isActive =
+    typeof info.entitlements.active[ENTITLEMENT_ID] !== "undefined";
+  await SecureStore.setItemAsync(
+    SECURE_STORE_KEY,
+    isActive ? "true" : "false",
+    { keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY },
+  );
+  usePremiumStore.getState().setIsPremium(isActive);
+}
+
+// ── Listener reativo (registrar após initPremium) ─────────────────────────────
+// Retorna função de cleanup — chamar no unmount/cleanup do AppInitializer.
+export function setupPremiumListener(): () => void {
+  async function onCustomerInfoUpdated(info: CustomerInfo) {
+    try {
+      await persistPremiumStatus(info);
+    } catch {
+      // Silencia — listener best-effort
+    }
+  }
+
+  Purchases.addCustomerInfoUpdateListener(onCustomerInfoUpdated);
+
+  return () => {
+    Purchases.removeCustomerInfoUpdateListener(onCustomerInfoUpdated);
+  };
+}
 
 // ── Inicialização no app load (_layout.tsx) ───────────────────────────────────
 // Configura RevenueCat, lê status e salva em SecureStore + Zustand.
@@ -51,7 +86,7 @@ export async function initPremium(): Promise<void> {
 
     const info = await Purchases.getCustomerInfo();
     const isPremium =
-      typeof info.entitlements.active["premium"] !== "undefined";
+      typeof info.entitlements.active[ENTITLEMENT_ID] !== "undefined";
 
     // SEC-02: WHEN_UNLOCKED_THIS_DEVICE_ONLY impede exportação via backup ADB/iCloud
     // e garante que o valor só é lido com o dispositivo desbloqueado
@@ -62,20 +97,26 @@ export async function initPremium(): Promise<void> {
     );
     usePremiumStore.getState().setIsPremium(isPremium);
   } catch {
-    // Fallback offline: lê do SecureStore
+    // Fallback offline: lê do SecureStore.
+    // Se cached === null (instalação nova), não chamamos setIsPremium —
+    // o valor padrão do Zustand (false) já serve como estado provisório;
+    // o setupPremiumListener atualizará quando a rede voltar.
     try {
       const cached = await SecureStore.getItemAsync(SECURE_STORE_KEY, {
         keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
       });
-      usePremiumStore.getState().setIsPremium(cached === "true");
+      if (cached !== null) {
+        usePremiumStore.getState().setIsPremium(cached === "true");
+      }
     } catch {
-      // Silencia — padrão é não-premium
+      // Silencia — padrão é não-premium provisório
     }
   }
 }
 
 // ── Hook para uso em componentes ──────────────────────────────────────────────
 export function usePremium() {
+  const { t } = useTranslation();
   const isPremium = usePremiumStore((s) => s.isPremium);
   const setIsPremium = usePremiumStore((s) => s.setIsPremium);
   const [isLoading, setIsLoading] = useState(false);
@@ -114,7 +155,7 @@ export function usePremium() {
       }
       const { customerInfo } = await Purchases.purchasePackage(pkg);
       const active =
-        typeof customerInfo.entitlements.active["premium"] !== "undefined";
+        typeof customerInfo.entitlements.active[ENTITLEMENT_ID] !== "undefined";
       await updateStatus(active);
       if (active) {
         Alert.alert("Sucesso! 🎉", "Anúncios removidos. Obrigado pelo apoio!");
@@ -137,23 +178,25 @@ export function usePremium() {
     try {
       const customerInfo = await Purchases.restorePurchases();
       const active =
-        typeof customerInfo.entitlements.active["premium"] !== "undefined";
+        typeof customerInfo.entitlements.active[ENTITLEMENT_ID] !== "undefined";
       await updateStatus(active);
       Alert.alert(
-        active ? "Compra restaurada! 🎉" : "Nenhuma compra encontrada",
         active
-          ? "Anúncios removidos."
-          : "Não encontramos nenhuma compra ativa nesta conta.",
+          ? t("settings.restore_success_title")
+          : t("settings.restore_none_title"),
+        active
+          ? t("settings.restore_success_message")
+          : t("settings.restore_none_message"),
       );
     } catch {
       Alert.alert(
-        "Erro",
-        "Não foi possível restaurar compras. Verifique sua conexão.",
+        t("settings.restore_error_title"),
+        t("settings.restore_error_message"),
       );
     } finally {
       setIsLoading(false);
     }
-  }, [updateStatus]);
+  }, [updateStatus, t]);
 
   return {
     isPremium,

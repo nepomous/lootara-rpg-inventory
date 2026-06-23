@@ -16,7 +16,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import { useTranslation } from "react-i18next";
 import { runMigrations } from "@/db/index";
-import { initPremium } from "@/hooks/usePremium";
+import { initPremium, setupPremiumListener } from "@/hooks/usePremium";
 import { initI18n } from "@/lib/i18n";
 import { initializeAds } from "@/services/admob";
 import "../global.css";
@@ -61,6 +61,14 @@ function AppInitializer({ children }: { children: React.ReactNode }) {
 
     void init();
   }, []);
+
+  // Registra listener do RevenueCat após a inicialização para manter o estado
+  // premium reativo durante a sessão (compras, restores, renovações).
+  useEffect(() => {
+    if (!ready) return;
+    const cleanup = setupPremiumListener();
+    return cleanup;
+  }, [ready]);
 
   if (!ready) {
     return (

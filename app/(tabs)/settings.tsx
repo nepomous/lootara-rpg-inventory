@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Alert,
   Linking,
+  Platform,
   Pressable,
   ScrollView,
   Switch,
@@ -30,8 +31,8 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const APP_VERSION = Constants.expoConfig?.version ?? "1.0.0";
 const KOFI_URL = "https://ko-fi.com/nepomous";
-const PRIVACY_URL = "https://v0-lootara-marketing-site.vercel.app/privacy";
-const TERMS_URL = "https://v0-lootara-marketing-site.vercel.app/terms";
+const PRIVACY_URL = "https://lootara.vercel.app/privacy";
+const TERMS_URL = "https://lootara.vercel.app/terms";
 const SUPPORT_EMAIL = "lootara.support@gmail.com";
 
 // ── Componentes de card reutilizáveis ─────────────────────────────────────────
@@ -354,8 +355,12 @@ export default function SettingsScreen() {
         <LanguageSelector />
       </View>
 
-      <SectionTitle title={t("settings.section_support")} />
-      <SupportCard />
+      {Platform.OS === "android" && (
+        <>
+          <SectionTitle title={t("settings.section_support")} />
+          <SupportCard />
+        </>
+      )}
 
       <SectionTitle title={t("settings.backup_title")} />
       <BackupCard />

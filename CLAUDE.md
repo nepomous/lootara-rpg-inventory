@@ -130,10 +130,12 @@ rpg-bag/
 
 ### Monetização
 
-- No app load: chamar `RevenueCat.getCustomerInfo()` e salvar resultado em `SecureStore`.
-- `usePremium()` lê do Zustand store (inicializado com o valor do `SecureStore`).
+- O app **não tem login próprio**. A recuperação de compra é feita via **"Restaurar compras"** (`Purchases.restorePurchases()`), atrelada à conta da App Store / Google Play do usuário — esse é o mecanismo que substitui o login.
+- O botão **"Restaurar compras"** é obrigatório na tela de configurações (Apple Guideline 3.1.1 — compra não-consumível de remoção de anúncios).
+- O estado premium é **reativo** via `Purchases.addCustomerInfoUpdateListener` (fonte de verdade durante a sessão). O valor no `SecureStore` é apenas um **cache inicial provisório** no boot para evitar flash de anúncio; `SecureStore` vazio = não-premium provisório, nunca definitivo.
+- `usePremium()` lê do Zustand store (inicializado com o valor do `SecureStore` no boot).
 - Componente `<AdBanner />`: se `isPremium`, retorna `null` — sem lógica adicional.
-- Doação: `Linking.openURL('https://ko-fi.com/SEU_USUARIO')` — sem lógica interna.
+- **Doação**: renderizada **somente no Android** (`Platform.OS === 'android'`). No iOS o link externo de doação não é exibido porque a permissão de link externo da Apple vale apenas na storefront dos EUA; em build global, exibir link externo de doação no iOS viola a Guideline 3.1.1. Se no futuro quiser doação no iOS, usar IAP consumível via RevenueCat.
 
 ### Backup & Restore
 
