@@ -13,7 +13,7 @@ export const SUPPORTED_LOCALES = ["pt-BR", "en", "es", "fr", "de"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
 export const LANGUAGE_STORE_KEY = "user_language";
-export const FALLBACK_LOCALE: SupportedLocale = "pt-BR";
+export const FALLBACK_LOCALE: SupportedLocale = "en";
 
 const resources = {
   "pt-BR": { translation: ptBR },
@@ -26,8 +26,12 @@ const resources = {
 /**
  * Resolves the initial locale:
  * 1. User's saved preference (SecureStore)
- * 2. Device locale if supported
- * 3. Fallback to pt-BR
+ * 2. Device locale if supported (exact match, then language-only match)
+ * 3. Fallback to 'en' — universal fallback for unsupported locales
+ *
+ * Note: pt-BR is the authoring reference for key naming (dev convention),
+ * but 'en' is the runtime fallback for users whose device locale is not
+ * among the supported ones [pt-BR, en, es, fr, de].
  */
 async function resolveInitialLocale(): Promise<SupportedLocale> {
   // 1. Check saved preference

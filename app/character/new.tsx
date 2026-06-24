@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { Stack } from "expo-router";
@@ -16,6 +16,7 @@ import { z } from "zod";
 import {
   CHARACTER_CLASSES,
   CharacterClass,
+  FREE_CHARACTER_LIMIT,
   MAX_LEVEL,
   MIN_LEVEL,
   RPG_SYSTEMS,
@@ -23,7 +24,9 @@ import {
   getRacesBySystem,
 } from "@/constants/rpg";
 import type { RPGSystem } from "@/db/schema";
-import { useCreateCharacter } from "@/hooks/useCharacters";
+import { useCreateCharacter, useCharacters } from "@/hooks/useCharacters";
+import { usePremiumStore } from "@/store/premiumStore";
+import { ProUpsellSheet } from "@/components/ProUpsellSheet";
 
 // ── Schema Zod ────────────────────────────────────────────────────────────────
 const createCharacterSchema = z.object({
@@ -271,6 +274,9 @@ export default function NewCharacterScreen() {
   const router = useRouter();
   const { t } = useTranslation();
   const { mutate: createCharacter, isPending } = useCreateCharacter();
+  const { data: existingCharacters } = useCharacters();
+  const isPremium = usePremiumStore((s) => s.isPremium);
+  const [upsellVisible, setUpsellVisible] = useState(false);
 
   const {
     control,
@@ -302,6 +308,13 @@ export default function NewCharacterScreen() {
   }, [selectedSystem]);
 
   function onSubmit(values: FormValues) {
+    // Defense in depth: block creation if free plan limit reached via deep-link
+    const characterCount = existingCharacters?.length ?? 0;
+    if (!isPremium && characterCount >= FREE_CHARACTER_LIMIT) {
+      setUpsellVisible(true);
+      return;
+    }
+
     const classInfo =
       CHARACTER_CLASSES[values.class as CharacterClass] ??
       CHARACTER_CLASSES.other;
@@ -322,150 +335,158 @@ export default function NewCharacterScreen() {
   }
 
   return (
-    <ScrollView
-      className="flex-1 bg-background"
-      contentContainerStyle={{ padding: 20, paddingBottom: 48, gap: 28 }}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-    >
-      <Stack.Screen options={{ title: t("new_character.title") }} />
-
-      {/* Sistema — PRIMEIRO para filtrar classes e raças */}
-      <View>
-        <FieldLabel label={t("new_character.system_label")} />
-        <Controller
-          control={control}
-          name="system"
-          render={({ field: { onChange, value } }) => (
-            <SystemSegmented value={value} onChange={onChange} />
-          )}
-        />
-      </View>
-
-      {/* Nome */}
-      <View>
-        <FieldLabel
-          label={t("new_character.name_label")}
-          error={errors.name?.message}
-        />
-        <Controller
-          control={control}
-          name="name"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder={t("new_character.name_placeholder")}
-              placeholderTextColor="#9ca3af"
-              maxLength={50}
-              className={`bg-background-surface text-text px-4 py-3 rounded-xl border text-base ${
-                errors.name ? "border-error" : "border-border"
-              }`}
-            />
-          )}
-        />
-      </View>
-
-      {/* Classe */}
-      <View>
-        <FieldLabel
-          label={t("new_character.class_label")}
-          error={errors.class?.message}
-        />
-        <Controller
-          control={control}
-          name="class"
-          render={({ field: { onChange, value } }) => (
-            <ClassGrid
-              value={value}
-              onChange={onChange}
-              entries={systemClasses}
-            />
-          )}
-        />
-      </View>
-
-      {/* Raça / Ancestral */}
-      <View>
-        <FieldLabel
-          label={
-            selectedSystem === "pf2"
-              ? t("new_character.race_label_ancestral")
-              : t("new_character.race_label")
-          }
-          error={errors.race?.message}
-        />
-        <Controller
-          control={control}
-          name="race"
-          render={({ field: { onChange, value } }) => (
-            <RaceDropdown
-              value={value}
-              onChange={onChange}
-              races={systemRaces}
-            />
-          )}
-        />
-      </View>
-
-      {/* Nível */}
-      <View>
-        <FieldLabel label={t("new_character.level_label")} />
-        <Controller
-          control={control}
-          name="level"
-          render={({ field: { onChange, value } }) => (
-            <LevelStepper value={value} onChange={onChange} />
-          )}
-        />
-      </View>
-
-      {/* Preview do personagem */}
-      {selectedClass ? (
-        <View className="bg-background-card border border-border rounded-card p-4 flex-row items-center gap-3">
-          <View className="w-12 h-12 rounded-full bg-background-surface items-center justify-center">
-            <Text className="text-4xl">
-              {CHARACTER_CLASSES[selectedClass as CharacterClass]?.emoji ??
-                "🎭"}
-            </Text>
-          </View>
-          <View>
-            <Text className="text-text-muted text-xs uppercase tracking-widest">
-              {t("new_character.preview")}
-            </Text>
-            <Text className="text-text font-bold text-base">
-              {watch("name") || t("new_character.no_name")}
-            </Text>
-            <Text className="text-text-muted text-sm">
-              {t(`classes.${selectedClass}`, {
-                defaultValue:
-                  systemClasses.find((e) => e.id === selectedClass)?.label ??
-                  selectedClass,
-              })}
-              {" · "}
-              {t(
-                `characters.system_${watch("system") as keyof typeof RPG_SYSTEMS}`,
-              )}
-            </Text>
-          </View>
-        </View>
-      ) : null}
-
-      {/* Botão submit */}
-      <Pressable
-        onPress={handleSubmit(onSubmit)}
-        disabled={isPending}
-        className="bg-secondary rounded-xl py-4 items-center mt-2"
+    <>
+      <ScrollView
+        className="flex-1 bg-background"
+        contentContainerStyle={{ padding: 20, paddingBottom: 48, gap: 28 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        {isPending ? (
-          <ActivityIndicator color="#ffffff" />
-        ) : (
-          <Text className="text-white font-bold text-base">
-            {t("new_character.submit_button")}
-          </Text>
-        )}
-      </Pressable>
-    </ScrollView>
+        <Stack.Screen options={{ title: t("new_character.title") }} />
+
+        {/* Sistema — PRIMEIRO para filtrar classes e raças */}
+        <View>
+          <FieldLabel label={t("new_character.system_label")} />
+          <Controller
+            control={control}
+            name="system"
+            render={({ field: { onChange, value } }) => (
+              <SystemSegmented value={value} onChange={onChange} />
+            )}
+          />
+        </View>
+
+        {/* Nome */}
+        <View>
+          <FieldLabel
+            label={t("new_character.name_label")}
+            error={errors.name?.message}
+          />
+          <Controller
+            control={control}
+            name="name"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder={t("new_character.name_placeholder")}
+                placeholderTextColor="#9ca3af"
+                maxLength={50}
+                className={`bg-background-surface text-text px-4 py-3 rounded-xl border text-base ${
+                  errors.name ? "border-error" : "border-border"
+                }`}
+              />
+            )}
+          />
+        </View>
+
+        {/* Classe */}
+        <View>
+          <FieldLabel
+            label={t("new_character.class_label")}
+            error={errors.class?.message}
+          />
+          <Controller
+            control={control}
+            name="class"
+            render={({ field: { onChange, value } }) => (
+              <ClassGrid
+                value={value}
+                onChange={onChange}
+                entries={systemClasses}
+              />
+            )}
+          />
+        </View>
+
+        {/* Raça / Ancestral */}
+        <View>
+          <FieldLabel
+            label={
+              selectedSystem === "pf2"
+                ? t("new_character.race_label_ancestral")
+                : t("new_character.race_label")
+            }
+            error={errors.race?.message}
+          />
+          <Controller
+            control={control}
+            name="race"
+            render={({ field: { onChange, value } }) => (
+              <RaceDropdown
+                value={value}
+                onChange={onChange}
+                races={systemRaces}
+              />
+            )}
+          />
+        </View>
+
+        {/* Nível */}
+        <View>
+          <FieldLabel label={t("new_character.level_label")} />
+          <Controller
+            control={control}
+            name="level"
+            render={({ field: { onChange, value } }) => (
+              <LevelStepper value={value} onChange={onChange} />
+            )}
+          />
+        </View>
+
+        {/* Preview do personagem */}
+        {selectedClass ? (
+          <View className="bg-background-card border border-border rounded-card p-4 flex-row items-center gap-3">
+            <View className="w-12 h-12 rounded-full bg-background-surface items-center justify-center">
+              <Text className="text-4xl">
+                {CHARACTER_CLASSES[selectedClass as CharacterClass]?.emoji ??
+                  "🎭"}
+              </Text>
+            </View>
+            <View>
+              <Text className="text-text-muted text-xs uppercase tracking-widest">
+                {t("new_character.preview")}
+              </Text>
+              <Text className="text-text font-bold text-base">
+                {watch("name") || t("new_character.no_name")}
+              </Text>
+              <Text className="text-text-muted text-sm">
+                {t(`classes.${selectedClass}`, {
+                  defaultValue:
+                    systemClasses.find((e) => e.id === selectedClass)?.label ??
+                    selectedClass,
+                })}
+                {" · "}
+                {t(
+                  `characters.system_${watch("system") as keyof typeof RPG_SYSTEMS}`,
+                )}
+              </Text>
+            </View>
+          </View>
+        ) : null}
+
+        {/* Botão submit */}
+        <Pressable
+          onPress={handleSubmit(onSubmit)}
+          disabled={isPending}
+          className="bg-secondary rounded-xl py-4 items-center mt-2"
+        >
+          {isPending ? (
+            <ActivityIndicator color="#ffffff" />
+          ) : (
+            <Text className="text-white font-bold text-base">
+              {t("new_character.submit_button")}
+            </Text>
+          )}
+        </Pressable>
+      </ScrollView>
+
+      <ProUpsellSheet
+        visible={upsellVisible}
+        onClose={() => setUpsellVisible(false)}
+        reason="character_limit"
+      />
+    </>
   );
 }

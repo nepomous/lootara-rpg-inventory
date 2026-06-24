@@ -45,6 +45,12 @@ service-account.json
 # Security audit (contém riscos aceitos — não commitar em repos públicos)
 docs/SECURITY_AUDIT.md
 
+# Android release signing — NEVER commit keystore or credentials
+android/keystore.properties
+android/app/*.jks
+android/app/*.keystore
+!android/app/debug.keystore
+
 # typescript
 *.tsbuildinfo
 

@@ -35,6 +35,7 @@
     "delete_confirm_message": "¿Estás seguro de que quieres eliminar a {{name}}? Se eliminarán todos los objetos de la bolsa.",
     "load_error": "Error al cargar personajes",
     "not_found": "Personaje no encontrado",
+    "limit_counter": "{{count}} / {{limit}} personajes",
     "form": {
       "title": "Nuevo Héroe",
       "subtitle": "Forja tu leyenda",
@@ -240,6 +241,8 @@
     "backup_export": "Exportar datos",
     "backup_import": "Importar datos",
     "backup_warning": "Atención: tus datos se almacenan solo en este dispositivo. Exporta regularmente.",
+    "backup_local_note": "Tus datos se almacenan solo en este dispositivo.",
+    "backup_export_pro_hint": "La exportación de copia de seguridad es una función Pro.",
     "language_title": "Idioma",
     "language_subtitle": "Elige el idioma de la aplicación",
     "version": "Versión {{version}}",
@@ -273,6 +276,10 @@
     "dev_section_title": "Desarrollo",
     "dev_toggle_title": "Simular cuenta Premium",
     "dev_toggle_subtitle": "Activa/desactiva el modo de pago (solo DEV)"
+  },
+  "legal": {
+    "licenses_row": "Licencias y atribuciones",
+    "licenses_screen_title": "Licencias y atribuciones"
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -688,5 +695,19 @@
     "Híbrida": "Híbrida",
     "Ocultista": "Ocultista",
     "Alternativa": "Alternativa"
+  },
+  "pro": {
+    "upsell_title": "Desbloquea Lootara Pro",
+    "upsell_reason_characters": "Ya creaste tus 3 personajes gratuitos. Con Pro, crea todos los que quieras.",
+    "upsell_reason_backup": "El backup y la exportación forman parte de Lootara Pro.",
+    "benefit_unlimited_characters": "Personajes ilimitados",
+    "benefit_no_ads": "Sin anuncios",
+    "benefit_backup": "Copia de seguridad y exportación de personajes",
+    "cta_unlock": "Desbloquear Pro — {{price}}",
+    "cta_unlock_no_price": "Desbloquear Pro",
+    "cta_restore": "Restaurar compra",
+    "maybe_later": "Ahora no",
+    "reassure_onetime": "Pago único. Sin suscripción ni cargos mensuales.",
+    "purchase_error": "No se pudo completar la compra. Inténtalo de nuevo."
   }
 }

@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -18,8 +18,10 @@ import Animated, {
 import { Dices } from "lucide-react-native";
 import { AdBanner } from "@/components/AdBanner";
 import { CharacterCard } from "@/components/CharacterCard";
+import { ProUpsellSheet } from "@/components/ProUpsellSheet";
 import { useCharacters } from "@/hooks/useCharacters";
 import { usePremiumStore } from "@/store/premiumStore";
+import { FREE_CHARACTER_LIMIT } from "@/constants/rpg";
 import type { Character } from "@/db/schema";
 
 const STAGGER_DELAY_MS = 60;
@@ -104,6 +106,7 @@ export default function HomeScreen() {
   const { t } = useTranslation();
   const { data: characters, isLoading, isError, refetch } = useCharacters();
   const insets = useSafeAreaInsets();
+  const [upsellVisible, setUpsellVisible] = useState(false);
 
   // Altura total da tab bar + safe area (mesma lógica do _layout.tsx)
   const TAB_BAR_HEIGHT = 64;
@@ -111,6 +114,7 @@ export default function HomeScreen() {
   const tabBarTotalHeight = TAB_BAR_HEIGHT + tabBarBottom;
 
   const isPremium = usePremiumStore((s) => s.isPremium);
+  const characterCount = characters?.length ?? 0;
 
   // Altura total do rodapé de anúncios: nudge (~24px) + banner (~52px)
   const AD_FOOTER_HEIGHT = isPremium ? 0 : 76;
@@ -119,6 +123,14 @@ export default function HomeScreen() {
   useEffect(() => {
     void refetch();
   }, [refetch]);
+
+  function handleFABPress() {
+    if (!isPremium && characterCount >= FREE_CHARACTER_LIMIT) {
+      setUpsellVisible(true);
+    } else {
+      router.push("/character/new");
+    }
+  }
 
   if (isLoading) {
     return (
@@ -167,9 +179,27 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       />
 
+      {/* Contador de personagens para usuários do plano grátis */}
+      {!isPremium && characterCount > 0 && (
+        <Text
+          style={{
+            position: "absolute",
+            top: 8,
+            right: 16,
+            color: "#8a8a9a",
+            fontSize: 12,
+          }}
+        >
+          {t("characters.limit_counter", {
+            count: characterCount,
+            limit: FREE_CHARACTER_LIMIT,
+          })}
+        </Text>
+      )}
+
       {/* FAB acima do rodapé de anúncios + tab bar */}
       <FAB
-        onPress={() => router.push("/character/new")}
+        onPress={handleFABPress}
         bottom={tabBarTotalHeight + AD_FOOTER_HEIGHT + 16}
       />
 
@@ -197,6 +227,12 @@ export default function HomeScreen() {
           <AdBanner variant="home" />
         </View>
       )}
+
+      <ProUpsellSheet
+        visible={upsellVisible}
+        onClose={() => setUpsellVisible(false)}
+        reason="character_limit"
+      />
     </View>
   );
 }

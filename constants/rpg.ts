@@ -1,3 +1,6 @@
+// ── Plano gratuito ────────────────────────────────────────────────────────────
+export const FREE_CHARACTER_LIMIT = 3;
+
 // ── Sistemas de RPG ───────────────────────────────────────────────────────────
 export type RPGSystem = "dnd5e" | "pf1" | "pf2" | "other" | "generic";
 

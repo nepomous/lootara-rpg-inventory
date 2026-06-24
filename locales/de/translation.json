@@ -35,6 +35,7 @@
     "delete_confirm_message": "Bist du sicher, dass du {{name}} löschen möchtest? Alle Gegenstände im Beutel werden entfernt.",
     "load_error": "Fehler beim Laden der Charaktere",
     "not_found": "Charakter nicht gefunden",
+    "limit_counter": "{{count}} / {{limit}} Charaktere",
     "form": {
       "title": "Neuer Held",
       "subtitle": "Schmiede deine Legende",
@@ -240,6 +241,8 @@
     "backup_export": "Daten exportieren",
     "backup_import": "Daten importieren",
     "backup_warning": "Achtung: Deine Daten werden nur auf diesem Gerät gespeichert. Exportiere regelmäßig.",
+    "backup_local_note": "Deine Daten werden nur auf diesem Gerät gespeichert.",
+    "backup_export_pro_hint": "Der Backup-Export ist eine Pro-Funktion.",
     "language_title": "Sprache",
     "language_subtitle": "Wähle die App-Sprache",
     "version": "Version {{version}}",
@@ -273,6 +276,10 @@
     "dev_section_title": "Entwicklung",
     "dev_toggle_title": "Premium-Konto simulieren",
     "dev_toggle_subtitle": "Schaltet den Bezahlmodus um (nur DEV)"
+  },
+  "legal": {
+    "licenses_row": "Lizenzen und Zuordnungen",
+    "licenses_screen_title": "Lizenzen und Zuordnungen"
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -688,5 +695,19 @@
     "Híbrida": "Hybrid",
     "Ocultista": "Okkulte",
     "Alternativa": "Alternative"
+  },
+  "pro": {
+    "upsell_title": "Lootara Pro freischalten",
+    "upsell_reason_characters": "Du hast deine 3 kostenlosen Charaktere erstellt. Mit Pro erstellst du beliebig viele.",
+    "upsell_reason_backup": "Sicherung und Export sind Teil von Lootara Pro.",
+    "benefit_unlimited_characters": "Unbegrenzte Charaktere",
+    "benefit_no_ads": "Keine Werbung",
+    "benefit_backup": "Sicherung und Export von Charakteren",
+    "cta_unlock": "Pro freischalten — {{price}}",
+    "cta_unlock_no_price": "Pro freischalten",
+    "cta_restore": "Kauf wiederherstellen",
+    "maybe_later": "Nicht jetzt",
+    "reassure_onetime": "Einmalige Zahlung. Kein Abo, keine monatlichen Kosten.",
+    "purchase_error": "Kauf konnte nicht abgeschlossen werden. Bitte erneut versuchen."
   }
 }

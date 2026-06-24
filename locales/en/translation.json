@@ -35,6 +35,7 @@
     "delete_confirm_message": "Are you sure you want to delete {{name}}? All bag items will be removed.",
     "load_error": "Error loading characters",
     "not_found": "Character not found",
+    "limit_counter": "{{count}} / {{limit}} characters",
     "form": {
       "title": "New Hero",
       "subtitle": "Forge your legend",
@@ -240,6 +241,8 @@
     "backup_export": "Export data",
     "backup_import": "Import data",
     "backup_warning": "Warning: your data is stored only on this device. Export regularly.",
+    "backup_local_note": "Your data is stored only on this device.",
+    "backup_export_pro_hint": "Backup export is a Pro feature.",
     "language_title": "Language",
     "language_subtitle": "Choose the app language",
     "version": "Version {{version}}",
@@ -273,6 +276,10 @@
     "dev_section_title": "Development",
     "dev_toggle_title": "Simulate Premium account",
     "dev_toggle_subtitle": "Toggles paid mode on/off (DEV only)"
+  },
+  "legal": {
+    "licenses_row": "Licenses and attributions",
+    "licenses_screen_title": "Licenses and attributions"
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -688,5 +695,19 @@
     "Híbrida": "Hybrid",
     "Ocultista": "Occult",
     "Alternativa": "Alternate"
+  },
+  "pro": {
+    "upsell_title": "Unlock Lootara Pro",
+    "upsell_reason_characters": "You've created your 3 free characters. Go unlimited with Pro.",
+    "upsell_reason_backup": "Backup and export are part of Lootara Pro.",
+    "benefit_unlimited_characters": "Unlimited characters",
+    "benefit_no_ads": "No ads",
+    "benefit_backup": "Character backup and export",
+    "cta_unlock": "Unlock Pro — {{price}}",
+    "cta_unlock_no_price": "Unlock Pro",
+    "cta_restore": "Restore purchase",
+    "maybe_later": "Not now",
+    "reassure_onetime": "One-time purchase. No subscription, no recurring fees.",
+    "purchase_error": "Unable to complete purchase. Please try again."
   }
 }

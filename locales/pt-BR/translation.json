@@ -35,6 +35,7 @@
     "delete_confirm_message": "Tem certeza que deseja excluir {{name}}? Todos os itens da sacola serão removidos.",
     "load_error": "Erro ao carregar personagens",
     "not_found": "Personagem não encontrado",
+    "limit_counter": "{{count}} / {{limit}} personagens",
     "form": {
       "title": "Novo Herói",
       "subtitle": "Forje sua lenda",
@@ -240,6 +241,8 @@
     "backup_export": "Exportar dados",
     "backup_import": "Importar dados",
     "backup_warning": "Atenção: seus dados ficam somente neste dispositivo. Exporte regularmente.",
+    "backup_local_note": "Seus dados ficam apenas neste dispositivo.",
+    "backup_export_pro_hint": "A exportação de backup é um recurso Pro.",
     "language_title": "Idioma",
     "language_subtitle": "Escolha o idioma do aplicativo",
     "version": "Versão {{version}}",
@@ -273,6 +276,10 @@
     "dev_section_title": "Desenvolvimento",
     "dev_toggle_title": "Simular conta Premium",
     "dev_toggle_subtitle": "Ativa/desativa o modo pago (só em DEV)"
+  },
+  "legal": {
+    "licenses_row": "Licenças e atribuições",
+    "licenses_screen_title": "Licenças e atribuições"
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -688,5 +695,19 @@
     "Híbrida": "Híbrida",
     "Ocultista": "Ocultista",
     "Alternativa": "Alternativa"
+  },
+  "pro": {
+    "upsell_title": "Desbloqueie o Lootara Pro",
+    "upsell_reason_characters": "Você criou seus 3 personagens grátis. Com o Pro, crie quantos quiser.",
+    "upsell_reason_backup": "Backup e exportação fazem parte do Lootara Pro.",
+    "benefit_unlimited_characters": "Personagens ilimitados",
+    "benefit_no_ads": "Sem anúncios",
+    "benefit_backup": "Backup e exportação de personagens",
+    "cta_unlock": "Desbloquear Pro — {{price}}",
+    "cta_unlock_no_price": "Desbloquear Pro",
+    "cta_restore": "Restaurar compra",
+    "maybe_later": "Agora não",
+    "reassure_onetime": "Compra única. Sem assinatura, sem mensalidade.",
+    "purchase_error": "Não foi possível concluir a compra. Tente novamente."
   }
 }

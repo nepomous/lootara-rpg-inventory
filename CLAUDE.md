@@ -189,8 +189,8 @@ rpg-bag/
 **Toda implementação** que adicione ou altere texto visível ao usuário **deve atualizar os 5 arquivos de tradução**:
 
 ```
-locales/pt-BR/translation.json   ← idioma principal (BR-first)
-locales/en/translation.json
+locales/pt-BR/translation.json   ← referência de AUTORIA das chaves (dev)
+locales/en/translation.json      ← fallback universal para locales não suportados
 locales/es/translation.json
 locales/fr/translation.json
 locales/de/translation.json
@@ -200,7 +200,8 @@ locales/de/translation.json
 
 - Nunca usar string literal em componentes — sempre usar `t("chave.subchave")`.
 - Ao criar uma nova chave, adicioná-la nos **5 arquivos** na mesma operação.
-- `pt-BR` é a fonte de verdade para nomenclatura das chaves.
+- `pt-BR` é a fonte de verdade para **nomenclatura** das chaves (convenção de autoria do dev). O idioma do usuário BR continua sendo pt-BR.
+- `en` é o **fallback universal em runtime**: qualquer locale de dispositivo fora de [pt-BR, en, es, fr, de] cai em inglês. `en/translation.json` deve estar **sempre 100% completo** — chave ausente em `en` causa `undefined` silencioso para a maioria dos usuários globais.
 - Traduções devem ser naturais no idioma alvo — não usar Google Translate literal.
 - Chaves ausentes em qualquer idioma causam `undefined` silencioso na UI — tratar como bug.- **Nomes de itens da biblioteca** ficam em `items.{id}.name` em todos os 5 locales. Ao adicionar um novo item em `constants/items.ts`, adicionar o `name` nos 5 arquivos e usar `t(\`items.${item.id}.name\`, { defaultValue: item.name })` nos componentes.
 

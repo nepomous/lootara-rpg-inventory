@@ -23,7 +23,9 @@ import {
 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import Constants from "expo-constants";
+import { useRouter } from "expo-router";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { ProUpsellSheet } from "@/components/ProUpsellSheet";
 import { usePremium } from "@/hooks/usePremium";
 import { usePremiumStore } from "@/store/premiumStore";
 import { exportData, importData } from "@/utils/backup";
@@ -192,8 +194,10 @@ function SupportCard() {
 function BackupCard() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const isPremium = usePremiumStore((s) => s.isPremium);
   const [exporting, setExporting] = useState(false);
   const [importing, setImporting] = useState(false);
+  const [upsellVisible, setUpsellVisible] = useState(false);
 
   async function handleExport() {
     setExporting(true);
@@ -231,42 +235,71 @@ function BackupCard() {
     }
   }
 
+  const proBadge = (
+    <View className="flex-row items-center gap-1">
+      <Lock size={12} color="#c9a84c" />
+      <Text className="text-gold text-xs font-bold">
+        {t("common.pro_badge")}
+      </Text>
+    </View>
+  );
+
   return (
-    <Card>
-      <CardRow
-        icon={<Upload size={22} color="#8a8a9a" />}
-        title={t("settings.backup_export")}
-        subtitle={t("settings.backup_export_subtitle")}
-        onPress={exporting ? undefined : handleExport}
-        right={
-          exporting ? (
-            <ActivityIndicator size="small" color="#9ca3af" />
-          ) : (
-            <Text className="text-text-muted text-lg">›</Text>
-          )
-        }
+    <>
+      <Card>
+        <CardRow
+          icon={<Upload size={22} color={isPremium ? "#8a8a9a" : "#c9a84c"} />}
+          title={t("settings.backup_export")}
+          subtitle={
+            isPremium
+              ? t("settings.backup_export_subtitle")
+              : t("settings.backup_export_pro_hint")
+          }
+          onPress={
+            exporting
+              ? undefined
+              : isPremium
+                ? handleExport
+                : () => setUpsellVisible(true)
+          }
+          right={
+            exporting ? (
+              <ActivityIndicator size="small" color="#9ca3af" />
+            ) : isPremium ? (
+              <Text className="text-text-muted text-lg">›</Text>
+            ) : (
+              proBadge
+            )
+          }
+        />
+        <Divider />
+        <CardRow
+          icon={<Download size={22} color="#8a8a9a" />}
+          title={t("settings.backup_import")}
+          subtitle={t("settings.backup_import_subtitle")}
+          onPress={importing ? undefined : handleImport}
+          right={
+            importing ? (
+              <ActivityIndicator size="small" color="#9ca3af" />
+            ) : (
+              <Text className="text-text-muted text-lg">›</Text>
+            )
+          }
+        />
+      </Card>
+      <ProUpsellSheet
+        visible={upsellVisible}
+        onClose={() => setUpsellVisible(false)}
+        reason="backup"
       />
-      <Divider />
-      <CardRow
-        icon={<Download size={22} color="#8a8a9a" />}
-        title={t("settings.backup_import")}
-        subtitle={t("settings.backup_import_subtitle")}
-        onPress={importing ? undefined : handleImport}
-        right={
-          importing ? (
-            <ActivityIndicator size="small" color="#9ca3af" />
-          ) : (
-            <Text className="text-text-muted text-lg">›</Text>
-          )
-        }
-      />
-    </Card>
+    </>
   );
 }
 
 // ── Card Legal ────────────────────────────────────────────────────────────────
 function LegalCard() {
   const { t } = useTranslation();
+  const router = useRouter();
   return (
     <Card>
       <CardRow
@@ -292,6 +325,13 @@ function LegalCard() {
         title={t("settings.terms_of_use")}
         subtitle={t("settings.terms_of_use_subtitle")}
         onPress={() => Linking.openURL(TERMS_URL).catch(() => {})}
+        right={<Text className="text-text-muted text-lg">›</Text>}
+      />
+      <Divider />
+      <CardRow
+        icon={<FileText size={22} color="#8a8a9a" />}
+        title={t("legal.licenses_row")}
+        onPress={() => router.push("/legal/licenses")}
         right={<Text className="text-text-muted text-lg">›</Text>}
       />
     </Card>
@@ -369,7 +409,7 @@ export default function SettingsScreen() {
       <View className="mx-4 mt-3 p-3 rounded-xl bg-background-surface flex-row items-start gap-2">
         <AlertCircle size={16} color="#8a8a9a" style={{ marginTop: 1 }} />
         <Text className="text-text-muted text-xs flex-1">
-          {t("settings.backup_warning")}
+          {t("settings.backup_local_note")}
         </Text>
       </View>
 

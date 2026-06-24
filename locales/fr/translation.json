@@ -35,6 +35,7 @@
     "delete_confirm_message": "Êtes-vous sûr de vouloir supprimer {{name}} ? Tous les objets du sac seront supprimés.",
     "load_error": "Erreur lors du chargement des personnages",
     "not_found": "Personnage introuvable",
+    "limit_counter": "{{count}} / {{limit}} personnages",
     "form": {
       "title": "Nouveau Héros",
       "subtitle": "Forgez votre légende",
@@ -240,6 +241,8 @@
     "backup_export": "Exporter les données",
     "backup_import": "Importer les données",
     "backup_warning": "Attention : vos données sont stockées uniquement sur cet appareil. Exportez régulièrement.",
+    "backup_local_note": "Vos données sont stockées uniquement sur cet appareil.",
+    "backup_export_pro_hint": "L'exportation de sauvegarde est une fonctionnalité Pro.",
     "language_title": "Langue",
     "language_subtitle": "Choisissez la langue de l'application",
     "version": "Version {{version}}",
@@ -273,6 +276,10 @@
     "dev_section_title": "Développement",
     "dev_toggle_title": "Simuler un compte Premium",
     "dev_toggle_subtitle": "Active/désactive le mode payant (DEV uniquement)"
+  },
+  "legal": {
+    "licenses_row": "Licences et attributions",
+    "licenses_screen_title": "Licences et attributions"
   },
   "language": {
     "pt-BR": "Português (BR)",
@@ -688,5 +695,19 @@
     "Híbrida": "Hybride",
     "Ocultista": "Occultiste",
     "Alternativa": "Alternative"
+  },
+  "pro": {
+    "upsell_title": "Débloquez Lootara Pro",
+    "upsell_reason_characters": "Vous avez créé vos 3 personnages gratuits. Avec Pro, créez-en autant que vous voulez.",
+    "upsell_reason_backup": "La sauvegarde et l'exportation font partie de Lootara Pro.",
+    "benefit_unlimited_characters": "Personnages illimités",
+    "benefit_no_ads": "Sans publicité",
+    "benefit_backup": "Sauvegarde et exportation des personnages",
+    "cta_unlock": "Débloquer Pro — {{price}}",
+    "cta_unlock_no_price": "Débloquer Pro",
+    "cta_restore": "Restaurer l'achat",
+    "maybe_later": "Pas maintenant",
+    "reassure_onetime": "Achat unique. Sans abonnement ni frais mensuels.",
+    "purchase_error": "Impossible de finaliser l'achat. Veuillez réessayer."
   }
 }
