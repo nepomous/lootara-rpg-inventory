@@ -115,6 +115,7 @@ export default function HomeScreen() {
 
   const isPremium = usePremiumStore((s) => s.isPremium);
   const characterCount = characters?.length ?? 0;
+  const shouldShowCounter = !isPremium && characterCount > 0;
 
   // Altura total do rodapé de anúncios: nudge (~24px) + banner (~52px)
   const AD_FOOTER_HEIGHT = isPremium ? 0 : 76;
@@ -172,7 +173,7 @@ export default function HomeScreen() {
           (characters ?? []).length === 0
             ? { flexGrow: 1 }
             : {
-                paddingTop: 12,
+                paddingTop: shouldShowCounter ? 28 : 12,
                 paddingBottom: tabBarTotalHeight + AD_FOOTER_HEIGHT + 72,
               }
         }
@@ -180,7 +181,7 @@ export default function HomeScreen() {
       />
 
       {/* Contador de personagens para usuários do plano grátis */}
-      {!isPremium && characterCount > 0 && (
+      {shouldShowCounter && (
         <Text
           style={{
             position: "absolute",

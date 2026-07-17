@@ -40,12 +40,15 @@ rpg-bag/
 │   ├── character/
 │   │   ├── [id].tsx          # Sacola do personagem
 │   │   └── new.tsx           # Criar personagem
+│   ├── legal/
+│   │   └── licenses.tsx      # Tela de licenças e atribuições (CC-BY-4.0)
 │   └── _layout.tsx
 ├── components/
 │   ├── CharacterCard.tsx
 │   ├── ItemRow.tsx
 │   ├── CategoryChip.tsx
 │   ├── AdBanner.tsx          # Só renderiza se !isPremium
+│   ├── ProUpsellSheet.tsx    # Modal de upsell Pro reutilizável (reason: 'character_limit' | 'backup')
 │   └── ...
 ├── db/
 │   ├── schema.ts             # Drizzle schema (= tipos TypeScript)
@@ -61,7 +64,7 @@ rpg-bag/
 ├── constants/
 │   ├── items.ts              # ~200 itens de RPG (JSON estático)
 │   ├── theme.ts              # Cores, fontes, espaçamentos
-│   └── rpg.ts                # Enums: RPGSystem, ItemCategory, classes, raças
+│   └── rpg.ts                # Enums: RPGSystem, ItemCategory, classes, raças, FREE_CHARACTER_LIMIT
 └── utils/
     ├── weight.ts             # Cálculo de peso total e capacidade
     └── backup.ts             # Export/import JSON
@@ -119,6 +122,10 @@ rpg-bag/
 
 - Nível: 1 a 20 (validar no form com Zod).
 - Sistema: `'dnd5e' | 'pf1' | 'pf2' | 'other'` — afeta filtros de itens da biblioteca.
+- Plano grátis limitado a `FREE_CHARACTER_LIMIT` (3) personagens. Ao tentar criar além do limite sem ser Pro, abre o `ProUpsellSheet` em vez de navegar para a criação.
+- O gating é aplicado em dois pontos: no FAB da home (`app/(tabs)/index.tsx`) e como defesa em profundidade no `onSubmit` de `app/character/new.tsx` (cobre deep-link).
+- A home exibe um contador `"{count} / {limit} personagens"` para usuários grátis. Usuários Pro não veem o limite.
+- Personagens existentes nunca são bloqueados, ocultados ou apagados pelo gate — ele só impede a criação do próximo.
 - Um personagem deletado remove **todos** seus `bag_items` (cascade no schema Drizzle).
 
 ### Sacola (Bag)
@@ -130,6 +137,10 @@ rpg-bag/
 
 ### Monetização
 
+- O app tem modelo híbrido: versão grátis com anúncios (AdMob) + compra única **"Lootara Premium"** (RevenueCat, não-consumível) que remove anúncios e destrava recursos Pro.
+- O entitlement do RevenueCat usa o identifier exato **"Lootara Premium"**.
+- Recursos Pro: personagens ilimitados, sem anúncios, exportação de backup.
+- O upsell é feito via `ProUpsellSheet` (não via `Alert`), com CTA mostrando o preço e reforço de **"compra única, sem assinatura"**.
 - O app **não tem login próprio**. A recuperação de compra é feita via **"Restaurar compras"** (`Purchases.restorePurchases()`), atrelada à conta da App Store / Google Play do usuário — esse é o mecanismo que substitui o login.
 - O botão **"Restaurar compras"** é obrigatório na tela de configurações (Apple Guideline 3.1.1 — compra não-consumível de remoção de anúncios).
 - O estado premium é **reativo** via `Purchases.addCustomerInfoUpdateListener` (fonte de verdade durante a sessão). O valor no `SecureStore` é apenas um **cache inicial provisório** no boot para evitar flash de anúncio; `SecureStore` vazio = não-premium provisório, nunca definitivo.
@@ -139,9 +150,17 @@ rpg-bag/
 
 ### Backup & Restore
 
+- Exportação (`exportData`) é um recurso Pro: usuários grátis veem o card com selo **"Pro"** + cadeado; ao tocar, abre o `ProUpsellSheet` com reason `'backup'`.
+- Importação (`importData`) permanece LIVRE para todos os usuários — decisão deliberada para não prender os dados do usuário.
 - Export: serializa `characters` + `bag_items` em JSON e chama `Share.share()` do React Native.
 - Import: lê um arquivo JSON, valida com Zod, faz upsert no banco.
-- Aviso ao usuário: dados ficam só no dispositivo — exportar regularmente.
+- Aviso ao usuário: dados ficam só no dispositivo — exportar regularmente. O aviso é neutro, não coercitivo.
+
+### Licenças e Atribuição
+
+- O app usa conteúdo do SRD 5.1 e SRD 5.2.1 (Wizards of the Coast) sob licença Creative Commons Attribution 4.0 (CC-BY-4.0).
+- A atribuição é exibida em `app/legal/licenses.tsx`, acessível via `LegalCard` em settings. O corpo jurídico da atribuição fica em inglês e não deve ser traduzido nem removido.
+- Itens em `constants/items.ts` são genéricos/autorais; a atribuição cobre o uso de mecânica derivada do SRD.
 
 ---
 

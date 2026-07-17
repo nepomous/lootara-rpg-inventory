@@ -14,7 +14,8 @@
     "try_again": "Try again",
     "next": "Next",
     "add": "Add",
-    "other": "Other"
+    "other": "Other",
+    "pro_badge": "Pro"
   },
   "nav": {
     "heroes": "Heroes",
@@ -708,6 +709,8 @@
     "cta_restore": "Restore purchase",
     "maybe_later": "Not now",
     "reassure_onetime": "One-time purchase. No subscription, no recurring fees.",
+    "restore_success": "Purchase restored successfully.",
+    "restore_none": "No Pro purchase found.",
     "purchase_error": "Unable to complete purchase. Please try again."
   }
 }

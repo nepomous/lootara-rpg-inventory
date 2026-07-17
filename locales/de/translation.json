@@ -14,7 +14,8 @@
     "try_again": "Erneut versuchen",
     "next": "Weiter",
     "add": "Hinzufügen",
-    "other": "Andere"
+    "other": "Andere",
+    "pro_badge": "Pro"
   },
   "nav": {
     "heroes": "Helden",
@@ -708,6 +709,8 @@
     "cta_restore": "Kauf wiederherstellen",
     "maybe_later": "Nicht jetzt",
     "reassure_onetime": "Einmalige Zahlung. Kein Abo, keine monatlichen Kosten.",
+    "restore_success": "Kauf erfolgreich wiederhergestellt.",
+    "restore_none": "Kein Pro-Kauf gefunden.",
     "purchase_error": "Kauf konnte nicht abgeschlossen werden. Bitte erneut versuchen."
   }
 }
