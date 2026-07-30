@@ -234,8 +234,35 @@ Antes de considerar qualquer fix/feature/prompt concluído, verificar:
 - [ ] A mesma chave existe nos outros 4 idiomas?
 - [ ] Nenhum componente novo usa string literal visível ao usuário?
 - [ ] TypeScript check executado (`npx tsc --noEmit`) sem erros?
+- [ ] Nenhum arquivo sensível foi adicionado ao stage/commit? (ver checklist de segurança abaixo)
 
 > **Regra obrigatória:** Ao final de **cada prompt**, executar `npx tsc --noEmit` e corrigir todos os erros antes de considerar a tarefa concluída.
+
+### Checklist de segurança (obrigatório antes de qualquer commit)
+
+Verificar se nenhum arquivo sensível foi adicionado acidentalmente:
+
+```bash
+# Verificar arquivos staged no commit atual
+git diff --cached --name-only | grep -E "\.env$|\.env\.|google-services\.json|GoogleService-Info\.plist|\.p12$|\.jks$|\.key$|secrets|credentials"
+
+# Varrer todo o histórico (rodar periodicamente)
+git log --all --diff-filter=A --name-only --format="" | grep -E "google-services|GoogleService|\.env|\.plist|\.p12|\.jks|\.key|secrets|credentials" | sort -u
+```
+
+**Se retornar qualquer arquivo:**
+
+1. **Não faça push** — remova do stage com `git reset HEAD <arquivo>`
+2. Revogue imediatamente as credenciais expostas nos consoles (Firebase, Google Cloud, RevenueCat, AdMob)
+3. Adicione o arquivo ao `.gitignore` antes de qualquer novo commit
+4. Se já foi commitado, remova do histórico com `git filter-repo --path <arquivo> --invert-paths` e force-push
+
+**Arquivos que NUNCA devem ser commitados:**
+
+- `.env`, `.env.*` (exceto `.env.example` com placeholders)
+- `google-services.json`, `GoogleService-Info.plist`
+- `*.p12`, `*.jks`, `*.key`, `*.mobileprovision`
+- `keystore.properties` com valores reais (o do repo deve ter apenas placeholders)
 
 ---
 
@@ -259,6 +286,12 @@ npx tsc --noEmit
 
 # Testes
 npm test
+
+# Auditoria de segurança — arquivos sensíveis no histórico git
+git log --all --diff-filter=A --name-only --format="" | grep -E "google-services|GoogleService|\.env|\.plist|\.p12|\.jks|\.key|secrets|credentials" | sort -u
+
+# Verificar arquivos sensíveis staged (antes de commitar)
+git diff --cached --name-only | grep -E "\.env$|\.env\.|google-services\.json|GoogleService-Info\.plist|\.p12$|\.jks$|\.key$"
 ```
 
 ---
