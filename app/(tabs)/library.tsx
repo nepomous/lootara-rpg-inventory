@@ -63,7 +63,6 @@ function CustomItemRow({
 function StaticItemRow({ item }: { item: Item }) {
   const { t } = useTranslation();
   const rarityColor = ITEM_RARITIES[item.rarity].color;
-  const rarityLabel = ITEM_RARITIES[item.rarity].label;
   const catInfo = ITEM_CATEGORIES[item.category];
   const [expanded, setExpanded] = useState(false);
 
@@ -112,7 +111,7 @@ function StaticItemRow({ item }: { item: Item }) {
               className="text-[10px] font-bold uppercase tracking-widest"
               style={{ color: rarityColor }}
             >
-              {rarityLabel}
+              {t(`library.rarity_${item.rarity}`)}
             </Text>
           </View>
 
@@ -195,10 +194,20 @@ export default function LibraryScreen() {
     () => [
       { key: "custom" as FilterValue, label: t("custom_items.filter_chip") },
       { key: null as FilterValue, label: t("library.filter_all") },
-      ...Object.entries(ITEM_CATEGORIES).map(([k, v]) => ({
-        key: k as FilterValue,
-        label: v.label,
-      })),
+      { key: "weapon" as FilterValue, label: t("library.filter_weapons") },
+      { key: "armor" as FilterValue, label: t("library.filter_armor") },
+      { key: "potion" as FilterValue, label: t("library.filter_potions") },
+      { key: "tool" as FilterValue, label: t("library.filter_tools") },
+      { key: "magic" as FilterValue, label: t("library.filter_magic") },
+      { key: "gear" as FilterValue, label: t("library.filter_gear") },
+      {
+        key: "ammunition" as FilterValue,
+        label: t("library.filter_ammunition"),
+      },
+      {
+        key: "container" as FilterValue,
+        label: t("library.filter_containers"),
+      },
     ],
     [t],
   );

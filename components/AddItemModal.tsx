@@ -256,7 +256,9 @@ function ConfirmForm({
     { value: "stored", label: t("bag.tab_stored"), emoji: "📦" },
   ];
 
-  const displayName = item?.name ?? customName ?? t("library.custom_item");
+  const displayName = item
+    ? t(`items.${item.id}.name`, { defaultValue: item.name })
+    : (customName ?? t("library.custom_item"));
 
   function buildSystemMeta(): string | null {
     switch (characterSystem) {
@@ -427,7 +429,7 @@ function ConfirmForm({
                       className="text-xs font-semibold"
                       style={{ color: selected ? val.color : "#9ca3af" }}
                     >
-                      {val.label}
+                      {t(`library.rarity_${key}`)}
                     </Text>
                   </Pressable>
                 );

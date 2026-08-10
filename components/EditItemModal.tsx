@@ -35,8 +35,9 @@ export function EditItemModal({
   ];
 
   const staticItem = item.itemId ? getItemById(item.itemId) : null;
-  const displayName =
-    staticItem?.name ?? item.customName ?? t("library.custom_item");
+  const displayName = staticItem
+    ? t(`items.${staticItem.id}.name`, { defaultValue: staticItem.name })
+    : (item.customName ?? t("library.custom_item"));
   const categoryInfo = staticItem
     ? ITEM_CATEGORIES[staticItem.category]
     : { emoji: "🎁", label: "" };
