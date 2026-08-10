@@ -10,7 +10,8 @@ import {
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { useCharacter } from "@/hooks/useCharacters";
+import { Trash2 } from "lucide-react-native";
+import { useCharacter, useDeleteCharacter } from "@/hooks/useCharacters";
 import {
   useBag,
   useAddBagItem,
@@ -106,6 +107,7 @@ export default function CharacterBagScreen() {
   const { mutate: addItem, isPending: isAdding } = useAddBagItem(safeId);
   const { mutate: updateItem } = useUpdateBagItem(safeId);
   const { mutate: removeItem } = useRemoveBagItem(safeId);
+  const { mutate: deleteCharacter } = useDeleteCharacter();
 
   // Redireciona para home se o UUID for inválido (e.g. deep link manipulado)
   useEffect(() => {
@@ -146,6 +148,22 @@ export default function CharacterBagScreen() {
   const bagCount = bagItems.length;
   const filteredItems = bagItems.filter((bi) => bi.location === activeTab);
 
+  function handleDeleteCharacter() {
+    Alert.alert(
+      t("characters.delete_confirm_title"),
+      t("characters.delete_confirm_message", { name: character?.name ?? "" }),
+      [
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("common.delete"),
+          style: "destructive",
+          onPress: () =>
+            deleteCharacter(safeId, { onSuccess: () => router.replace("/") }),
+        },
+      ],
+    );
+  }
+
   function handleAdd(input: AddBagItemInput) {
     addItem(input, { onSuccess: () => setAddVisible(false) });
   }
@@ -154,7 +172,7 @@ export default function CharacterBagScreen() {
     if (item.isCustom === 1 && item.itemId) {
       const customItem = getCustomItemById(item.itemId);
       if (customItem) {
-        Alert.alert(item.itemName, t("bag.edit_custom_item_prompt"), [
+        Alert.alert(customItem.name, t("bag.edit_custom_item_prompt"), [
           {
             text: t("bag.edit_in_bag"),
             onPress: () => setEditingItem(item),
@@ -211,7 +229,10 @@ export default function CharacterBagScreen() {
   }
 
   function handleDeleteFromEdit(item: BagItemWithDetails) {
-    const displayName = item.itemName;
+    const displayName =
+      item.isCustom !== 1 && item.itemId
+        ? t(`items.${item.itemId}.name`, { defaultValue: item.itemName })
+        : item.itemName;
     Alert.alert(
       t("bag.remove_item"),
       t("bag.remove_confirm_message", { name: displayName }),
@@ -231,7 +252,20 @@ export default function CharacterBagScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <Stack.Screen options={{ title: t("bag.title") }} />
+      <Stack.Screen
+        options={{
+          title: t("bag.title"),
+          headerRight: () => (
+            <Pressable
+              onPress={handleDeleteCharacter}
+              style={{ padding: 8 }}
+              accessibilityLabel={t("characters.delete_confirm_title")}
+            >
+              <Trash2 size={20} color="#ef4444" />
+            </Pressable>
+          ),
+        }}
+      />
       {/* Header do personagem */}
       <View className="px-4 pt-4 pb-3 bg-background-card border-b border-border">
         <View className="flex-row items-center gap-3">

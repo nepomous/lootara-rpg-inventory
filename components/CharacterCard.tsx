@@ -5,26 +5,32 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { Trash2 } from "lucide-react-native";
 import { CHARACTER_CLASSES, CHARACTER_RACES } from "@/constants/rpg";
 import { Colors, Shadows, Typography, Spacing } from "@/constants/theme";
 import type { Character } from "@/db/schema";
 import { useDeleteCharacter } from "@/hooks/useCharacters";
 
+const SWIPE_THRESHOLD = -80;
+
 type Props = {
   character: Character;
   onPress?: () => void;
-  onLongPress?: () => void;
 };
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export function CharacterCard({ character, onPress, onLongPress }: Props) {
+export function CharacterCard({ character, onPress }: Props) {
   const router = useRouter();
   const { t } = useTranslation();
   const { mutate: deleteCharacter, isPending: isDeleting } =
     useDeleteCharacter();
   const scale = useSharedValue(1);
+  const translateX = useSharedValue(0);
+  const deleteVisible = useSharedValue(false);
 
   const classInfo =
     CHARACTER_CLASSES[character.class as keyof typeof CHARACTER_CLASSES] ??
@@ -34,17 +40,13 @@ export function CharacterCard({ character, onPress, onLongPress }: Props) {
     CHARACTER_RACES.other;
   const systemLabel = t(`characters.system_${character.system}`);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
+  const cardStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }, { translateX: translateX.value }],
   }));
 
-  function handlePressIn() {
-    scale.value = withSpring(0.98, { damping: 15 });
-  }
-
-  function handlePressOut() {
-    scale.value = withSpring(1, { damping: 15 });
-  }
+  const deleteOverlayStyle = useAnimatedStyle(() => ({
+    opacity: withTiming(deleteVisible.value ? 1 : 0, { duration: 150 }),
+  }));
 
   function handlePress() {
     if (onPress) {
@@ -54,100 +56,139 @@ export function CharacterCard({ character, onPress, onLongPress }: Props) {
     }
   }
 
-  function handleLongPress() {
-    scale.value = withSpring(1, { damping: 15 });
-    if (onLongPress) {
-      onLongPress();
-      return;
-    }
+  function confirmDelete() {
     Alert.alert(
-      character.name,
-      t("common.what_to_do"),
+      t("characters.delete_confirm_title"),
+      t("characters.delete_confirm_message", { name: character.name }),
       [
         {
-          text: t("common.edit"),
-          onPress: () => router.push(`/character/${character.id}?edit=true`),
+          text: t("common.cancel"),
+          style: "cancel",
+          onPress: () => {
+            translateX.value = withSpring(0);
+            deleteVisible.value = false;
+          },
         },
         {
           text: t("common.delete"),
           style: "destructive",
-          onPress: () =>
-            Alert.alert(
-              t("characters.delete_confirm_title"),
-              t("characters.delete_confirm_message", { name: character.name }),
-              [
-                { text: t("common.cancel"), style: "cancel" },
-                {
-                  text: t("common.delete"),
-                  style: "destructive",
-                  onPress: () => deleteCharacter(character.id),
-                },
-              ],
-            ),
+          onPress: () => deleteCharacter(character.id),
         },
-        { text: t("common.cancel"), style: "cancel" },
       ],
-      { cancelable: true },
     );
   }
 
+  const panGesture = Gesture.Pan()
+    .activeOffsetX([-10, 10])
+    .failOffsetY([-10, 10])
+    .onUpdate((e) => {
+      const val = Math.max(-100, Math.min(0, e.translationX));
+      translateX.value = val;
+      deleteVisible.value = val < SWIPE_THRESHOLD;
+    })
+    .onEnd(() => {
+      if (translateX.value < SWIPE_THRESHOLD) {
+        translateX.value = withTiming(-80);
+      } else {
+        translateX.value = withSpring(0);
+        deleteVisible.value = false;
+      }
+    });
+
   return (
-    <AnimatedPressable
-      style={[animatedStyle, styles.card]}
-      onPress={handlePress}
-      onLongPress={handleLongPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      disabled={isDeleting}
-      delayLongPress={400}
-    >
-      <View className="flex-row items-center p-4 gap-4">
-        {/* Círculo com emoji da classe — fundo gold a 15% */}
-        <View
-          style={styles.avatarCircle}
-          className="items-center justify-center"
+    <View style={styles.container}>
+      {/* Fundo vermelho revelado pelo swipe */}
+      <Animated.View style={[styles.deleteBackground, deleteOverlayStyle]}>
+        <Pressable onPress={confirmDelete} style={styles.deleteButton}>
+          <Trash2 size={20} color="#fff" />
+          <Text style={styles.deleteText}>{t("common.delete")}</Text>
+        </Pressable>
+      </Animated.View>
+
+      <GestureDetector gesture={panGesture}>
+        <AnimatedPressable
+          style={[cardStyle, styles.card]}
+          onPress={handlePress}
+          onPressIn={() => {
+            scale.value = withSpring(0.98, { damping: 15 });
+          }}
+          onPressOut={() => {
+            scale.value = withSpring(1, { damping: 15 });
+          }}
+          disabled={isDeleting}
         >
-          <Text className="text-3xl">
-            {character.avatarEmoji ?? classInfo.emoji}
-          </Text>
-        </View>
-
-        {/* Info principal */}
-        <View className="flex-1 gap-1">
-          <Text style={styles.name} numberOfLines={1}>
-            {character.name}
-          </Text>
-          <Text style={styles.subtitle} numberOfLines={1}>
-            {t("characters.level", { level: character.level })} ·{" "}
-            {t(`classes.${character.class}`, { defaultValue: classInfo.label })}{" "}
-            · {t(`races.${character.race}`, { defaultValue: raceInfo.label })}
-          </Text>
-
-          {/* Badge de sistema (pill com borda gold) */}
-          <View className="flex-row mt-1">
-            <View style={styles.systemBadge}>
-              <Text style={styles.systemBadgeText}>{systemLabel}</Text>
+          <View className="flex-row items-center p-4 gap-4">
+            <View
+              style={styles.avatarCircle}
+              className="items-center justify-center"
+            >
+              <Text className="text-3xl">
+                {character.avatarEmoji ?? classInfo.emoji}
+              </Text>
             </View>
-          </View>
-        </View>
 
-        {/* Seta indicadora */}
-        <Text style={styles.chevron}>›</Text>
-      </View>
-    </AnimatedPressable>
+            <View className="flex-1 gap-1">
+              <Text style={styles.name} numberOfLines={1}>
+                {character.name}
+              </Text>
+              <Text style={styles.subtitle} numberOfLines={1}>
+                {t("characters.level", { level: character.level })} ·{" "}
+                {t(`classes.${character.class}`, {
+                  defaultValue: classInfo.label,
+                })}{" "}
+                ·{" "}
+                {t(`races.${character.race}`, { defaultValue: raceInfo.label })}
+              </Text>
+
+              <View className="flex-row mt-1">
+                <View style={styles.systemBadge}>
+                  <Text style={styles.systemBadgeText}>{systemLabel}</Text>
+                </View>
+              </View>
+            </View>
+
+            <Text style={styles.chevron}>›</Text>
+          </View>
+        </AnimatedPressable>
+      </GestureDetector>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  container: {
     marginHorizontal: Spacing.lg,
     marginBottom: Spacing.md,
+    position: "relative",
+  },
+  card: {
     borderRadius: 12,
     backgroundColor: Colors.surface,
     borderWidth: 1,
     borderColor: Colors.borderSubtle,
     overflow: "hidden",
     ...Shadows.card,
+  },
+  deleteBackground: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 80,
+    backgroundColor: "#ef4444",
+    borderRadius: 12,
+    overflow: "hidden",
+  },
+  deleteButton: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+  },
+  deleteText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "600",
   },
   avatarCircle: {
     width: 56,

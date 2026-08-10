@@ -57,3 +57,6 @@ android/app/*.keystore
 # generated native folders
 /ios
 /android
+
+# notas pessoais locais
+.notes

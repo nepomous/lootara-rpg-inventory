@@ -1,5 +1,5 @@
-import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useRouter, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -121,9 +121,11 @@ export default function HomeScreen() {
   const AD_FOOTER_HEIGHT = isPremium ? 0 : 76;
 
   // Recarrega ao voltar para a tela (foco)
-  useEffect(() => {
-    void refetch();
-  }, [refetch]);
+  useFocusEffect(
+    useCallback(() => {
+      void refetch();
+    }, [refetch]),
+  );
 
   function handleFABPress() {
     if (!isPremium && characterCount >= FREE_CHARACTER_LIMIT) {

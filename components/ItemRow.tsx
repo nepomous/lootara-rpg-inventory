@@ -290,7 +290,11 @@ const ROW_HEIGHT = 72;
 
 export function ItemRow({ item, onEdit, onRemove }: Props) {
   const { t } = useTranslation();
-  const displayName = item.itemName;
+  const isCustom = item.isCustom === 1;
+  const displayName =
+    !isCustom && item.itemId
+      ? t(`items.${item.itemId}.name`, { defaultValue: item.itemName })
+      : item.itemName;
   const categoryInfo = ITEM_CATEGORIES[item.itemCategory] ?? {
     emoji: "🎁",
     label: "",
@@ -298,7 +302,6 @@ export function ItemRow({ item, onEdit, onRemove }: Props) {
   const locationInfo = BAG_LOCATIONS[item.location];
   const locationColor = LOCATION_COLORS[item.location];
   const weightText = formatWeight(item.itemWeight * item.quantity);
-  const isCustom = item.isCustom === 1;
 
   const parsedMeta = (() => {
     if (!item.itemSystemMeta) return null;
