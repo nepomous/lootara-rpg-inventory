@@ -27,15 +27,10 @@
     "production": {
       "android": {
         "track": "production",
-        "releaseStatus": "completed",
-        "releaseNotes": {
-          "pt-BR": "Lançamento inicial do Lootara - RPG Inventory.\n\n• Crie e gerencie múltiplos personagens de RPG\n• Adicione itens à sacola a partir de uma biblioteca com mais de 200 equipamentos\n• Organize seu inventário por localização: equipado, mochila ou armazenado\n• Calcule o peso carregado automaticamente\n• Suporte a D&D 5e, Pathfinder 1e, Pathfinder 2e e sistemas genéricos\n• Itens personalizados com nome e peso definidos por você\n• Backup e restauração do seu inventário via arquivo JSON\n• 100% offline — seus dados ficam no seu dispositivo",
-          "en-US": "Initial release of Lootara - RPG Inventory.\n\n• Create and manage multiple RPG characters\n• Add items to your bag from a library of 200+ pieces of equipment\n• Organize your inventory by location: equipped, backpack, or stored\n• Automatically calculate carried weight\n• Supports D&D 5e, Pathfinder 1e, Pathfinder 2e, and generic systems\n• Custom items with name and weight defined by you\n• Backup and restore your inventory via JSON file\n• 100% offline — your data stays on your device"
-        }
+        "releaseStatus": "completed"
       },
       "ios": {
-        "language": "pt-BR",
-        "releaseNotes": "Lançamento inicial do Lootara - RPG Inventory.\n\n• Crie e gerencie múltiplos personagens de RPG\n• Adicione itens à sacola a partir de uma biblioteca com mais de 200 equipamentos\n• Organize seu inventário por localização: equipado, mochila ou armazenado\n• Calcule o peso carregado automaticamente\n• Suporte a D&D 5e, Pathfinder 1e, Pathfinder 2e e sistemas genéricos\n• Itens personalizados com nome e peso definidos por você\n• Backup e restauração do seu inventário via arquivo JSON\n• 100% offline — seus dados ficam no seu dispositivo"
+        "language": "pt-BR"
       }
     }
   }
