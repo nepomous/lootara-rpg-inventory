@@ -370,7 +370,11 @@
     "traits": "Rasgos",
     "system_fields_note": "Campos específicos del sistema no disponibles para \"Otro\".",
     "rarity": "Rareza",
-    "traits_placeholder": "Agregar rasgo..."
+    "traits_placeholder": "Agregar rasgo...",
+    "attunement_prereq_placeholder": "Ej: solo lanzadores de hechizos",
+    "charges_placeholder": "—",
+    "recharge_placeholder": "Ej: 1d6+1 al amanecer",
+    "caster_level_placeholder": "1–30"
   },
   "aura_strength": {
     "faint": "Débil",

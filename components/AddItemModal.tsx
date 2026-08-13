@@ -16,7 +16,7 @@ import type { ItemCategory, ItemRarity } from "@/constants/rpg";
 import type { BagItemLocation, RPGSystem } from "@/db/schema";
 import type { AddBagItemInput } from "@/hooks/useBag";
 import { useLibrary } from "@/hooks/useLibrary";
-import type { Item } from "@/hooks/useLibrary";
+import type { LibraryItem } from "@/hooks/useLibrary";
 
 // ── Constantes de sistema ─────────────────────────────────────────────────────
 
@@ -68,7 +68,7 @@ function LibraryPicker({
   onCustom,
 }: {
   characterSystem: RPGSystem;
-  onSelect: (item: Item) => void;
+  onSelect: (item: LibraryItem) => void;
   onCustom: () => void;
 }) {
   const { t } = useTranslation();
@@ -208,7 +208,7 @@ function ConfirmForm({
   onConfirm,
   onBack,
 }: {
-  item: Item | null;
+  item: LibraryItem | null;
   customName: string | null;
   characterId: string;
   characterSystem: RPGSystem;
@@ -498,7 +498,7 @@ function ConfirmForm({
                 <TextInput
                   value={attunementPrereq}
                   onChangeText={setAttunementPrereq}
-                  placeholder="Ex: apenas conjuradores"
+                  placeholder={t("item_meta.attunement_prereq_placeholder")}
                   placeholderTextColor="#9ca3af"
                   className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-4"
                 />
@@ -513,7 +513,7 @@ function ConfirmForm({
                 setCharges(v === "" ? null : parseInt(v, 10) || 0)
               }
               keyboardType="number-pad"
-              placeholder="—"
+              placeholder={t("item_meta.charges_placeholder")}
               placeholderTextColor="#9ca3af"
               className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-4"
             />
@@ -523,7 +523,7 @@ function ConfirmForm({
             <TextInput
               value={recharge}
               onChangeText={setRecharge}
-              placeholder="Ex: 1d6+1 ao amanhecer"
+              placeholder={t("item_meta.recharge_placeholder")}
               placeholderTextColor="#9ca3af"
               className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-4"
             />
@@ -553,7 +553,7 @@ function ConfirmForm({
                 setCasterLevel(v === "" ? null : parseInt(v, 10) || null)
               }
               keyboardType="number-pad"
-              placeholder="1–30"
+              placeholder={t("item_meta.caster_level_placeholder")}
               placeholderTextColor="#9ca3af"
               className="bg-background-surface text-text px-4 py-3 rounded-xl border border-border text-sm mb-4"
             />
@@ -829,6 +829,7 @@ function ConfirmForm({
               characterId,
               itemId: item?.id ?? null,
               customName: item ? null : customName,
+              isCustom: item?.isCustom ?? false,
               quantity,
               location,
               description: description.trim() || null,
@@ -915,7 +916,7 @@ export function AddItemModal({
   onCustomItemCreate,
 }: Props) {
   const [step, setStep] = useState<Step>("library");
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [selectedItem, setSelectedItem] = useState<LibraryItem | null>(null);
   const [customName, setCustomName] = useState<string | null>(null);
   const { t } = useTranslation();
 
@@ -930,7 +931,7 @@ export function AddItemModal({
     onClose();
   }
 
-  function handleSelectItem(item: Item) {
+  function handleSelectItem(item: LibraryItem) {
     setSelectedItem(item);
     setCustomName(null);
     setStep("confirm");

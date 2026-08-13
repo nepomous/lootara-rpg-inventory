@@ -370,7 +370,11 @@
     "traits": "Eigenschaften",
     "system_fields_note": "Systemspezifische Felder für \"Sonstige\" nicht verfügbar.",
     "rarity": "Seltenheit",
-    "traits_placeholder": "Merkmal hinzufügen..."
+    "traits_placeholder": "Merkmal hinzufügen...",
+    "attunement_prereq_placeholder": "z.B.: nur Zauberwirker",
+    "charges_placeholder": "—",
+    "recharge_placeholder": "z.B.: 1d6+1 bei Morgengrauen",
+    "caster_level_placeholder": "1–30"
   },
   "aura_strength": {
     "faint": "Schwach",

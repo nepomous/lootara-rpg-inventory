@@ -370,7 +370,11 @@
     "traits": "Traits",
     "system_fields_note": "Champs spécifiques au système non disponibles pour \"Autre\".",
     "rarity": "Rarité",
-    "traits_placeholder": "Ajouter un trait..."
+    "traits_placeholder": "Ajouter un trait...",
+    "attunement_prereq_placeholder": "Ex: lançeurs de sorts uniquement",
+    "charges_placeholder": "—",
+    "recharge_placeholder": "Ex: 1d6+1 à l'aube",
+    "caster_level_placeholder": "1–30"
   },
   "aura_strength": {
     "faint": "Faible",

@@ -294,7 +294,7 @@ function Dnd5eFields({ control }: { control: Control<FormValues> }) {
               <BottomSheetTextInput
                 value={value}
                 onChangeText={onChange}
-                placeholder="Ex: apenas conjuradores"
+                placeholder={t("item_meta.attunement_prereq_placeholder")}
                 placeholderTextColor={Colors.mutedForeground}
                 style={styles.input}
               />
@@ -313,7 +313,7 @@ function Dnd5eFields({ control }: { control: Control<FormValues> }) {
               onChange(v === "" ? null : parseInt(v, 10) || 0)
             }
             keyboardType="number-pad"
-            placeholder="—"
+            placeholder={t("item_meta.charges_placeholder")}
             placeholderTextColor={Colors.mutedForeground}
             style={styles.input}
           />
@@ -327,7 +327,7 @@ function Dnd5eFields({ control }: { control: Control<FormValues> }) {
           <BottomSheetTextInput
             value={value}
             onChangeText={onChange}
-            placeholder="Ex: 1d6+1 ao amanhecer"
+            placeholder={t("item_meta.recharge_placeholder")}
             placeholderTextColor={Colors.mutedForeground}
             style={styles.input}
           />
@@ -411,7 +411,7 @@ function Pf1eFields({ control }: { control: Control<FormValues> }) {
               onChange(v === "" ? null : parseInt(v, 10) || null)
             }
             keyboardType="number-pad"
-            placeholder="1–30"
+            placeholder={t("item_meta.caster_level_placeholder")}
             placeholderTextColor={Colors.mutedForeground}
             style={styles.input}
           />
@@ -761,7 +761,7 @@ function Pf2eFields({ control }: { control: Control<FormValues> }) {
               <TextInput
                 value={traitInput}
                 onChangeText={setTraitInput}
-                placeholder="Ex: magical, invested..."
+                placeholder={t("item_meta.traits_placeholder")}
                 placeholderTextColor={Colors.mutedForeground}
                 style={[styles.input, { flex: 1 }]}
                 onSubmitEditing={() => {

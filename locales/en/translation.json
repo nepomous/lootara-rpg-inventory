@@ -360,7 +360,11 @@
     "traits": "Traits",
     "system_fields_note": "System-specific fields are not available for \"Other\".",
     "rarity": "Rarity",
-    "traits_placeholder": "Add trait..."
+    "traits_placeholder": "Add trait...",
+    "attunement_prereq_placeholder": "E.g.: spellcasters only",
+    "charges_placeholder": "—",
+    "recharge_placeholder": "E.g.: 1d6+1 at dawn",
+    "caster_level_placeholder": "1–30"
   },
   "aura_strength": {
     "faint": "Faint",

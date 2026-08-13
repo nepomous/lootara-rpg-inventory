@@ -32,8 +32,6 @@ export function useCustomItems() {
       Promise.resolve(createCustomItem({ id: randomUUID(), ...input })),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: CUSTOM_ITEMS_QUERY_KEY });
-      // Invalida todas as sacolas pois um novo item pode ser adicionado
-      void queryClient.invalidateQueries({ queryKey: ["bag"] });
     },
   });
 

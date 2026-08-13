@@ -370,7 +370,11 @@
     "traits": "Traços",
     "system_fields_note": "Campos específicos de sistema não disponíveis para \"Outro\".",
     "rarity": "Raridade",
-    "traits_placeholder": "Adicionar traço..."
+    "traits_placeholder": "Adicionar traço...",
+    "attunement_prereq_placeholder": "Ex: apenas conjuradores",
+    "charges_placeholder": "—",
+    "recharge_placeholder": "Ex: 1d6+1 ao amanhecer",
+    "caster_level_placeholder": "1–30"
   },
   "aura_strength": {
     "faint": "Fraca",

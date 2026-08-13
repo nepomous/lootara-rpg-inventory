@@ -144,7 +144,7 @@ export default function LibraryScreen() {
     search,
     setSearch,
     setActiveCategory,
-  } = useLibrary({});
+  } = useLibrary({ includeCustom: false });
 
   function applyFilter(f: FilterValue) {
     setFilter(f);
