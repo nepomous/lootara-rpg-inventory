@@ -20,7 +20,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: "com.lootara.app",
-    versionCode: 2,
+    versionCode: 3,
+    permissions: ["com.google.android.gms.permission.AD_ID"],
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#1A1C2C",
