@@ -20,7 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: "com.lootara.app",
-    versionCode: 3,
+    versionCode: 4,
     permissions: ["com.google.android.gms.permission.AD_ID"],
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
@@ -42,6 +42,53 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-router",
     "expo-sqlite",
     "expo-secure-store",
+    [
+      "expo-build-properties",
+      {
+        android: {
+          enableMinifyInReleaseBuilds: true,
+          enableShrinkResourcesInReleaseBuilds: true,
+          extraProguardRules: `
+# React Native core
+-keep class com.facebook.react.** { *; }
+-keep class com.facebook.hermes.** { *; }
+-keep class com.facebook.jni.** { *; }
+-keep class com.facebook.react.turbomodule.** { *; }
+-dontwarn com.facebook.react.**
+
+# react-native-reanimated
+-keep class com.swmansion.reanimated.** { *; }
+-keep class com.swmansion.gesturehandler.** { *; }
+-keep class com.swmansion.rnscreens.** { *; }
+
+# Expo modules
+-keep class expo.modules.** { *; }
+-keep class expo.** { *; }
+-dontwarn expo.**
+
+# RevenueCat
+-keep class com.revenuecat.purchases.** { *; }
+-dontwarn com.revenuecat.purchases.**
+
+# Google AdMob / UMP
+-keep class com.google.android.gms.ads.** { *; }
+-keep class com.google.android.ump.** { *; }
+-dontwarn com.google.android.gms.ads.**
+
+# JSI interop
+-keepclassmembers class * {
+    @com.facebook.react.bridge.ReactMethod <methods>;
+}
+-keepclassmembers class * implements com.facebook.react.bridge.JavaScriptModule { *; }
+-keepclassmembers class * implements com.facebook.react.bridge.NativeModule { *; }
+
+# Keep source info for stack traces
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
+`,
+        },
+      },
+    ],
     [
       "react-native-google-mobile-ads",
       {
