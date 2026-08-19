@@ -26,6 +26,7 @@
   "submit": {
     "production": {
       "android": {
+        "serviceAccountKeyPath": "../../../Keys/lootara-eas-builder.json",
         "track": "production",
         "releaseStatus": "completed"
       },
