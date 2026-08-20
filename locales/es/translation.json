@@ -715,6 +715,10 @@
     "reassure_onetime": "Pago único. Sin suscripción ni cargos mensuales.",
     "restore_success": "Compra restaurada con éxito.",
     "restore_none": "No se encontró ninguna compra Pro.",
-    "purchase_error": "No se pudo completar la compra. Inténtalo de nuevo."
+    "purchase_error": "No se pudo completar la compra. Inténtalo de nuevo.",
+    "no_package_title": "No disponible",
+    "no_package_message": "No se encontró ningún paquete de compra. Inténtalo más tarde.",
+    "purchase_success_title": "¡Éxito! 🎉",
+    "purchase_success_message": "Anuncios eliminados. ¡Gracias por tu apoyo!"
   }
 }

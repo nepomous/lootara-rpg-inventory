@@ -150,7 +150,7 @@ export function usePremium() {
       const offerings = await Purchases.getOfferings();
       const pkg = offerings.current?.availablePackages[0];
       if (!pkg) {
-        Alert.alert("Indisponível", "Nenhum pacote de compra encontrado.");
+        Alert.alert(t("pro.no_package_title"), t("pro.no_package_message"));
         return;
       }
       const { customerInfo } = await Purchases.purchasePackage(pkg);
@@ -158,20 +158,20 @@ export function usePremium() {
         typeof customerInfo.entitlements.active[ENTITLEMENT_ID] !== "undefined";
       await updateStatus(active);
       if (active) {
-        Alert.alert("Sucesso! 🎉", "Anúncios removidos. Obrigado pelo apoio!");
+        Alert.alert(
+          t("pro.purchase_success_title"),
+          t("pro.purchase_success_message"),
+        );
       }
     } catch (e: unknown) {
       // code 1 = PURCHASE_CANCELLED_ERROR — não mostrar alerta
       if ((e as { code?: number })?.code !== 1) {
-        Alert.alert(
-          "Erro",
-          "Não foi possível completar a compra. Tente novamente.",
-        );
+        Alert.alert(t("common.error"), t("pro.purchase_error"));
       }
     } finally {
       setIsLoading(false);
     }
-  }, [updateStatus]);
+  }, [updateStatus, t]);
 
   const restorePurchases = useCallback(async () => {
     setIsLoading(true);

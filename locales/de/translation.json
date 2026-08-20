@@ -715,6 +715,10 @@
     "reassure_onetime": "Einmalige Zahlung. Kein Abo, keine monatlichen Kosten.",
     "restore_success": "Kauf erfolgreich wiederhergestellt.",
     "restore_none": "Kein Pro-Kauf gefunden.",
-    "purchase_error": "Kauf konnte nicht abgeschlossen werden. Bitte erneut versuchen."
+    "purchase_error": "Kauf konnte nicht abgeschlossen werden. Bitte erneut versuchen.",
+    "no_package_title": "Nicht verfügbar",
+    "no_package_message": "Kein Kaufpaket gefunden. Bitte später erneut versuchen.",
+    "purchase_success_title": "Erfolg! 🎉",
+    "purchase_success_message": "Werbung entfernt. Danke für deine Unterstützung!"
   }
 }

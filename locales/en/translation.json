@@ -715,6 +715,10 @@
     "reassure_onetime": "One-time purchase. No subscription, no recurring fees.",
     "restore_success": "Purchase restored successfully.",
     "restore_none": "No Pro purchase found.",
-    "purchase_error": "Unable to complete purchase. Please try again."
+    "purchase_error": "Unable to complete purchase. Please try again.",
+    "no_package_title": "Unavailable",
+    "no_package_message": "No purchase package found. Please try again later.",
+    "purchase_success_title": "Success! 🎉",
+    "purchase_success_message": "Ads removed. Thank you for your support!"
   }
 }

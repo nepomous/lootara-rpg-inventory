@@ -715,6 +715,10 @@
     "reassure_onetime": "Achat unique. Sans abonnement ni frais mensuels.",
     "restore_success": "Achat restauré avec succès.",
     "restore_none": "Aucun achat Pro trouvé.",
-    "purchase_error": "Impossible de finaliser l'achat. Veuillez réessayer."
+    "purchase_error": "Impossible de finaliser l'achat. Veuillez réessayer.",
+    "no_package_title": "Indisponible",
+    "no_package_message": "Aucun forfait d'achat trouvé. Veuillez réessayer plus tard.",
+    "purchase_success_title": "Succès ! 🎉",
+    "purchase_success_message": "Publicités supprimées. Merci pour votre soutien !"
   }
 }
