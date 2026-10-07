@@ -20,7 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: "com.lootara.app",
-    versionCode: 5,
+    versionCode: 6,
     permissions: ["com.google.android.gms.permission.AD_ID"],
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
@@ -110,6 +110,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // incluir no bundle: https://www.revenuecat.com/docs/getting-started/installation
     revenueCatApiKeyAndroid: process.env.EXPO_PUBLIC_REVENUECAT_KEY_ANDROID,
     revenueCatApiKeyIos: process.env.EXPO_PUBLIC_REVENUECAT_KEY_IOS,
+    revenueCatTestKeyAndroid: process.env.EXPO_PUBLIC_REVENUECAT_TEST_KEY_ANDROID,
     // SEC-05 [RISCO ACEITO]: Unit IDs do AdMob são públicos por design do Google.
     admobBannerHome: process.env.EXPO_PUBLIC_ADMOB_BANNER_HOME,
     admobBannerCharacter: process.env.EXPO_PUBLIC_ADMOB_BANNER_CHARACTER,

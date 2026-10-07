@@ -55,10 +55,11 @@ export async function initPremium(): Promise<void> {
   }
 
   try {
+    const testKeyAndroid = Constants.expoConfig?.extra?.revenueCatTestKeyAndroid as string | undefined;
     const apiKey =
       Platform.OS === "ios"
         ? (Constants.expoConfig?.extra?.revenueCatApiKeyIos ?? "")
-        : (Constants.expoConfig?.extra?.revenueCatApiKeyAndroid ?? "");
+        : (__DEV__ && testKeyAndroid ? testKeyAndroid : (Constants.expoConfig?.extra?.revenueCatApiKeyAndroid ?? ""));
 
     if (!apiKey) {
       // SEC-02: WHEN_UNLOCKED_THIS_DEVICE_ONLY impede exportação via backup ADB/iCloud
@@ -69,7 +70,8 @@ export async function initPremium(): Promise<void> {
       return;
     }
 
-    Purchases.setLogLevel(LOG_LEVEL.ERROR);
+    Purchases.setLogLevel(__DEV__ ? LOG_LEVEL.VERBOSE : LOG_LEVEL.ERROR);
+    logger.log("[RC] configure — platform:", Platform.OS, "apiKey suffix:", apiKey.slice(-6));
     Purchases.configure({ apiKey });
 
     // SEC-06: Aviso em modo de desenvolvimento — sem bloqueio.
@@ -85,6 +87,7 @@ export async function initPremium(): Promise<void> {
     }
 
     const info = await Purchases.getCustomerInfo();
+    logger.log("[RC] getCustomerInfo — activeEntitlements:", Object.keys(info.entitlements.active));
     const isPremium =
       typeof info.entitlements.active[ENTITLEMENT_ID] !== "undefined";
 
@@ -96,7 +99,13 @@ export async function initPremium(): Promise<void> {
       { keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY },
     );
     usePremiumStore.getState().setIsPremium(isPremium);
-  } catch {
+  } catch (e: unknown) {
+    logger.error("[RC] initPremium error:", {
+      code: (e as { code?: number })?.code,
+      message: (e as { message?: string })?.message,
+      underlyingErrorMessage: (e as { underlyingErrorMessage?: string })?.underlyingErrorMessage,
+      raw: e,
+    });
     // Fallback offline: lê do SecureStore.
     // Se cached === null (instalação nova), não chamamos setIsPremium —
     // o valor padrão do Zustand (false) já serve como estado provisório;
@@ -126,10 +135,18 @@ export function usePremium() {
   useEffect(() => {
     Purchases.getOfferings()
       .then((offerings) => {
+        logger.log("[RC] getOfferings — current:", offerings.current?.identifier, "packages:", offerings.current?.availablePackages.map((p) => p.identifier));
         const pkg = offerings.current?.availablePackages[0];
         if (pkg?.product.priceString) setOfferPrice(pkg.product.priceString);
       })
-      .catch(() => {});
+      .catch((e: unknown) => {
+        logger.error("[RC] getOfferings error:", {
+          code: (e as { code?: number })?.code,
+          message: (e as { message?: string })?.message,
+          underlyingErrorMessage: (e as { underlyingErrorMessage?: string })?.underlyingErrorMessage,
+          raw: e,
+        });
+      });
   }, []);
 
   const updateStatus = useCallback(
@@ -149,6 +166,7 @@ export function usePremium() {
     try {
       const offerings = await Purchases.getOfferings();
       const pkg = offerings.current?.availablePackages[0];
+      logger.log("[RC] purchasePremium — package:", pkg?.identifier, pkg?.product.identifier);
       if (!pkg) {
         Alert.alert(t("pro.no_package_title"), t("pro.no_package_message"));
         return;
@@ -156,6 +174,7 @@ export function usePremium() {
       const { customerInfo } = await Purchases.purchasePackage(pkg);
       const active =
         typeof customerInfo.entitlements.active[ENTITLEMENT_ID] !== "undefined";
+      logger.log("[RC] purchasePackage result — active:", active, "entitlements:", Object.keys(customerInfo.entitlements.active));
       await updateStatus(active);
       if (active) {
         Alert.alert(
@@ -164,8 +183,15 @@ export function usePremium() {
         );
       }
     } catch (e: unknown) {
+      const rcError = e as { code?: number; message?: string; underlyingErrorMessage?: string };
+      logger.error("[RC] purchasePremium error:", {
+        code: rcError?.code,
+        message: rcError?.message,
+        underlyingErrorMessage: rcError?.underlyingErrorMessage,
+        raw: e,
+      });
       // code 1 = PURCHASE_CANCELLED_ERROR — não mostrar alerta
-      if ((e as { code?: number })?.code !== 1) {
+      if (rcError?.code !== 1) {
         Alert.alert(t("common.error"), t("pro.purchase_error"));
       }
     } finally {
@@ -176,9 +202,11 @@ export function usePremium() {
   const restorePurchases = useCallback(async () => {
     setIsLoading(true);
     try {
+      logger.log("[RC] restorePurchases — start");
       const customerInfo = await Purchases.restorePurchases();
       const active =
         typeof customerInfo.entitlements.active[ENTITLEMENT_ID] !== "undefined";
+      logger.log("[RC] restorePurchases result — active:", active, "entitlements:", Object.keys(customerInfo.entitlements.active));
       await updateStatus(active);
       Alert.alert(
         active
@@ -188,7 +216,13 @@ export function usePremium() {
           ? t("settings.restore_success_message")
           : t("settings.restore_none_message"),
       );
-    } catch {
+    } catch (e: unknown) {
+      logger.error("[RC] restorePurchases error:", {
+        code: (e as { code?: number })?.code,
+        message: (e as { message?: string })?.message,
+        underlyingErrorMessage: (e as { underlyingErrorMessage?: string })?.underlyingErrorMessage,
+        raw: e,
+      });
       Alert.alert(
         t("settings.restore_error_title"),
         t("settings.restore_error_message"),

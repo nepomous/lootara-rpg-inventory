@@ -60,3 +60,5 @@ android/app/*.keystore
 
 # notas pessoais locais
 .notes
+
+.agents
