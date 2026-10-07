@@ -58,6 +58,8 @@ android/app/*.keystore
 /ios
 /android
 
+.ai/runs/
+
 # notas pessoais locais
 .notes
 

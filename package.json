@@ -10,7 +10,9 @@
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "i18n:check": "node scripts/check-i18n.mjs",
+    "secrets:check": "bash scripts/check-secrets.sh"
   },
   "dependencies": {
     "@expo-google-fonts/cinzel": "^0.4.2",
@@ -61,6 +63,8 @@
   "devDependencies": {
     "@types/react": "~19.1.0",
     "babel-plugin-inline-import": "^3.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~10.0.0",
     "typescript": "~5.9.2"
   },
   "private": true
